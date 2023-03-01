@@ -1,0 +1,479 @@
+Box Hierarchy
+-------------
+
+
+#. **Term 5 (EK1200) [ID: 5]**
+        EK1200-5000 EtherCAT Power supply (2A E-Bus)
+
+    #. Term 22 (EL6070) [ID: 22]
+            EL6070 1Ch. Licensing-Terminal
+
+
+
+    #. Term 6 (EK1122-0080) [ID: 6]
+            EK1122-0080 2 port EtherCAT junction (Fast Hot Connect)
+
+        #. **DRL02-EK0 (EK1101-0080) [ID: 7]**
+                EK1101-0080 EtherCAT Coupler (2A E-Bus, ID switch, Fast Hot Connect)
+
+            #. DRL02-E1 (EL7031) [ID: 8]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E2 (EL5042) [ID: 9]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E3 (EL7031) [ID: 10]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E4 (EL7031) [ID: 11]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E5 (EL5042) [ID: 12]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E6 (EL7031) [ID: 13]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E7 (EL7031) [ID: 14]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E8 (EL5042) [ID: 15]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E9 (EL7031) [ID: 16]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E10 (EL9410) [ID: 17]
+                    EL9410 E-Bus Power Supplier  (Diagnostics)
+
+
+
+            #. DRL02-E11 (EL7031) [ID: 18]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E12 (EL5042) [ID: 19]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E13 (EL7041) [ID: 20]
+                    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+            #. Term 63 (EL7031) [ID: 63]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. Term 64 (EL5112) [ID: 64]
+                    EL5112 2Ch. Inc. Encoder 5V (2xAB or 1xABC RS422,TTL)
+
+
+
+            #. Term 65 (EL1084) [ID: 65]
+                    EL1084 4Ch. Dig. Input 24V, 3ms, negative
+
+
+
+            #. Term 66 (EL7031) [ID: 66]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. Term 67 (EL7031) [ID: 67]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. Term 68 (EL1084) [ID: 68]
+                    EL1084 4Ch. Dig. Input 24V, 3ms, negative
+
+
+
+            #. Term 69 (EL5112) [ID: 69]
+                    EL5112 2Ch. Inc. Encoder 5V (2xAB or 1xABC RS422,TTL)
+
+
+
+            #. DRL02-E17 (EL7031) [ID: 24]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E18 (EL5042) [ID: 25]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E19 (EL7031) [ID: 26]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E20 (EL9410) [ID: 27]
+                    EL9410 E-Bus Power Supplier  (Diagnostics)
+
+
+
+            #. DRL02-E21 (EL7041) [ID: 28]
+                    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+            #. DRL02-E22 (EL5042) [ID: 29]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E23 (EL7041) [ID: 30]
+                    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+            #. DRL02-E24 (EL7031) [ID: 31]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. Term 91 (EL5112) [ID: 91]
+                    EL5112 2Ch. Inc. Encoder 5V (2xAB or 1xABC RS422,TTL)
+
+
+
+            #. DRL02-E25 (EL5042) [ID: 32]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E26 (EL7031) [ID: 33]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E27 (EL7031) [ID: 34]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E28 (EL5042) [ID: 35]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. DRL02-E29 (EL7031) [ID: 36]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E30 (EL7031) [ID: 37]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E31 (EL7031) [ID: 73]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL02-E32 (EL5042) [ID: 74]
+                    EL5042 2Ch. BiSS-C Encoder
+
+
+
+            #. Term 107 (EL9410) [ID: 107]
+                    EL9410 E-Bus Power Supplier  (Diagnostics)
+
+
+
+            #. DRL02-E33 (EL7031) [ID: 75]
+                    EL7031 1Ch. Stepper motor output stage (24V, 1.5A)
+
+
+
+            #. DRL-02 E34 (EL3174) [ID: 79]
+                    EL3174 4Ch. Ana. Input +/-10V Diff., +/-20mA SingleEnded, 16 Bit
+
+
+
+            #. DRL02-ECJ0 (EK1122-0080) [ID: 38]
+                    EK1122-0080 2 port EtherCAT junction (Fast Hot Connect)
+
+                #. **Term 109 (EK1101-0080) [ID: 109]**
+                          ( **SyncUnit=hot connect** )    EK1101-0080 EtherCAT Coupler (2A E-Bus, ID switch, Fast Hot Connect)
+
+                    #. Camera X (EL7041) [ID: 111]
+                              ( **SyncUnit=hot connect** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Cam X/Cam Y Enc (EL5042) [ID: 112]
+                              ( **SyncUnit=hot connect** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Camera Y (EL7041) [ID: 122]
+                              ( **SyncUnit=hot connect** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Term 129 (EL9011) [ID: 130]
+                            EL9011 End Terminal
+
+
+
+
+
+                #. **Term 113 (EK1101-0080) [ID: 113]**
+                          ( **SyncUnit=hot connect** )    EK1101-0080 EtherCAT Coupler (2A E-Bus, ID switch, Fast Hot Connect)
+
+                    #. Beamblock X (EL7041) [ID: 114]
+                              ( **SyncUnit=hot connect** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Beam X/Beam Y Enc (EL5042) [ID: 115]
+                              ( **SyncUnit=hot connect** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Beamblock Y (EL7041) [ID: 116]
+                              ( **SyncUnit=hot connect** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Beamblock Z (EL7041) [ID: 117]
+                              ( **SyncUnit=hot connect** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Beam Z Enc (EL5042) [ID: 118]
+                              ( **SyncUnit=hot connect** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Term 130 (EL9011) [ID: 131]
+                            EL9011 End Terminal
+
+
+
+
+
+
+
+            #. DRL02-ECJ1 (EK1122) [ID: 39]
+                    EK1122 2 port EtherCAT junction
+
+                #. **CryoStat (EK1101) [ID: 84]**
+                          ( **SyncUnit=Cryostat** )    EK1101 EtherCAT Coupler (2A E-Bus, ID switch)
+
+                    #. Cryo X (EL7041) [ID: 85]
+                              ( **SyncUnit=Cryostat** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Cryo X/Cryo Y Enc (EL5042) [ID: 86]
+                              ( **SyncUnit=Cryostat** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Cryo Y (EL7041) [ID: 87]
+                              ( **SyncUnit=Cryostat** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Cryo Z (EL7041) [ID: 88]
+                              ( **SyncUnit=Cryostat** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Cryo Z/Cryo rY Enc (EL5042) [ID: 89]
+                              ( **SyncUnit=Cryostat** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Cryo rY (EL7041) [ID: 90]
+                              ( **SyncUnit=Cryostat** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. FiberLite (EL4004) [ID: 158]
+                              ( **SyncUnit=Cryostat** )    EL4004 4Ch. Ana. Output 0-10V, 12bit
+
+
+
+                    #. Term 142 (EL2502) [ID: 142]
+                            EL2502 2Ch. PWM output, 24V
+
+
+
+                    #. Term 92 (EL9011) [ID: 93]
+                            EL9011 End Terminal
+
+
+
+
+
+                #. **VLS_EP6_EP7041-1002 [ID: 3]**
+                          ( **SyncUnit=VLS** )    EP7041-1002 1Ch. Stepper motor output stage (50V, 1.5A)
+
+
+
+                #. **VLS_EP7_EP7041-1002 [ID: 4]**
+                          ( **SyncUnit=VLS** )    EP7041-1002 1Ch. Stepper motor output stage (50V, 1.5A)
+
+
+
+                #. **VLS_EP8_EP7041-1002 [ID: 1]**
+                          ( **SyncUnit=VLS** )    EP7041-1002 1Ch. Stepper motor output stage (50V, 1.5A)
+
+
+
+                #. **VLS_EP9_EP7041-1002 [ID: 2]**
+                          ( **SyncUnit=VLS** )    EP7041-1002 1Ch. Stepper motor output stage (50V, 1.5A)
+
+
+
+                #. **VLS_EP10_EP7041-3102 [ID: 43]**
+                          ( **SyncUnit=VLS** )    EP7041-3102 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                #. **VLS_EP11_EP7041-3102 [ID: 44]**
+                          ( **SyncUnit=VLS** )    EP7041-3102 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                #. **VLS_EP12_EP7041-3102 [ID: 45]**
+                          ( **SyncUnit=VLS** )    EP7041-3102 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                #. **VLS_EP13_EP7041-3102 [ID: 46]**
+                          ( **SyncUnit=VLS** )    EP7041-3102 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+
+
+            #. DRL02-ECJ2 (EK1122) [ID: 148]
+                    EK1122 2 port EtherCAT junction
+
+                #. **Catcher (EK1100) [ID: 149]**
+                        EK1100 EtherCAT Coupler (2A E-Bus)
+
+                    #. Catcher_E1_EL7041 [ID: 150]
+                              ( **SyncUnit=Catcher** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Catcher_E2_EL5042 [ID: 151]
+                              ( **SyncUnit=Catcher** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Catcher_E3_EL7041 [ID: 152]
+                              ( **SyncUnit=Catcher** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Catcher_E4_EL7041 [ID: 153]
+                              ( **SyncUnit=Catcher** )    EL7041 1Ch. Stepper motor output stage (50V, 5A)
+
+
+
+                    #. Catcher_E5_EL5042 [ID: 154]
+                              ( **SyncUnit=Catcher** )    EL5042 2Ch. BiSS-C Encoder
+
+
+
+                    #. Term 160 (EL9011) [ID: 160]
+                            EL9011 End Terminal
+
+
+
+
+
+
+
+            #. Term 172 (EL9505) [ID: 172]
+                    EL9505 Power supply terminal 5V
+
+
+
+            #. Term 173 (EL1124) [ID: 173]
+                    EL1124 4Ch. Dig. Input 5V, 10µs, Sensor Power
+
+
+
+            #. DRL02-E31 (EL9011) [ID: 41]
+                    EL9011 End Terminal
+
+
+
+
+
+
+
+    #. Term 40 (EL6695) [ID: 40]
+            EL6695 EtherCAT Bridge terminal (Primary)
+
+
+
+    #. Term 83 (EK1521-0010) [ID: 83]
+            EK1521-0010 1 port EtherCAT junction (FX-SingleMode)
+
+        #. **Term 166 (EK1501-0010) [ID: 166]**
+                EK1501-0010 EtherCAT Coupler (2A E-Bus, FX-SingleMode, ID switch)
+
+            #. PMPS_FFO [ID: 169]
+                    EL2202 2Ch. Dig. Output 24V, 0.5A
+
+
+
+            #. PMPS_PRE [ID: 170]
+                    EL6695 EtherCAT Bridge terminal (Primary)
+
+
+
+            #. Term 177 (EL9011) [ID: 177]
+                    EL9011 End Terminal
+
+
+
+
+
+
+
+    #. Term 167 (EK1122) [ID: 167]
+            EK1122 2 port EtherCAT junction
+
+        #. **CRIX_VAC_INTF (EL6695-0002) [ID: 168]**
+                  ( **SyncUnit=CRIX_VAC_PLC** )    EL6695 EtherCAT Bridge terminal (Secondary)
+
+
+
+
+
+
+
