@@ -6754,14 +6754,14 @@ PDO FB Inputs Channel 1 (Index #x1a00, Flags #x0010, SyncMan 3)
     :header: Name, Comment, BitLen, Index, Type
     :align: center
 
-        "Status__Warning", "", , "#x6000", "BIT"
-        "Status__Error", "", , "#x6000", "BIT"
-        "Status__Ready", "", , "#x6000", "BIT"
-        "Status__", "", , "", "ARRAY [0..4] OF BIT"
-        "Status__", "", , "", "ARRAY [0..3] OF BIT"
-        "Status__Diag", "", , "#x6000", "BIT"
-        "Status__TxPDO State", "", , "#x6000", "BIT"
-        "Status__Input cycle counter", "", , "#x6000", "BIT2"
+        "Warning", "", , "#x6000", "BIT"
+        "Error", "", , "#x6000", "BIT"
+        "Ready", "", , "#x6000", "BIT"
+        "None", "", , "", "ARRAY [0..4] OF BIT"
+        "None", "", , "", "ARRAY [0..3] OF BIT"
+        "Diag", "", , "#x6000", "BIT"
+        "TxPDO State", "", , "#x6000", "BIT"
+        "Input cycle counter", "", , "#x6000", "BIT2"
         "Position", "", , "#x6000", "ULINT"
 
 
@@ -6772,14 +6772,14 @@ PDO FB Inputs Channel 2 (Index #x1a01, Flags #x0010, SyncMan 3)
     :header: Name, Comment, BitLen, Index, Type
     :align: center
 
-        "Status__Warning", "", , "#x6010", "BIT"
-        "Status__Error", "", , "#x6010", "BIT"
-        "Status__Ready", "", , "#x6010", "BIT"
-        "Status__", "", , "", "ARRAY [0..4] OF BIT"
-        "Status__", "", , "", "ARRAY [0..3] OF BIT"
-        "Status__Diag", "", , "#x6010", "BIT"
-        "Status__TxPDO State", "", , "#x6010", "BIT"
-        "Status__Input cycle counter", "", , "#x6010", "BIT2"
+        "Warning", "", , "#x6010", "BIT"
+        "Error", "", , "#x6010", "BIT"
+        "Ready", "", , "#x6010", "BIT"
+        "None", "", , "", "ARRAY [0..4] OF BIT"
+        "None", "", , "", "ARRAY [0..3] OF BIT"
+        "Diag", "", , "#x6010", "BIT"
+        "TxPDO State", "", , "#x6010", "BIT"
+        "Input cycle counter", "", , "#x6010", "BIT2"
         "Position", "", , "#x6010", "ULINT"
 
 
@@ -6790,14 +6790,14 @@ PDO FB Inputs Channel 1 compact (Index #x1a02, Flags #x0010, SyncMan )
     :header: Name, Comment, BitLen, Index, Type
     :align: center
 
-        "Status__Warning", "", , "#x6000", "BIT"
-        "Status__Error", "", , "#x6000", "BIT"
-        "Status__Ready", "", , "#x6000", "BIT"
-        "Status__", "", , "", "ARRAY [0..4] OF BIT"
-        "Status__", "", , "", "ARRAY [0..3] OF BIT"
-        "Status__Diag", "", , "#x6000", "BIT"
-        "Status__TxPDO State", "", , "#x6000", "BIT"
-        "Status__Input cycle counter", "", , "#x6000", "BIT2"
+        "Warning", "", , "#x6000", "BIT"
+        "Error", "", , "#x6000", "BIT"
+        "Ready", "", , "#x6000", "BIT"
+        "None", "", , "", "ARRAY [0..4] OF BIT"
+        "None", "", , "", "ARRAY [0..3] OF BIT"
+        "Diag", "", , "#x6000", "BIT"
+        "TxPDO State", "", , "#x6000", "BIT"
+        "Input cycle counter", "", , "#x6000", "BIT2"
         "Position", "", , "#x6000", "UDINT"
 
 
@@ -6808,14 +6808,14 @@ PDO FB Inputs Channel 2 compact (Index #x1a03, Flags #x0010, SyncMan )
     :header: Name, Comment, BitLen, Index, Type
     :align: center
 
-        "Status__Warning", "", , "#x6010", "BIT"
-        "Status__Error", "", , "#x6010", "BIT"
-        "Status__Ready", "", , "#x6010", "BIT"
-        "Status__", "", , "", "ARRAY [0..4] OF BIT"
-        "Status__", "", , "", "ARRAY [0..3] OF BIT"
-        "Status__Diag", "", , "#x6010", "BIT"
-        "Status__TxPDO State", "", , "#x6010", "BIT"
-        "Status__Input cycle counter", "", , "#x6010", "BIT2"
+        "Warning", "", , "#x6010", "BIT"
+        "Error", "", , "#x6010", "BIT"
+        "Ready", "", , "#x6010", "BIT"
+        "None", "", , "", "ARRAY [0..4] OF BIT"
+        "None", "", , "", "ARRAY [0..3] OF BIT"
+        "Diag", "", , "#x6010", "BIT"
+        "TxPDO State", "", , "#x6010", "BIT"
+        "Input cycle counter", "", , "#x6010", "BIT2"
         "Position", "", , "#x6010", "UDINT"
 
 
