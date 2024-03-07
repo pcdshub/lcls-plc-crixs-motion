@@ -3,7 +3,7 @@ Data Types
 ----------
 
 
-      
+        
 LCLS_General.DUT_EPS
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -39,7 +39,7 @@ LCLS_General.DUT_EPS
       - | io: input
 
 
-  
+   
 LCLS_General.FB_LED
 ^^^^^^^^^^^^^^^^^^^
 
@@ -15255,7 +15255,67 @@ ST_BeamParams_IO
       - | io: input
 
 
-   
+  
+ST_EPSLimits
+^^^^^^^^^^^^
+
+.. list-table::
+    :header-rows: 1
+    :align: center
+
+    * - Record
+      - Type
+      - Description
+      - Pragma
+    * - $(PREFIX):BwdLimit
+      - ao
+      - $(SYMBOL).fBwd_Limits
+      - | io: output
+
+
+    * - $(PREFIX):BwdLimit_RBV
+      - ai
+      - $(SYMBOL).fBwd_Limits
+      - | io: output
+
+
+    * - $(PREFIX):FwdLimit
+      - ao
+      - $(SYMBOL).fFwd_Limits
+      - | io: output
+
+
+    * - $(PREFIX):FwdLimit_RBV
+      - ai
+      - $(SYMBOL).fFwd_Limits
+      - | io: output
+
+
+    * - $(PREFIX):ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - $(PREFIX):ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - $(PREFIX):ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - $(PREFIX):ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+  
 ST_PMPS_Aperture_IO
 ^^^^^^^^^^^^^^^^^^^
 
@@ -42093,6 +42153,894 @@ Database Records
         | io: input
 
 
+    * - CRIX:DPL:MMS:X:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:BwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:FwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:BwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:FwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:BwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_DPL_X_EPS.aDPL_X_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:FwdLimit
+      - ao
+      - PRG_DPL_X_EPS.aDPL_X_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:X:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_DPL_X_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:OVRD_MODE
+      - bo
+      - PRG_DPL_X_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_DPL_X_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:X:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_DPL_X_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:BwdLimit
+      - ao
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:FwdLimit
+      - ao
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:BwdLimit
+      - ao
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:FwdLimit
+      - ao
+      - PRG_DPL_Y_EPS.aDPL_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Y:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_DPL_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:OVRD_MODE
+      - bo
+      - PRG_DPL_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_DPL_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Y:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_DPL_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:BwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:FwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:BwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:FwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:BwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:FwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:BwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:BwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:FwdLimit_RBV
+      - ai
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:FwdLimit
+      - ao
+      - PRG_DPL_Z_EPS.aDPL_Z_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:04:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:DPL:MMS:Z:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_DPL_Z_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:OVRD_MODE
+      - bo
+      - PRG_DPL_Z_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_DPL_Z_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:DPL:MMS:Z:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_DPL_Z_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:BwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:FwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:BwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:FwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:BwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:FwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:BwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:FwdLimit
+      - ao
+      - PRG_RCC_Y_EPS.aRCC_Y_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:04:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Y:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_RCC_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:OVRD_MODE
+      - bo
+      - PRG_RCC_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_RCC_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Y:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_RCC_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:BwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:FwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:BwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:FwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:BwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:FwdLimit
+      - ao
+      - PRG_RCC_Z_EPS.aRCC_Z_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:RCC:MMS:Z:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_RCC_Z_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:OVRD_MODE
+      - bo
+      - PRG_RCC_Z_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_RCC_Z_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:RCC:MMS:Z:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_RCC_Z_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
     * - CRIX:RCI:MAG_GET_RBV
       - ai
       - PRG_RCI.fMagnetGet
@@ -42119,6 +43067,798 @@ Database Records
       - PRG_RCI.fMagnetSet
       - | EGU: V
         | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:BwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:FwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:BwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:FwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:BwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:FwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:BwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:BwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:FwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:FwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:04:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:BwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:BwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:FwdLimit_RBV
+      - ai
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:FwdLimit
+      - ao
+      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:05:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:RY:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_SDS_RY_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:OVRD_MODE
+      - bo
+      - PRG_SDS_RY_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_SDS_RY_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_SDS_RY_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:BwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:FwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:BwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:FwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:BwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:FwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:BwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:BwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:FwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:FwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:04:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:BwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:BwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:FwdLimit_RBV
+      - ai
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:FwdLimit
+      - ao
+      - PRG_SDS_Y_EPS.aSDS_Y_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:05:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:Y:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_SDS_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:OVRD_MODE
+      - bo
+      - PRG_SDS_Y_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_SDS_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_SDS_Y_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:BwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:BwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[1].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:FwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:FwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[1].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:01:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:BwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:BwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[2].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:FwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:FwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[2].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:02:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:BwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:BwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[3].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:FwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:FwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[3].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:03:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:BwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:BwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[4].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:FwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:FwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[4].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:04:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:BwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:BwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[5].fBwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:FwdLimit_RBV
+      - ai
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:FwdLimit
+      - ao
+      - PRG_SDS_ZENCODER_EPS.aSDS_Z_ENC_EPS[5].fFwd_Limits
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:ST:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:ST:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:ST:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:05:ST:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:OVRD_MODE_RBV
+      - bi
+      - PRG_SDS_ZENCODER_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:OVRD_MODE
+      - bo
+      - PRG_SDS_ZENCODER_EPS.bEPS_Override
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:OVRD_COUNTDOWN_RBV
+      - waveform
+      - PRG_SDS_ZENCODER_EPS.tEPS_TimerCountDown
+      - | io: output
+
+
+    * - CRIX:SDS:MMS:ZENC:EPS:OVRD_COUNTDOWN
+      - waveform
+      - PRG_SDS_ZENCODER_EPS.tEPS_TimerCountDown
+      - | io: output
 
 
 

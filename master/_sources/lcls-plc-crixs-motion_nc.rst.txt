@@ -567,15 +567,17 @@ Axis 19: Axis 19 - SDS Rotation Y
     Dynamic:Deceleration, 1
     Dynamic:DecelerationMaximum, 5
     Dynamic:Jerk, 1
-    Enc:EncType, 4
-    Enc:Inc:RefMode, 2
+    Enc:EncType, 29
     Enc:Inc:RefSoftSyncMask, #x0000ffff
-    Enc:MaxCount, #x0000ffff
-    Enc:ScaleFactorNumerator, 0.0003125
+    Enc:MaxCount, #xffffffff
+    Enc:ReferenceSystem, 1
+    Enc:ScaleFactorNumerator, 0.1758
     General:UnitName, Degree
     Id, 19
     OtherSettings:AllowMotionCmdToSlave, true
+    Velo:FastManual, 0.1
     Velo:Maximum, 5
+    Velo:SlowManual, 0.1
 
 
 

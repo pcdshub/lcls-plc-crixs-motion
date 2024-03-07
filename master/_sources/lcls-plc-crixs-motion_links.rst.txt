@@ -778,6 +778,8 @@ Links
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E18 (EL5042), WcState^WcState
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E25 (EL5042), WcState^InputToggle
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E25 (EL5042), WcState^WcState
+        , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), WcState^InputToggle
+        , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), WcState^WcState
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), WcState^InputToggle
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), WcState^WcState
         , Enc^Inputs^In^nComState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), WcState^InputToggle
@@ -806,6 +808,7 @@ Links
         , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E18 (EL5042), FB Inputs Channel 2^Position
         , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 91 (EL5112), ENC Status Channel 1^Counter value
         , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E25 (EL5042), FB Inputs Channel 2^Position
+        , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Position
         , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), FB Inputs Channel 1^Position
         , Enc^Inputs^In^nDataIn1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Position
         , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Status compact^Counter value
@@ -822,7 +825,6 @@ Links
         , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 66 (EL7031), ENC Status compact^Counter value
         , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 67 (EL7031), ENC Status compact^Counter value
         , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Counter value
-        , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Counter value
         , Enc^Inputs^In^nDataIn1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Counter value
         , Enc^Inputs^In^nDataIn2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 91 (EL5112), ENC Status Channel 1^Latch value
         , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Status compact^Latch value
@@ -839,7 +841,6 @@ Links
         , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 66 (EL7031), ENC Status compact^Latch value
         , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 67 (EL7031), ENC Status compact^Latch value
         , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Latch value
-        , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Latch value
         , Enc^Inputs^In^nDataIn2[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Latch value
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X/Cryo Y Enc (EL5042), FB Inputs Channel 1^Status^Diag
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X/Cryo Y Enc (EL5042), FB Inputs Channel 1^Status^Error
@@ -1060,10 +1061,12 @@ Links
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^Counter underflow
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^Latch extern valid
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^Set counter done
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Counter overflow
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Counter underflow
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Latch extern valid
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Set counter done
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Diag
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Error
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Input cycle counter
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Ready
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^TxPDO State
+        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 2^Warning
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^Counter overflow
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^Counter underflow
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^Latch extern valid
@@ -1074,12 +1077,6 @@ Links
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), FB Inputs Channel 1^Status^Ready
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), FB Inputs Channel 1^Status^TxPDO State
         , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E32 (EL5042), FB Inputs Channel 1^Status^Warning
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^Diag
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^Error
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^Input cycle counter
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^Ready
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^TxPDO State
-        , Enc^Inputs^In^nState1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E28 (EL5042), FB Inputs Channel 1^Status^Warning
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Status compact^Status^Status of extern latch
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Status compact^Status^Status of input A
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Status compact^Status^Status of input B
@@ -1155,9 +1152,6 @@ Links
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^Status of extern latch
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^Sync error
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Status compact^Status^TxPDO Toggle
-        , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Status of extern latch
-        , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^Sync error
-        , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Status compact^Status^TxPDO Toggle
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^Status of extern latch
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^Sync error
         , Enc^Inputs^In^nState2, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Status compact^Status^TxPDO Toggle
@@ -1191,8 +1185,6 @@ Links
         , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 91 (EL5112), WcState^WcState
         , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), WcState^InputToggle
         , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), WcState^WcState
-        , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), WcState^InputToggle
-        , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), WcState^WcState
         , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), WcState^InputToggle
         , Enc^Inputs^In^nState4, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), WcState^WcState
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^VLS_EP6_EP7041-1002, ENC Control compact^Control^Enable latch C
@@ -1250,9 +1242,6 @@ Links
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Control compact^Control^Enable latch extern on negative edge
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Control compact^Control^Enable latch extern on positive edge
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Control compact^Control^Set counter
-        , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Control compact^Control^Enable latch extern on negative edge
-        , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Control compact^Control^Enable latch extern on positive edge
-        , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Control compact^Control^Set counter
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Control compact^Control^Enable latch extern on negative edge
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Control compact^Control^Enable latch extern on positive edge
         , Enc^Outputs^Out^nCtrl1, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Control compact^Control^Set counter
@@ -1274,7 +1263,6 @@ Links
         , Enc^Outputs^Out^nDataOut1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 66 (EL7031), ENC Control compact^Set counter value
         , Enc^Outputs^Out^nDataOut1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 67 (EL7031), ENC Control compact^Set counter value
         , Enc^Outputs^Out^nDataOut1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), ENC Control compact^Set counter value
-        , Enc^Outputs^Out^nDataOut1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E29 (EL7031), ENC Control compact^Set counter value
         , Enc^Outputs^Out^nDataOut1[0], TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E30 (EL7031), ENC Control compact^Set counter value
         InputDst, GVL_DiagnosticPaddle.stDPXMotor.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 1 - Diagnostic Paddle X, Outputs^ToPlc
         InputDst, GVL_DiagnosticPaddle.stDPXMotor.bLimitForwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E1 (EL7031), STM Status^Status^Digital input 1

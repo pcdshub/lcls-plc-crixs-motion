@@ -6,7 +6,7 @@ Pragmas
     :header: PLC Name, Total Pragmas, Errors
     :align: center
 
-    :ref:`PLC_CRIX_MOT <PLC_CRIX_MOT_overview_pragmas>`, 191, 0
+    :ref:`PLC_CRIX_MOT <PLC_CRIX_MOT_overview_pragmas>`, 218, 0
 
 
 .. _PLC_CRIX_MOT_overview_pragmas:
@@ -15,7 +15,7 @@ Pragmas
 PLC_CRIX_MOT
 ^^^^^^^^^^^^
 
-Total pragmas found: 191
+Total pragmas found: 218
 Total linter errors: 0
 
 

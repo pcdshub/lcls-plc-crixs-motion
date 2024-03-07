@@ -165,6 +165,29 @@ ST_DiagPaddleOutputs
 
 
 
+ST_EPSLimits
+^^^^^^^^^^^^
+
+::
+
+    TYPE ST_EPSLimits :
+        // Defines the PLC limits and EPS structure where these limits are valid
+    STRUCT
+        {attribute 'pytmc' := 'pv: FwdLimit'}
+        // Forward Limit
+        fFwd_Limits : LREAL;
+        {attribute 'pytmc' := 'pv: BwdLimit'}
+        // Backward Limit
+        fBwd_Limits	: LREAL;
+        {attribute 'pytmc' := 'pv: ST'}
+        // EPS_OK - TRUE, Use limits as 'plc limits'; EPS_OK - FALSE, DO not use limits
+        stEPS 		: DUT_EPS;
+    END_STRUCT
+    END_TYPE
+
+
+
+
 ST_Queue
 ^^^^^^^^
 
@@ -436,6 +459,31 @@ GVL_Illumination
         fbILMYStage : FB_MotionStage;
         fbILMZStage : FB_MotionStage;
 
+
+    END_VAR
+
+
+
+
+GVL_MotorEPS
+^^^^^^^^^^^^
+
+::
+
+    VAR_GLOBAL
+
+        fDPL_X  	: LREAL;
+        fDPL_Z 		: LREAL;
+        fDPL_Y 		: LREAL;
+
+        fSDS_RY 	: LREAL;
+        fSDS_Y 		: LREAL;
+        fSDS_Z_ENC 	: LREAL;
+
+        fRCC_Z 		: LREAL;
+        fRCC_Y 		: LREAL;
+
+        tEPS_OVRD_RESET_TIME : TIME := T#5m; // Resets overide after this amount of time.
 
     END_VAR
 
@@ -935,6 +983,27 @@ POUs
 ----
 
 
+F_InRange
+^^^^^^^^^
+
+::
+
+    FUNCTION F_InRange : BOOL
+    // Determine if value is between the lower and upper limit
+    VAR_INPUT
+        value 		: LREAL;
+        lower_limit : LREAL;
+        upper_limit : LREAL;
+    END_VAR
+    VAR
+    END_VAR
+    F_InRange := (lower_limit < value) AND (value < upper_limit);
+
+    END_FUNCTION
+
+
+
+
 FB_AdjacentStates
 ^^^^^^^^^^^^^^^^^
 
@@ -1217,6 +1286,94 @@ Related:
     * `ST_Queue`_
 
 
+FB_CheckEPS
+^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_CheckEPS
+    VAR_IN_OUT
+        stMotor	: ST_MotionStage;
+        aEPSLimits : ARRAY [*] OF ST_EPSLimits;
+        // Allows for user to define what is 'forward' and what is 'backward'. In most cases, use the in_out stMotor as default.
+        stForwardMotorEPS : DUT_EPS;
+        stBackwardMotorEPS: DUT_EPS;
+
+    END_VAR
+    VAR_INPUT
+        // Encoder Position, Current position of motor. Needed for the case where the motor and encoders are seperate. Default use stMotor Position
+        fPosition : LREAL;
+        // Ignores EPS
+        bEPS_Override : BOOL;
+
+    END_VAR
+    VAR_OUTPUT
+    END_VAR
+    VAR
+        nPreviousState : DINT;
+        nIndex: DINT;
+        nEPSIndex: DINT;
+        bUnknownState: BOOL;
+        fbBwdEPS: FB_EPS;
+        fbFwdEPS: FB_EPS;
+    END_VAR
+    fbBwdEps(eps:=stBackwardMotorEPS);
+    fbFwdEPS(eps:=stForwardMotorEPS);
+
+    // Look through possible states to see which state we are in
+    bUnknownState := TRUE;
+    FOR nIndex := LOWER_BOUND(aEPSLimits, 1) TO UPPER_BOUND(aEPSLimits, 1) BY 1 DO
+        IF aEPSLimits[nIndex].stEPS.bEPS_OK THEN
+            nEPSIndex := nIndex;
+            bUnknownState := FALSE; // Known State
+        END_IF
+    END_FOR
+
+    IF (nPreviousState <> nEPSIndex) THEN
+        // only clear stMotor eps from previous state.
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    END_IF
+
+    // Check if position is in plc limit rage, Stop motor if out of Upper/Lower bounds
+    IF fPosition > aEPSLimits[nEPSIndex].fBwd_Limits THEN
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    ELSE
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), FALSE);
+    END_IF
+
+    IF fPosition < aEPSLimits[nEPSIndex].fFwd_Limits THEN
+        fbFwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    ELSE
+        fbFwdEPS.setBit(DINT_TO_BYTE(0), FALSE);
+    END_IF
+
+    IF bUnknownState THEN
+        stBackwardMotorEPS.bEPS_OK := FALSE;
+        stForwardMotorEPS.bEPS_OK := FALSE;
+
+        stBackwardMotorEPS.sMessage := 'UNKNOWN STATE';
+        stForwardMotorEPS.sMessage := 'UNKNOWN STATE';
+        ELSE
+        // Update Labels
+        stBackwardMotorEPS.sMessage := aEPSLimits[nEPSIndex].stEPS.sMessage;
+        stForwardMotorEPS.sMessage := aEPSLimits[nEPSIndex].stEPS.sMessage;
+    END_IF
+
+    IF bEPS_Override THEN
+        stBackwardMotorEPS.bEPS_OK := TRUE;
+        stForwardMotorEPS.bEPS_OK := TRUE;
+    END_IF
+
+    nPreviousState := nEPSIndex; // Update Previous State
+
+    END_FUNCTION_BLOCK
+
+
+Related:
+    * `ST_EPSLimits`_
+
+
 FB_DPX
 ^^^^^^
 
@@ -1468,6 +1625,43 @@ FB_RCI_Analog_Output
 
     // Scale the output accordingly
     iRaw := LREAL_TO_INT((fReal) * fScale);
+
+    END_FUNCTION_BLOCK
+
+
+
+
+FB_RestTimer
+^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_RestTimer
+    // Resets value of input after some time
+    // bInput 	: Value that will reset when set to true after some time passes
+    // tCountdown : count down when input will be rest
+    // tElapseTime : Time before input is reset
+
+    VAR_IN_OUT
+        bInput : BOOL;
+        tCountDown : STRING;
+    END_VAR
+    VAR_INPUT
+        tElapseTime : TIME;
+    END_VAR
+    VAR
+        fbTimer : TON;
+    END_VAR
+    fbTimer(IN := bInput, PT:= tElapseTime);
+
+    IF bInput THEN
+        tCountDown := TIME_TO_STRING(tElapseTime - fbTimer.ET);
+    END_IF
+
+    IF fbTimer.Q THEN
+        bInput := FALSE;
+        tCountDown := TIME_TO_STRING(T#0s);
+    END_IF
 
     END_FUNCTION_BLOCK
 
@@ -2746,6 +2940,200 @@ Related:
     * `Main`_
 
 
+PRG_DPL_X_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_X_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS'}
+        aDPL_X_EPS		: ARRAY [1 .. 3] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange 	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_X_EPS[1].fBwd_Limits := 10;
+        aDPL_X_EPS[1].fFwd_Limits := 80;
+
+        aDPL_X_EPS[2].fBwd_Limits := 10;
+        aDPL_X_EPS[2].fFwd_Limits := 30;
+
+        aDPL_X_EPS[3].fBwd_Limits := 60;
+        aDPL_X_EPS[3].fFwd_Limits := 80;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_X_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RY in [124, 215');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 124, 215));
+
+    fbEPS(eps:=aDPL_X_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10, 30]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+
+    bFullRange := (NOT aDPL_X_EPS[2].stEPS.bEPS_OK) AND (NOT aDPL_X_EPS[3].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aDPL_X_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:= M1, fPosition:=fDPL_X, aEPSLimits:= aDPL_X_EPS, stForwardMotorEPS:=M1.stEPSForwardEnable, stBackwardMotorEPS:= M1.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_DPL_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS'}
+        aDPL_Y_EPS		: ARRAY [1 .. 2] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+           fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_Y_EPS[1].fBwd_Limits := -1;
+        aDPL_Y_EPS[1].fFwd_Limits := 80;
+
+        aDPL_Y_EPS[2].fBwd_Limits := 40;
+        aDPL_Y_EPS[2].fFwd_Limits := 80;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_Y_EPS[2].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];RCC in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    bFullRange := NOT aDPL_Y_EPS[2].stEPS.bEPS_OK;
+
+    fbEPS(eps:=aDPL_Y_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M2, fPosition:=M2.stAxisStatus.fActPosition, aEPSLimits:=aDPL_Y_EPS, stForwardMotorEPS:=M2.stEPSForwardEnable, stBackwardMotorEPS:= M2.stEPSBackwardEnable, bEPS_Override:= bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_DPL_Z_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_Z_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS'}
+        aDPL_Z_EPS 	    : ARRAY [1 .. 4] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS:OVRD_MODE'}
+        bEPS_Override: BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange 	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_Z_EPS[1].fBwd_Limits := -10;
+        aDPL_Z_EPS[1].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[2].fBwd_Limits := 30;
+        aDPL_Z_EPS[2].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[3].fBwd_Limits := 30;
+        aDPL_Z_EPS[3].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[4].fBwd_Limits := 30;
+        aDPL_Z_EPS[4].fFwd_Limits := 100;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_Z_EPS[2].stEPS);
+    fbEPS.setMessage('DPL X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fDPL_X, 10, 60));
+
+    fbEPS(eps:=aDPL_Z_EPS[3].stEPS);
+    fbEPS.setMessage('RCC Y in [-34,10];RCC_Z in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fRCC_Y, -34, 10));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    fbEPS(eps:=aDPL_Z_EPS[4].stEPS);
+    fbEPS.setMessage('RCC_Y in [-38,-34];RCC_Z in [-15,11];DPL_Y in [-1,40]');
+    fbEPS.setBit(0, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+    fbEPS.setBit(2, F_InRange(fDPL_Y, -1, 40));
+
+    bFullRange := (NOT aDPL_Z_EPS[2].stEPS.bEPS_OK) AND (NOT aDPL_Z_EPS[3].stEPS.bEPS_OK) AND (NOT aDPL_Z_EPS[4].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aDPL_Z_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M3, fPosition:=fDPL_Z, aEPSLimits:= aDPL_Z_EPS, stForwardMotorEPS:=M3.stEPSForwardEnable, stBackwardMotorEPS:= M3.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
 PRG_FiberLite
 ^^^^^^^^^^^^^
 
@@ -2893,12 +3281,45 @@ PRG_InjectorMotors
     Main.M16.bLimitForwardEnable := nHall_Forward_Cycles < nNumCyclesNeeded;
     Main.M16.bLimitBackwardEnable := nHall_Backward_Cycles < nNumCyclesNeeded;
 
+
+    // Update Motor Positions before Using them in EPS Checks
+    fDPL_X  := M1.stAxisStatus.fActPosition;
+
+    fSDS_RY 	:= M19.stAxisStatus.fActPosition;
+    fSDS_Y      := M17.stAxisStatus.fActPosition;
+    fSDS_Z_ENC  := M36.stAxisStatus.fActPosition;
+
+    fDPL_Z 		:= M3.stAxisStatus.fActPosition;
+    fDPL_Y 		:= M2.stAxisStatus.fActPosition;
+
+    fRCC_Z 		:= M39.stAxisStatus.fActPosition;
+    fRCC_Y 		:= M38.stAxisStatus.fActPosition;
+
+    PRG_SDS_Y_EPS();
+    PRG_SDS_ZENCODER_EPS();
+    PRG_SDS_RY_EPS();
+
+    PRG_DPL_X_EPS();
+    PRG_DPL_Y_EPS();
+    PRG_DPL_Z_EPS();
+
+    PRG_RCC_Y_EPS();
+    PRG_RCC_Z_EPS();
+
     END_PROGRAM
 
 
 Related:
     * `Main`_
     * `PRG_CryoPump`_
+    * `PRG_DPL_X_EPS`_
+    * `PRG_DPL_Y_EPS`_
+    * `PRG_DPL_Z_EPS`_
+    * `PRG_RCC_Y_EPS`_
+    * `PRG_RCC_Z_EPS`_
+    * `PRG_SDS_RY_EPS`_
+    * `PRG_SDS_Y_EPS`_
+    * `PRG_SDS_ZENCODER_EPS`_
 
 
 PRG_Main
@@ -3174,6 +3595,149 @@ Related:
     * `Main`_
 
 
+PRG_RCC_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_RCC_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS'}
+        aRCC_Y_EPS 	    : ARRAY [1 .. 4] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL :=  FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aRCC_Y_EPS[1].fBwd_Limits := -38;
+        aRCC_Y_EPS[1].fFwd_Limits := 10;
+
+        aRCC_Y_EPS[2].fBwd_Limits := -38;
+        aRCC_Y_EPS[2].fFwd_Limits := -34;
+
+        aRCC_Y_EPS[3].fBwd_Limits := -38;
+        aRCC_Y_EPS[3].fFwd_Limits := -34;
+
+        aRCC_Y_EPS[4].fBwd_Limits := -38;
+        aRCC_Y_EPS[4].fFwd_Limits := 0; // VARIBLE
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aRCC_Y_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RY in [124, 215];SDS_Z_ENC in [3.05, 3.8]');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 124, 215));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.05, 3.8));
+
+    fbEPS(eps:=aRCC_Y_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];RCC_Z in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    fbEPS(eps:=aRCC_Y_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.8, 4];SDS_Y - RCC_Y <= 36');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.8, 4));
+    fbEPS.setBit(1, (fSDS_Y - fRCC_Y) <= 36);
+
+    aRCC_Y_EPS[4].fFwd_Limits := fSDS_Y - 36; // Variable Limits
+
+
+    bFullRange := (NOT aRCC_Y_EPS[2].stEPS.bEPS_OK) AND (NOT aRCC_Y_EPS[3].stEPS.bEPS_OK) AND (NOT aRCC_Y_EPS[4].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aRCC_Y_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M38, fPosition:=fRCC_Y, aEPSLimits:=aRCC_Y_EPS, stForwardMotorEPS:=M38.stEPSForwardEnable, stBackwardMotorEPS:= M38.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_RCC_Z_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_RCC_Z_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS'}
+        aRCC_Z_EPS	    : ARRAY [1 .. 3] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS:OVRD_MODE'}
+        bEPS_Override: BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aRCC_Z_EPS[1].fBwd_Limits := -18;
+        aRCC_Z_EPS[1].fFwd_Limits := 11;
+
+        aRCC_Z_EPS[2].fBwd_Limits := -18;
+        aRCC_Z_EPS[2].fFwd_Limits := -15;
+
+        aRCC_Z_EPS[3].fBwd_Limits := -18;
+        aRCC_Z_EPS[3].fFwd_Limits := -15;
+
+        bInit := FALSE;
+    END_IF
+
+
+    fbEPS(eps:=aRCC_Z_EPS[2].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];DPL_Y in [-1,40]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fDPL_Y, -1, 40));
+
+    fbEPS(eps:=aRCC_Z_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10, 30];RCC_Y in [-34,10]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Y, -34, 10));
+
+    bFullRange := (NOT aRCC_Z_EPS[2].stEPS.bEPS_OK) AND (NOT aRCC_Z_EPS[3].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aRCC_Z_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:= tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:= M39, fPosition:=fRCC_Z, aEPSLimits:=aRCC_Z_EPS, stForwardMotorEPS:=M39.stEPSForwardEnable, stBackwardMotorEPS:= M39.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
 PRG_RCI
 ^^^^^^^
 
@@ -3240,6 +3804,274 @@ Related:
     * `FB_RCI_Analog_Input`_
     * `FB_RCI_Analog_Output`_
     * `Main`_
+
+
+PRG_SDS_RY_EPS
+^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_RY_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RY:EPS'}
+        aSDS_RY_EPS 	: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RY:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+
+        bSDS_RY_FullRange : BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aSDS_RY_EPS[1].fBwd_Limits := 124;
+        aSDS_RY_EPS[1].fFwd_Limits := 218;
+
+        aSDS_RY_EPS[2].fBwd_Limits := 215;
+        aSDS_RY_EPS[2].fFwd_Limits := 218;
+
+        aSDS_RY_EPS[3].fBwd_Limits := 215;
+        aSDS_RY_EPS[3].fFwd_Limits := 218;
+
+        aSDS_RY_EPS[4].fBwd_Limits := 124;
+        aSDS_RY_EPS[4].fFwd_Limits := 134;
+
+        aSDS_RY_EPS[5].fBwd_Limits := 124;
+        aSDS_RY_EPS[5].fFwd_Limits := 134;
+
+        bInit := FALSE;
+    END_IF
+
+    // Set EPS conditions
+    fbEPS(eps:=aSDS_RY_EPS[1].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05,3.4];SDS_Y in [30,38.5];RCC_Y in [-38,-34];DPL_X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 38.5));
+    fbEPS.setBit(2, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(3, F_InRange(fDPL_X, 10, 30));
+
+    bSDS_RY_FullRange := aSDS_RY_EPS[1].stEPS.bEPS_OK; // FULL RANGE CONDITION
+
+    fbEPS(eps:=aSDS_RY_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [-1, 3.05]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1.0, 3.05));
+
+    fbEPS(eps:=aSDS_RY_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.4];SDS_RY in [215, 220];Not Full Range');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RY, 215, 220));
+    fbEPS.setBit(2, NOT bSDS_RY_FullRange); // NOT FULL RANGE COND.
+
+    fbEPS(eps:=aSDS_RY_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.4, 4]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.4, 4));
+
+    fbEPS(eps:=aSDS_RY_EPS[5].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05,3.4];SDS_RY in [124, 134];Not Full Range');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RY, 124, 134));
+    fbEPS.setBit(2, NOT bSDS_RY_FullRange); // NOT FULL RANGE COND.
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M19, fPosition:= fSDS_RY, aEPSLimits:= aSDS_RY_EPS, stForwardMotorEPS:=M19.stEPSForwardEnable, stBackwardMotorEPS:= M19.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_SDS_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS'}
+        aSDS_Y_EPS 		: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+        nIndex 		: uint;
+        nEPSIndex 	: uint;
+
+        fbEPS		: FB_EPS;;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    // SDS Y EPS
+    IF bInit THEN
+        // Set Inital Values
+        aSDS_Y_EPS[1].fBwd_Limits := 20;
+        aSDS_Y_EPS[1].fFwd_Limits := 45;
+
+        aSDS_Y_EPS[2].fBwd_Limits := 37.5;
+        aSDS_Y_EPS[2].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[3].fBwd_Limits := 30;
+        aSDS_Y_EPS[3].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[4].fBwd_Limits := 30;
+        aSDS_Y_EPS[4].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[5].fBwd_Limits := 30;
+        aSDS_Y_EPS[5].fFwd_Limits := 45;
+
+
+        bInit := FALSE;
+    END_IF
+
+    // Set EPS conditions
+    fbEPS(eps:= aSDS_Y_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [-1,3.05]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1, 3.05));
+
+    fbEPS(eps:= aSDS_Y_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.4];SDS_RY in [215, 220]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RY, 215, 220));
+
+    fbEPS(eps:= aSDS_Y_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.8];SDS_RY in [124, 215]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.8));
+    fbEPS.setBit(1, F_InRange(fSDS_RY, 124, 215));
+
+    fbEPS(eps:= aSDS_Y_EPS[5].stEPS);
+    fbEPS.setDescription('SDS_Z_ENC in [3.8, 4];(SDS_Y - RCC <= 36');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.8, 4));
+    fbEPS.setBit(1, (fSDS_Y - fRCC_Y) <= 36);
+
+    aSDS_Y_EPS[5].fBwd_Limits := 36 + fRCC_Y; // Magic 36?
+
+
+    bFullRange := (NOT aSDS_Y_EPS[2].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[3].stEPS.bEPS_OK) AND(NOT aSDS_Y_EPS[4].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[5].stEPS.bEPS_OK);
+    fbEPS(eps:= aSDS_Y_EPS[1].stEPS);
+    fbEPS.setDescription('Full Range');
+    fbEPS.setBit(0, bFullRange); // FULL RANGE
+
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M17, fPosition:=fSDS_Y, aEPSLimits:=aSDS_Y_EPS, stForwardMotorEPS:=M17.stEPSForwardEnable, stBackwardMotorEPS:= M17.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_SDS_ZENCODER_EPS
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_ZENCODER_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS'}
+        aSDS_Z_ENC_EPS	: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit       : BOOL := TRUE;
+        bSDS_vert_transport_state : BOOL;
+        bFullRange	: BOOL;
+        bUnknownState	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+
+        aSDS_Z_ENC_EPS[1].fBwd_Limits := -1;
+        aSDS_Z_ENC_EPS[1].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[2].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[2].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[3].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[3].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[4].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[4].fFwd_Limits := 4;
+
+        aSDS_Z_ENC_EPS[5].fBwd_Limits := 3.8;
+        aSDS_Z_ENC_EPS[5].fFwd_Limits := 4;
+
+        bInit := FALSE;
+    END_IF
+
+
+    bSDS_vert_transport_state := F_InRange(fSDS_Y, 30, 38.5) AND F_InRange(fSDS_RY, 124, 134) AND (fDPL_X < 30) AND (fRCC_Y < -34);
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[1].stEPS);
+    fbEPS.setMessage('SDS_RY in [215, 220];SDS_Y in [37.5, 38.5]');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 215, 220));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 37.5, 38.5));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RY in [134, 220];SDS_Y in [30, 38.5]');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 134, 220));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 37.5));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_RY in [124, 134];SDS_Z_ENC in [3.05, 3.45];Not SDS VERT. TRANS. State');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.05, 3.45));
+    fbEPS.setBit(2, NOT bSDS_vert_transport_state); // NOT INJECTOR Vertical Tansport Condition
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_RY in [124, 134];SDS_Y in [30, 38.5];RCC_Y in [-38,-34];DPL_X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 38.5));
+    fbEPS.setBit(2, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(3, F_InRange(fDPL_X, 10, 30));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[5].stEPS);
+    fbEPS.setMessage('SDS_RY in [124, 134];SDS_Z_ENC in [3.75, 4]; NOT SDS VERT. TRANS. State');
+    fbEPS.setBit(0, F_InRange(fSDS_RY, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.75, 4));
+    fbEPS.setBit(2, NOT bSDS_vert_transport_state); // NOT INJECTOR Vertical Transport Condition
+
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M18, fPosition:=fSDS_Z_ENC, stForwardMotorEPS:= M18.stEPSBackwardEnable, stBackwardMotorEPS:=M18.stEPSForwardEnable, aEPSLimits:=aSDS_Z_ENC_EPS, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
 
 
 PRG_SL2K2_SCATTER

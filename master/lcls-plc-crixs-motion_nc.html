@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NC Settings &mdash; pcdshub/lcls-plc-crixs-motion  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/tree.css?v=837a00b9" />
+      <link rel="stylesheet" type="text/css" href="_static/width.css?v=ab210c7a" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -20,7 +24,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Box Hierarchy" href="lcls-plc-crixs-motion_ethercat.html" />
+    <link rel="next" title="EtherCAT Terminals" href="lcls-plc-crixs-motion_ethercat.html" />
     <link rel="prev" title="Pragmas" href="lcls-plc-crixs-motion_pragmas.html" /> 
 </head>
 
@@ -102,7 +106,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#axis-53-sl2k2-south-m53">Axis 53: SL2K2-SOUTH-M53</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="lcls-plc-crixs-motion_ethercat.html">Box Hierarchy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcls-plc-crixs-motion_ethercat.html">EtherCAT Terminals</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcls-plc-crixs-motion_boxes.html">Boxes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcls-plc-crixs-motion_links.html">Links</a></li>
 </ul>
@@ -1493,19 +1497,19 @@
 <td><p>1</p></td>
 </tr>
 <tr class="row-odd"><td><p>Enc:EncType</p></td>
-<td><p>4</p></td>
+<td><p>29</p></td>
 </tr>
-<tr class="row-even"><td><p>Enc:Inc:RefMode</p></td>
-<td><p>2</p></td>
-</tr>
-<tr class="row-odd"><td><p>Enc:Inc:RefSoftSyncMask</p></td>
+<tr class="row-even"><td><p>Enc:Inc:RefSoftSyncMask</p></td>
 <td><p>#x0000ffff</p></td>
 </tr>
-<tr class="row-even"><td><p>Enc:MaxCount</p></td>
-<td><p>#x0000ffff</p></td>
+<tr class="row-odd"><td><p>Enc:MaxCount</p></td>
+<td><p>#xffffffff</p></td>
+</tr>
+<tr class="row-even"><td><p>Enc:ReferenceSystem</p></td>
+<td><p>1</p></td>
 </tr>
 <tr class="row-odd"><td><p>Enc:ScaleFactorNumerator</p></td>
-<td><p>0.0003125</p></td>
+<td><p>0.1758</p></td>
 </tr>
 <tr class="row-even"><td><p>General:UnitName</p></td>
 <td><p>Degree</p></td>
@@ -1516,8 +1520,14 @@
 <tr class="row-even"><td><p>OtherSettings:AllowMotionCmdToSlave</p></td>
 <td><p>true</p></td>
 </tr>
-<tr class="row-odd"><td><p>Velo:Maximum</p></td>
+<tr class="row-odd"><td><p>Velo:FastManual</p></td>
+<td><p>0.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Velo:Maximum</p></td>
 <td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Velo:SlowManual</p></td>
+<td><p>0.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -3983,13 +3993,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="lcls-plc-crixs-motion_pragmas.html" class="btn btn-neutral float-left" title="Pragmas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="lcls-plc-crixs-motion_ethercat.html" class="btn btn-neutral float-right" title="Box Hierarchy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="lcls-plc-crixs-motion_ethercat.html" class="btn btn-neutral float-right" title="EtherCAT Terminals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, SLAC National Accelerator Laboratory.</p>
+    <p>&#169; Copyright 2024, SLAC National Accelerator Laboratory.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
