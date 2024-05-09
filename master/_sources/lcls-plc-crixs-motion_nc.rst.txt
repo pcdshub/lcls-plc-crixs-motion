@@ -24,8 +24,8 @@ NC Settings
         16, Axis 16 - SDS Injector X
         17, Axis 17 - SDS Injectory Y
         18, Axis 18 - SDS Injector Z
-        19, Axis 19 - SDS Rotation Y
-        20, Axis 20 - SDS Shroud Rotation
+        19, Axis 19 - SDS Rotation X
+        20, Axis 20 - SDS Jet Rotation
         21, Axis 21 - Questar Focus
         22, Cryo X
         23, Cryo Y
@@ -551,7 +551,7 @@ Axis 18: Axis 18 - SDS Injector Z
 
 
 
-Axis 19: Axis 19 - SDS Rotation Y
+Axis 19: Axis 19 - SDS Rotation X
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table::
@@ -559,7 +559,7 @@ Axis 19: Axis 19 - SDS Rotation Y
     :align: center
 
     Axis ID, 19
-    Name, Axis 19 - SDS Rotation Y
+    Name, Axis 19 - SDS Rotation X
     AxisType, 1
     CreateSymbols, true
     Dynamic:Acceleration, 1
@@ -570,7 +570,6 @@ Axis 19: Axis 19 - SDS Rotation Y
     Enc:EncType, 29
     Enc:Inc:RefSoftSyncMask, #x0000ffff
     Enc:MaxCount, #xffffffff
-    Enc:ReferenceSystem, 1
     Enc:ScaleFactorNumerator, 0.1758
     General:UnitName, Degree
     Id, 19
@@ -581,15 +580,15 @@ Axis 19: Axis 19 - SDS Rotation Y
 
 
 
-Axis 20: Axis 20 - SDS Shroud Rotation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Axis 20: Axis 20 - SDS Jet Rotation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table::
     :header: Setting, Value
     :align: center
 
     Axis ID, 20
-    Name, Axis 20 - SDS Shroud Rotation
+    Name, Axis 20 - SDS Jet Rotation
     AxisType, 1
     CreateSymbols, true
     Dynamic:Acceleration, 1
@@ -1304,9 +1303,7 @@ Axis 44: M44-VLS-Mirror-Pitch
     Enc:MaxCount, #x0000ffff
     Enc:ScaleFactorDenominator, 4
     Enc:ScaleFactorNumerator, 7.914e-05
-    Enc:SoftEndMaxControl:Enable, true
     Enc:SoftEndMaxControl:Range, 1.763
-    Enc:SoftEndMinControl:Enable, true
     Enc:SoftEndMinControl:Range, -0.2288
     Id, 44
     OtherSettings:AllowMotionCmdToSlave, true

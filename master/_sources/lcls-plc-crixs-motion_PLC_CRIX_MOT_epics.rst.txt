@@ -15483,6 +15483,18 @@ Database Records
       - | io: input
 
 
+    * - RIX:CRIX:EPS:fNozzleCatcherOffset_RBV
+      - ai
+      - GVL_MotorEPS.fNozzleCatcherOffset
+      - | io: output
+
+
+    * - RIX:CRIX:EPS:fNozzleCatcherOffset
+      - ao
+      - GVL_MotorEPS.fNozzleCatcherOffset
+      - | io: output
+
+
     * - PLC:CRIX:MOT:ARB:01:AP:Entry:010:Live_RBV
       - bi
       - Assertion Pool
@@ -34203,7 +34215,7 @@ Database Records
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bError_RBV
+    * - CRIX:SDS:MMS:RX:PLC:bError_RBV
       - bi
       - TRUE if we are in an error state
       - | field: ONAM TRUE
@@ -34212,7 +34224,7 @@ Database Records
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bHardwareEnable_RBV
+    * - CRIX:SDS:MMS:RX:PLC:bHardwareEnable_RBV
       - bi
       - TRUE if STO not hit
       - | field: ONAM TRUE
@@ -34220,19 +34232,19 @@ Database Records
         | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bHomeCmd_RBV
+    * - CRIX:SDS:MMS:RX:PLC:bHomeCmd_RBV
       - bi
       - Start the homing routine
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bHomeCmd
+    * - CRIX:SDS:MMS:RX:PLC:bHomeCmd
       - bo
       - Start the homing routine
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bReset_RBV
+    * - CRIX:SDS:MMS:RX:PLC:bReset_RBV
       - bi
       - Used internally to reset errors
       - | field: ONAM TRUE
@@ -34240,7 +34252,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bReset
+    * - CRIX:SDS:MMS:RX:PLC:bReset
       - bo
       - Used internally to reset errors
       - | field: ONAM TRUE
@@ -34248,7 +34260,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bUserEnable_RBV
+    * - CRIX:SDS:MMS:RX:PLC:bUserEnable_RBV
       - bi
       - Used to disable power entirely for an axis
       - | field: ONAM ENABLE
@@ -34256,7 +34268,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:bUserEnable
+    * - CRIX:SDS:MMS:RX:PLC:bUserEnable
       - bo
       - Used to disable power entirely for an axis
       - | field: ONAM ENABLE
@@ -34264,111 +34276,111 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:fHomePosition_RBV
+    * - CRIX:SDS:MMS:RX:PLC:fHomePosition_RBV
       - ai
       - Used internally and by the IOC to pick home position
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:fHomePosition
+    * - CRIX:SDS:MMS:RX:PLC:fHomePosition
       - ao
       - Used internally and by the IOC to pick home position
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:PLC:fPosDiff_RBV
+    * - CRIX:SDS:MMS:RX:PLC:fPosDiff_RBV
       - ai
       - Position lag difference
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:nEncoderCount_RBV
+    * - CRIX:SDS:MMS:RX:PLC:nEncoderCount_RBV
       - longin
       - Count from encoder hardware
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:nErrorId_RBV
+    * - CRIX:SDS:MMS:RX:PLC:nErrorId_RBV
       - longin
       - Error code if nonzero
       - | io: input
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:RY:PLC:sErrorMessage_RBV
+    * - CRIX:SDS:MMS:RX:PLC:sErrorMessage_RBV
       - waveform
       - Message to identify the error state
       - | io: input
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSB:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSB:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSB:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSB:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSB:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSB:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSB:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSB:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSF:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSF:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSF:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSF:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSF:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSF:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSF:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSF:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSP:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSP:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSP:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSP:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSP:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSP:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:PLC:stEPSP:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:PLC:stEPSP:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
@@ -34545,7 +34557,7 @@ Database Records
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bError_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:bError_RBV
       - bi
       - TRUE if we are in an error state
       - | field: ONAM TRUE
@@ -34554,7 +34566,7 @@ Database Records
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bHardwareEnable_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:bHardwareEnable_RBV
       - bi
       - TRUE if STO not hit
       - | field: ONAM TRUE
@@ -34562,19 +34574,19 @@ Database Records
         | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bHomeCmd_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:bHomeCmd_RBV
       - bi
       - Start the homing routine
       - | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bHomeCmd
+    * - CRIX:SDS:MMS:RJET:PLC:bHomeCmd
       - bo
       - Start the homing routine
       - | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bReset_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:bReset_RBV
       - bi
       - Used internally to reset errors
       - | field: ONAM TRUE
@@ -34582,7 +34594,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bReset
+    * - CRIX:SDS:MMS:RJET:PLC:bReset
       - bo
       - Used internally to reset errors
       - | field: ONAM TRUE
@@ -34590,7 +34602,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bUserEnable_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:bUserEnable_RBV
       - bi
       - Used to disable power entirely for an axis
       - | field: ONAM ENABLE
@@ -34598,7 +34610,7 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:bUserEnable
+    * - CRIX:SDS:MMS:RJET:PLC:bUserEnable
       - bo
       - Used to disable power entirely for an axis
       - | field: ONAM ENABLE
@@ -34606,111 +34618,111 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:fHomePosition_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:fHomePosition_RBV
       - ai
       - Used internally and by the IOC to pick home position
       - | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:fHomePosition
+    * - CRIX:SDS:MMS:RJET:PLC:fHomePosition
       - ao
       - Used internally and by the IOC to pick home position
       - | io: output
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:fPosDiff_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:fPosDiff_RBV
       - ai
       - Position lag difference
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:nEncoderCount_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:nEncoderCount_RBV
       - longin
       - Count from encoder hardware
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:nErrorId_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:nErrorId_RBV
       - longin
       - Error code if nonzero
       - | io: input
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:sErrorMessage_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:sErrorMessage_RBV
       - waveform
       - Message to identify the error state
       - | io: input
         | update: 100hz notify
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSB:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSB:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSB:nFlags_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSB:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSB:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSB:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSB:sMessage_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSB:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSF:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSF:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSF:nFlags_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSF:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSF:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSF:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSF:sMessage_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSF:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSP:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSP:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSP:nFlags_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSP:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSP:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSP:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:SHROUD:PLC:stEPSP:sMessage_RBV
+    * - CRIX:SDS:MMS:RJET:PLC:stEPSP:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
@@ -43069,267 +43081,267 @@ Database Records
         | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:BwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:BwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[1].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:BwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:01:BwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[1].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:FwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:FwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[1].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:FwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:01:FwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[1].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[1].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:ST:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:ST:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:ST:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:ST:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:ST:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:ST:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:01:ST:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:EPS:01:ST:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:BwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:BwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[2].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:BwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:02:BwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[2].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:FwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:FwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[2].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:FwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:02:FwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[2].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[2].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:ST:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:ST:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:ST:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:ST:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:ST:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:ST:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:02:ST:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:EPS:02:ST:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:BwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:BwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[3].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:BwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:03:BwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[3].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:FwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:FwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[3].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:FwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:03:FwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[3].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[3].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:ST:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:ST:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:ST:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:ST:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:ST:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:ST:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:03:ST:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:EPS:03:ST:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:BwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:BwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[4].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:BwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:04:BwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[4].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:FwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:FwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[4].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:FwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:04:FwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[4].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[4].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:ST:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:ST:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:ST:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:ST:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:ST:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:ST:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:04:ST:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:EPS:04:ST:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:BwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:BwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[5].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:BwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:05:BwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fBwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[5].fBwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:FwdLimit_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:FwdLimit_RBV
       - ai
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[5].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:FwdLimit
+    * - CRIX:SDS:MMS:RX:EPS:05:FwdLimit
       - ao
-      - PRG_SDS_RY_EPS.aSDS_RY_EPS[5].fFwd_Limits
+      - PRG_SDS_RX_EPS.aSDS_RX_EPS[5].fFwd_Limits
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:ST:bEPS_OK_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:ST:bEPS_OK_RBV
       - bi
       - check if nFlags are all true
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:ST:nFlags_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:ST:nFlags_RBV
       - longin
       - Contains EPS flags
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:ST:sFlagDesc_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:ST:sFlagDesc_RBV
       - waveform
       - semicolon-delimited nFlag variable
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:05:ST:sMessage_RBV
+    * - CRIX:SDS:MMS:RX:EPS:05:ST:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input
 
 
-    * - CRIX:SDS:MMS:RY:EPS:OVRD_MODE_RBV
+    * - CRIX:SDS:MMS:RX:EPS:OVRD_MODE_RBV
       - bi
-      - PRG_SDS_RY_EPS.bEPS_Override
+      - PRG_SDS_RX_EPS.bEPS_Override
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:OVRD_MODE
+    * - CRIX:SDS:MMS:RX:EPS:OVRD_MODE
       - bo
-      - PRG_SDS_RY_EPS.bEPS_Override
+      - PRG_SDS_RX_EPS.bEPS_Override
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN_RBV
+    * - CRIX:SDS:MMS:RX:EPS:OVRD_COUNTDOWN_RBV
       - waveform
-      - PRG_SDS_RY_EPS.tEPS_TimerCountDown
+      - PRG_SDS_RX_EPS.tEPS_TimerCountDown
       - | io: output
 
 
-    * - CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN
+    * - CRIX:SDS:MMS:RX:EPS:OVRD_COUNTDOWN
       - waveform
-      - PRG_SDS_RY_EPS.tEPS_TimerCountDown
+      - PRG_SDS_RX_EPS.tEPS_TimerCountDown
       - | io: output
 
 

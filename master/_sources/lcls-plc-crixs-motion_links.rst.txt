@@ -1403,11 +1403,11 @@ Links
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M17.bLimitForwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E26 (EL7031), STM Status^Status^Digital input 1
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M18.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 18 - SDS Injector Z, Outputs^ToPlc
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M18.bLimitForwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031), STM Status^Status^Digital input 1
-        PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M19.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 19 - SDS Rotation Y, Outputs^ToPlc
+        PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M19.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 19 - SDS Rotation X, Outputs^ToPlc
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M2.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 2 - Diagnostic Paddle Y, Outputs^ToPlc
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M2.bLimitBackwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E3 (EL7031), STM Status^Status^Digital input 2
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M2.bLimitForwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E3 (EL7031), STM Status^Status^Digital input 1
-        PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M20.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 20 - SDS Shroud Rotation, Outputs^ToPlc
+        PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M20.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Axis 20 - SDS Jet Rotation, Outputs^ToPlc
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M22.Axis.NcToPlc, TINC^NC-Task 1 SAF^Axes^Cryo X, Outputs^ToPlc
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M22.bLimitBackwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X (EL7041), STM Status^Status^Digital input 2
         PLC_CRIX_MOT Instance, PlcTask Inputs^Main.M22.bLimitForwardEnable, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X (EL7041), STM Status^Status^Digital input 1
@@ -1538,9 +1538,9 @@ Links
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M16.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 16 - SDS Injector X, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M17.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 17 - SDS Injectory Y, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M18.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 18 - SDS Injector Z, Inputs^FromPlc
-        PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M19.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 19 - SDS Rotation Y, Inputs^FromPlc
+        PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M19.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 19 - SDS Rotation X, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M2.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 2 - Diagnostic Paddle Y, Inputs^FromPlc
-        PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M20.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 20 - SDS Shroud Rotation, Inputs^FromPlc
+        PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M20.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 20 - SDS Jet Rotation, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M22.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Cryo X, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M23.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Cryo Y, Inputs^FromPlc
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M24.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Cryo Z, Inputs^FromPlc

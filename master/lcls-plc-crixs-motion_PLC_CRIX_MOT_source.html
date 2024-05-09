@@ -18,7 +18,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/docs-versions-menu.js?v=3d6a1aea"></script>
     <script src="_static/js/theme.js"></script>
@@ -112,6 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#prg-dpl-x-eps">PRG_DPL_X_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-dpl-y-eps">PRG_DPL_Y_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-dpl-z-eps">PRG_DPL_Z_EPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prg-eps">PRG_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-fiberlite">PRG_FiberLite</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-illumination">PRG_Illumination</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-injectormotors">PRG_InjectorMotors</a></li>
@@ -125,7 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#prg-rcc-y-eps">PRG_RCC_Y_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-rcc-z-eps">PRG_RCC_Z_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-rci">PRG_RCI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#prg-sds-ry-eps">PRG_SDS_RY_EPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prg-sds-rx-eps">PRG_SDS_RX_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-sds-y-eps">PRG_SDS_Y_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-sds-zencoder-eps">PRG_SDS_ZENCODER_EPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#prg-sl2k2-scatter">PRG_SL2K2_SCATTER</a></li>
@@ -597,7 +598,7 @@
     <span class="n">fDPL_Z</span>          <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
     <span class="n">fDPL_Y</span>          <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 
-    <span class="n">fSDS_RY</span>         <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
+    <span class="n">fSDS_RX</span>         <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
     <span class="n">fSDS_Y</span>          <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
     <span class="n">fSDS_Z_ENC</span>      <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 
@@ -605,6 +606,13 @@
     <span class="n">fRCC_Y</span>          <span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 
     <span class="n">tEPS_OVRD_RESET_TIME</span> <span class="p">:</span> <span class="n">TIME</span> <span class="o">:=</span> <span class="n">T</span><span class="c1">#5m; // Resets overide after this amount of time.</span>
+
+
+     <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;</span>
+        <span class="n">pv</span><span class="p">:</span> <span class="n">RIX</span><span class="p">:</span><span class="n">CRIX</span><span class="p">:</span><span class="n">EPS</span><span class="p">:</span><span class="n">fNozzleCatcherOffset</span>
+        <span class="n">io</span><span class="p">:</span> <span class="n">io</span>
+    <span class="s1">&#39;}</span>
+    <span class="n">fNozzleCatcherOffset</span>    <span class="p">:</span> <span class="n">LREAL</span> <span class="o">:=</span> <span class="mi">20</span><span class="p">;</span>
 
 <span class="n">END_VAR</span>
 </pre></div>
@@ -867,12 +875,12 @@
     <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;.bLimitForwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031)^STM Status^Status^Digital input 1&#39;</span><span class="p">}</span>
     <span class="n">M18</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span> <span class="o">:=</span> <span class="p">(</span><span class="n">bPowerSelf</span><span class="o">:=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">nEnableMode</span><span class="o">:=</span><span class="n">ENUM_StageEnableMode</span><span class="o">.</span><span class="n">DURING_MOTION</span><span class="p">);</span> <span class="o">//</span><span class="n">stSDSZMotor</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span><span class="p">;</span>
 
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RY&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RX&#39;</span><span class="p">}</span>
 <span class="p">(</span><span class="o">*</span>  <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;.bLimitForwardEnable := ;   // There are currently no limits on this stage</span>
                               <span class="o">.</span><span class="n">bLimitBackwardEnable</span> <span class="o">:=</span> <span class="s1">&#39;} *)</span>
     <span class="n">M19</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span> <span class="o">:=</span> <span class="p">(</span><span class="n">bPowerSelf</span><span class="o">:=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">nEnableMode</span><span class="o">:=</span><span class="n">ENUM_StageEnableMode</span><span class="o">.</span><span class="n">DURING_MOTION</span><span class="p">);</span> <span class="o">//</span><span class="n">stSDSRotMotor</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span><span class="p">;</span>
 
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:SHROUD&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RJET&#39;</span><span class="p">}</span>
 <span class="p">(</span><span class="o">*</span>  <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;.bLimitForwardEnable := ;  // There are currently no limits on this stage</span>
                               <span class="o">.</span><span class="n">bLimitBackwardEnable</span> <span class="o">:=</span> <span class="s1">&#39;} *)</span>
     <span class="n">M20</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span> <span class="o">:=</span> <span class="p">(</span><span class="n">bPowerSelf</span><span class="o">:=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">nEnableMode</span><span class="o">:=</span><span class="n">ENUM_StageEnableMode</span><span class="o">.</span><span class="n">DURING_MOTION</span><span class="p">);</span> <span class="o">//</span><span class="n">stSDSShroudMotor</span> <span class="p">:</span> <span class="n">DUT_MotionStage</span><span class="p">;</span>
@@ -1414,13 +1422,14 @@
     <span class="n">IF</span> <span class="n">aEPSLimits</span><span class="p">[</span><span class="n">nIndex</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span> <span class="n">THEN</span>
         <span class="n">nEPSIndex</span> <span class="o">:=</span> <span class="n">nIndex</span><span class="p">;</span>
         <span class="n">bUnknownState</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span> <span class="o">//</span> <span class="n">Known</span> <span class="n">State</span>
+        <span class="n">exit</span><span class="p">;</span> <span class="o">//</span> <span class="n">stop</span> <span class="n">when</span> <span class="n">found</span> <span class="n">state</span>
     <span class="n">END_IF</span>
 <span class="n">END_FOR</span>
 
 <span class="n">IF</span> <span class="p">(</span><span class="n">nPreviousState</span> <span class="o">&lt;&gt;</span> <span class="n">nEPSIndex</span><span class="p">)</span> <span class="n">THEN</span>
     <span class="o">//</span> <span class="n">only</span> <span class="n">clear</span> <span class="n">stMotor</span> <span class="n">eps</span> <span class="kn">from</span> <span class="nn">previous</span> <span class="n">state</span><span class="o">.</span>
     <span class="n">fbBwdEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="n">DINT_TO_BYTE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
-    <span class="n">fbBwdEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="n">DINT_TO_BYTE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
+    <span class="n">fbFwdEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="n">DINT_TO_BYTE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
 <span class="n">END_IF</span>
 
 <span class="o">//</span> <span class="n">Check</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">plc</span> <span class="n">limit</span> <span class="n">rage</span><span class="p">,</span> <span class="n">Stop</span> <span class="n">motor</span> <span class="k">if</span> <span class="n">out</span> <span class="n">of</span> <span class="n">Upper</span><span class="o">/</span><span class="n">Lower</span> <span class="n">bounds</span>
@@ -3046,8 +3055,8 @@ END_PROGRAM
 <span class="n">END_IF</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aDPL_X_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [124, 215&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">215</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [124, 215&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">215</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aDPL_X_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;DPL_Z in [-10, 30]&#39;</span><span class="p">);</span>
@@ -3205,6 +3214,52 @@ END_PROGRAM
 </dd>
 </dl>
 </section>
+<section id="prg-eps">
+<h2>PRG_EPS<a class="headerlink" href="#prg-eps" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_EPS</span>
+<span class="n">VAR</span>
+<span class="n">END_VAR</span>
+<span class="o">//</span> <span class="n">Update</span> <span class="n">Motor</span> <span class="n">Positions</span> <span class="n">before</span> <span class="n">Using</span> <span class="n">them</span> <span class="ow">in</span> <span class="n">EPS</span> <span class="n">Checks</span>
+<span class="n">fDPL_X</span>  <span class="o">:=</span> <span class="n">M1</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+
+<span class="n">fSDS_RX</span>     <span class="o">:=</span> <span class="n">M19</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+<span class="n">fSDS_Y</span>      <span class="o">:=</span> <span class="n">M17</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+<span class="n">fSDS_Z_ENC</span>  <span class="o">:=</span> <span class="n">M36</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+
+<span class="n">fDPL_Z</span>              <span class="o">:=</span> <span class="n">M3</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+<span class="n">fDPL_Y</span>              <span class="o">:=</span> <span class="n">M2</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+
+<span class="n">fRCC_Z</span>              <span class="o">:=</span> <span class="n">M39</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+<span class="n">fRCC_Y</span>              <span class="o">:=</span> <span class="n">M38</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
+
+<span class="n">PRG_SDS_Y_EPS</span><span class="p">();</span>
+<span class="n">PRG_SDS_RX_EPS</span><span class="p">();</span>
+<span class="n">PRG_SDS_ZENCODER_EPS</span><span class="p">();</span>
+
+<span class="n">PRG_DPL_X_EPS</span><span class="p">();</span>
+<span class="n">PRG_DPL_Y_EPS</span><span class="p">();</span>
+<span class="n">PRG_DPL_Z_EPS</span><span class="p">();</span>
+
+<span class="n">PRG_RCC_Y_EPS</span><span class="p">();</span>
+<span class="n">PRG_RCC_Z_EPS</span><span class="p">();</span>
+
+<span class="n">END_PROGRAM</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Related:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="#prg-dpl-x-eps">PRG_DPL_X_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-dpl-y-eps">PRG_DPL_Y_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-dpl-z-eps">PRG_DPL_Z_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-rcc-y-eps">PRG_RCC_Y_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-rcc-z-eps">PRG_RCC_Z_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-sds-rx-eps">PRG_SDS_RX_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-sds-y-eps">PRG_SDS_Y_EPS</a></p></li>
+<li><p><a class="reference internal" href="#prg-sds-zencoder-eps">PRG_SDS_ZENCODER_EPS</a></p></li>
+</ul>
+</dd>
+</dl>
+</section>
 <section id="prg-fiberlite">
 <h2>PRG_FiberLite<a class="headerlink" href="#prg-fiberlite" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_FiberLite</span>
@@ -3345,31 +3400,6 @@ END_PROGRAM
 <span class="n">Main</span><span class="o">.</span><span class="n">M16</span><span class="o">.</span><span class="n">bLimitForwardEnable</span> <span class="o">:=</span> <span class="n">nHall_Forward_Cycles</span> <span class="o">&lt;</span> <span class="n">nNumCyclesNeeded</span><span class="p">;</span>
 <span class="n">Main</span><span class="o">.</span><span class="n">M16</span><span class="o">.</span><span class="n">bLimitBackwardEnable</span> <span class="o">:=</span> <span class="n">nHall_Backward_Cycles</span> <span class="o">&lt;</span> <span class="n">nNumCyclesNeeded</span><span class="p">;</span>
 
-
-<span class="o">//</span> <span class="n">Update</span> <span class="n">Motor</span> <span class="n">Positions</span> <span class="n">before</span> <span class="n">Using</span> <span class="n">them</span> <span class="ow">in</span> <span class="n">EPS</span> <span class="n">Checks</span>
-<span class="n">fDPL_X</span>  <span class="o">:=</span> <span class="n">M1</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-
-<span class="n">fSDS_RY</span>     <span class="o">:=</span> <span class="n">M19</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-<span class="n">fSDS_Y</span>      <span class="o">:=</span> <span class="n">M17</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-<span class="n">fSDS_Z_ENC</span>  <span class="o">:=</span> <span class="n">M36</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-
-<span class="n">fDPL_Z</span>              <span class="o">:=</span> <span class="n">M3</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-<span class="n">fDPL_Y</span>              <span class="o">:=</span> <span class="n">M2</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-
-<span class="n">fRCC_Z</span>              <span class="o">:=</span> <span class="n">M39</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-<span class="n">fRCC_Y</span>              <span class="o">:=</span> <span class="n">M38</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="p">;</span>
-
-<span class="n">PRG_SDS_Y_EPS</span><span class="p">();</span>
-<span class="n">PRG_SDS_ZENCODER_EPS</span><span class="p">();</span>
-<span class="n">PRG_SDS_RY_EPS</span><span class="p">();</span>
-
-<span class="n">PRG_DPL_X_EPS</span><span class="p">();</span>
-<span class="n">PRG_DPL_Y_EPS</span><span class="p">();</span>
-<span class="n">PRG_DPL_Z_EPS</span><span class="p">();</span>
-
-<span class="n">PRG_RCC_Y_EPS</span><span class="p">();</span>
-<span class="n">PRG_RCC_Z_EPS</span><span class="p">();</span>
-
 <span class="n">END_PROGRAM</span>
 </pre></div>
 </div>
@@ -3377,14 +3407,6 @@ END_PROGRAM
 <dt>Related:</dt><dd><ul class="simple">
 <li><p><a class="reference internal" href="#main">Main</a></p></li>
 <li><p><a class="reference internal" href="#prg-cryopump">PRG_CryoPump</a></p></li>
-<li><p><a class="reference internal" href="#prg-dpl-x-eps">PRG_DPL_X_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-dpl-y-eps">PRG_DPL_Y_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-dpl-z-eps">PRG_DPL_Z_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-rcc-y-eps">PRG_RCC_Y_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-rcc-z-eps">PRG_RCC_Z_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-sds-ry-eps">PRG_SDS_RY_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-sds-y-eps">PRG_SDS_Y_EPS</a></p></li>
-<li><p><a class="reference internal" href="#prg-sds-zencoder-eps">PRG_SDS_ZENCODER_EPS</a></p></li>
 </ul>
 </dd>
 </dl>
@@ -3415,6 +3437,7 @@ END_PROGRAM
 
 <span class="o">//</span><span class="n">PRG_BFS</span><span class="p">();</span>
 
+<span class="n">PRG_EPS</span><span class="p">();</span>
 <span class="n">PRG_DiagnosticPaddleMotors</span><span class="p">();</span>
 
 <span class="n">PRG_QuestarMotors</span><span class="p">();</span>
@@ -3448,6 +3471,7 @@ END_PROGRAM
 <li><p><a class="reference internal" href="#prg-cryostat">PRG_CryoStat</a></p></li>
 <li><p><a class="reference internal" href="#prg-diagnosticpaddle">PRG_DiagnosticPaddle</a></p></li>
 <li><p><a class="reference internal" href="#prg-diagnosticpaddlemotors">PRG_DiagnosticPaddleMotors</a></p></li>
+<li><p><a class="reference internal" href="#prg-eps">PRG_EPS</a></p></li>
 <li><p><a class="reference internal" href="#prg-fiberlite">PRG_FiberLite</a></p></li>
 <li><p><a class="reference internal" href="#prg-illumination">PRG_Illumination</a></p></li>
 <li><p><a class="reference internal" href="#prg-injectormotors">PRG_InjectorMotors</a></p></li>
@@ -3700,8 +3724,8 @@ END_PROGRAM
 <span class="n">END_IF</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [124, 215];SDS_Z_ENC in [3.05, 3.8]&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">215</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [124, 215];SDS_Z_ENC in [3.05, 3.8]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">215</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
@@ -3710,11 +3734,11 @@ END_PROGRAM
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fRCC_Z</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">11</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.8, 4];SDS_Y - RCC_Y &lt;= 36&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.8, 4];SDS_Y - RCC_Y &lt;= nozzle_catcher_offset&#39;</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">fSDS_Y</span> <span class="o">-</span> <span class="n">fRCC_Y</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">36</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">fSDS_Y</span> <span class="o">-</span> <span class="n">fRCC_Y</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fNozzleCatcherOffset</span><span class="p">);</span>
 
-<span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="n">fSDS_Y</span> <span class="o">-</span> <span class="mi">36</span><span class="p">;</span> <span class="o">//</span> <span class="n">Variable</span> <span class="n">Limits</span>
+<span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="n">fSDS_Y</span> <span class="o">-</span> <span class="n">fNozzleCatcherOffset</span><span class="p">;</span> <span class="o">//</span> <span class="n">Variable</span> <span class="n">Limits</span>
 
 
 <span class="n">bFullRange</span> <span class="o">:=</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aRCC_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">);</span>
@@ -3873,23 +3897,23 @@ END_PROGRAM
 </dd>
 </dl>
 </section>
-<section id="prg-sds-ry-eps">
-<h2>PRG_SDS_RY_EPS<a class="headerlink" href="#prg-sds-ry-eps" title="Link to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_SDS_RY_EPS</span>
+<section id="prg-sds-rx-eps">
+<h2>PRG_SDS_RX_EPS<a class="headerlink" href="#prg-sds-rx-eps" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_SDS_RX_EPS</span>
 <span class="n">VAR</span>
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RY:EPS&#39;</span><span class="p">}</span>
-    <span class="n">aSDS_RY_EPS</span>     <span class="p">:</span> <span class="n">ARRAY</span> <span class="p">[</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">5</span><span class="p">]</span> <span class="n">OF</span> <span class="n">ST_EPSLimits</span><span class="p">;</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RX:EPS&#39;</span><span class="p">}</span>
+    <span class="n">aSDS_RX_EPS</span>     <span class="p">:</span> <span class="n">ARRAY</span> <span class="p">[</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">5</span><span class="p">]</span> <span class="n">OF</span> <span class="n">ST_EPSLimits</span><span class="p">;</span>
 
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RY:EPS:OVRD_MODE&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RX:EPS:OVRD_MODE&#39;</span><span class="p">}</span>
     <span class="n">bEPS_Override</span> <span class="p">:</span> <span class="n">BOOL</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span>
 
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RY:EPS:OVRD_COUNTDOWN&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:RX:EPS:OVRD_COUNTDOWN&#39;</span><span class="p">}</span>
     <span class="n">tEPS_TimerCountDown</span> <span class="p">:</span> <span class="n">STRING</span> <span class="o">:=</span> <span class="n">TIME_TO_STRING</span><span class="p">(</span><span class="n">T</span><span class="c1">#0s);</span>
     <span class="n">fbResetTimer</span> <span class="p">:</span> <span class="n">FB_RestTimer</span><span class="p">;</span>
 
     <span class="n">bInit</span>           <span class="p">:</span> <span class="n">BOOL</span> <span class="o">:=</span> <span class="n">TRUE</span><span class="p">;</span>
 
-    <span class="n">bSDS_RY_FullRange</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
+    <span class="n">bSDS_RX_FullRange</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
 
     <span class="n">fbEPS</span>           <span class="p">:</span> <span class="n">FB_EPS</span><span class="p">;</span>
     <span class="n">fbCheckEPS</span>      <span class="p">:</span> <span class="n">FB_CheckEPS</span><span class="p">;</span>
@@ -3897,56 +3921,57 @@ END_PROGRAM
 <span class="n">END_VAR</span>
 <span class="n">IF</span> <span class="n">bInit</span> <span class="n">THEN</span>
     <span class="o">//</span> <span class="n">Set</span> <span class="n">Inital</span> <span class="n">Values</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
 
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">215</span><span class="p">;</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">215</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
 
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">215</span><span class="p">;</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">215</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">218</span><span class="p">;</span>
 
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">134</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">134</span><span class="p">;</span>
 
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
-    <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">134</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">124</span><span class="p">;</span>
+    <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">134</span><span class="p">;</span>
 
     <span class="n">bInit</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span>
 <span class="n">END_IF</span>
 
 <span class="o">//</span> <span class="n">Set</span> <span class="n">EPS</span> <span class="n">conditions</span>
-<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05,3.4];SDS_Y in [30,38.5];RCC_Y in [-38,-34];DPL_X in [10,30]&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="p">,</span> <span class="mf">3.4</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fRCC_Y</span><span class="p">,</span> <span class="o">-</span><span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">34</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fDPL_X</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">));</span>
 
-<span class="n">bSDS_RY_FullRange</span> <span class="o">:=</span> <span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">;</span> <span class="o">//</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">CONDITION</span>
+<span class="n">bSDS_RX_FullRange</span> <span class="o">:=</span> <span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">;</span> <span class="o">//</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">CONDITION</span>
 
-<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [-1, 3.05]&#39;</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_RX_FullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">COND</span><span class="o">.</span>
 
-<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05, 3.4];SDS_RY in [215, 220];Not Full Range&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05, 3.4];SDS_RX in [215, 220];Not Full Range&#39;</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">));</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_RY_FullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">COND</span><span class="o">.</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_RX_FullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">COND</span><span class="o">.</span>
 
-<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.4, 4]&#39;</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
 
-<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RY_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05,3.4];SDS_RY in [124, 134];Not Full Range&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_RX_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05,3.4];SDS_RX in [124, 134];Not Full Range&#39;</span><span class="p">);</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">));</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_RY_FullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">COND</span><span class="o">.</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_RX_FullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">FULL</span> <span class="n">RANGE</span> <span class="n">COND</span><span class="o">.</span>
 
 <span class="n">fbResetTimer</span><span class="p">(</span><span class="n">bInput</span><span class="o">:=</span><span class="n">bEPS_Override</span><span class="p">,</span> <span class="n">tElapseTime</span><span class="o">:=</span><span class="n">tEPS_OVRD_RESET_TIME</span><span class="p">,</span> <span class="n">tCountDown</span><span class="o">:=</span><span class="n">tEPS_TimerCountDown</span><span class="p">);</span>
-<span class="n">fbCheckEPS</span><span class="p">(</span><span class="n">stMotor</span><span class="o">:=</span><span class="n">M19</span><span class="p">,</span> <span class="n">fPosition</span><span class="o">:=</span> <span class="n">fSDS_RY</span><span class="p">,</span> <span class="n">aEPSLimits</span><span class="o">:=</span> <span class="n">aSDS_RY_EPS</span><span class="p">,</span> <span class="n">stForwardMotorEPS</span><span class="o">:=</span><span class="n">M19</span><span class="o">.</span><span class="n">stEPSForwardEnable</span><span class="p">,</span> <span class="n">stBackwardMotorEPS</span><span class="o">:=</span> <span class="n">M19</span><span class="o">.</span><span class="n">stEPSBackwardEnable</span><span class="p">,</span> <span class="n">bEPS_Override</span><span class="o">:=</span><span class="n">bEPS_Override</span><span class="p">);</span>
+<span class="n">fbCheckEPS</span><span class="p">(</span><span class="n">stMotor</span><span class="o">:=</span><span class="n">M19</span><span class="p">,</span> <span class="n">fPosition</span><span class="o">:=</span> <span class="n">fSDS_RX</span><span class="p">,</span> <span class="n">aEPSLimits</span><span class="o">:=</span> <span class="n">aSDS_RX_EPS</span><span class="p">,</span> <span class="n">stForwardMotorEPS</span><span class="o">:=</span><span class="n">M19</span><span class="o">.</span><span class="n">stEPSForwardEnable</span><span class="p">,</span> <span class="n">stBackwardMotorEPS</span><span class="o">:=</span> <span class="n">M19</span><span class="o">.</span><span class="n">stEPSBackwardEnable</span><span class="p">,</span> <span class="n">bEPS_Override</span><span class="o">:=</span><span class="n">bEPS_Override</span><span class="p">);</span>
 
 <span class="n">END_PROGRAM</span>
 </pre></div>
@@ -3963,81 +3988,81 @@ END_PROGRAM
 </section>
 <section id="prg-sds-y-eps">
 <h2>PRG_SDS_Y_EPS<a class="headerlink" href="#prg-sds-y-eps" title="Link to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PROGRAM PRG_SDS_Y_EPS
-VAR
-    {attribute &#39;pytmc&#39; := &#39;pv: CRIX:SDS:MMS:Y:EPS&#39;}
-    aSDS_Y_EPS              : ARRAY [1 .. 5] OF ST_EPSLimits;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_SDS_Y_EPS</span>
+<span class="n">VAR</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:Y:EPS&#39;</span><span class="p">}</span>
+    <span class="n">aSDS_Y_EPS</span>              <span class="p">:</span> <span class="n">ARRAY</span> <span class="p">[</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">5</span><span class="p">]</span> <span class="n">OF</span> <span class="n">ST_EPSLimits</span><span class="p">;</span>
 
-    {attribute &#39;pytmc&#39; := &#39;pv: CRIX:SDS:MMS:Y:EPS:OVRD_MODE&#39;}
-    bEPS_Override : BOOL := FALSE;
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:Y:EPS:OVRD_MODE&#39;</span><span class="p">}</span>
+    <span class="n">bEPS_Override</span> <span class="p">:</span> <span class="n">BOOL</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span>
 
-    {attribute &#39;pytmc&#39; := &#39;pv: CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN&#39;}
-    tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
-    fbResetTimer : FB_RestTimer;
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv: CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN&#39;</span><span class="p">}</span>
+    <span class="n">tEPS_TimerCountDown</span> <span class="p">:</span> <span class="n">STRING</span> <span class="o">:=</span> <span class="n">TIME_TO_STRING</span><span class="p">(</span><span class="n">T</span><span class="c1">#0s);</span>
+    <span class="n">fbResetTimer</span> <span class="p">:</span> <span class="n">FB_RestTimer</span><span class="p">;</span>
 
-    bInit           : BOOL := TRUE;
-    bFullRange      : BOOL;
-    nIndex          : uint;
-    nEPSIndex       : uint;
+    <span class="n">bInit</span>           <span class="p">:</span> <span class="n">BOOL</span> <span class="o">:=</span> <span class="n">TRUE</span><span class="p">;</span>
+    <span class="n">bFullRange</span>      <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
+    <span class="n">nIndex</span>          <span class="p">:</span> <span class="n">uint</span><span class="p">;</span>
+    <span class="n">nEPSIndex</span>       <span class="p">:</span> <span class="n">uint</span><span class="p">;</span>
 
-    fbEPS           : FB_EPS;;
-    fbCheckEPS      : FB_CheckEPS;
-END_VAR
-// SDS Y EPS
-IF bInit THEN
-    // Set Inital Values
-    aSDS_Y_EPS[1].fBwd_Limits := 20;
-    aSDS_Y_EPS[1].fFwd_Limits := 45;
+    <span class="n">fbEPS</span>           <span class="p">:</span> <span class="n">FB_EPS</span><span class="p">;;</span>
+    <span class="n">fbCheckEPS</span>      <span class="p">:</span> <span class="n">FB_CheckEPS</span><span class="p">;</span>
+<span class="n">END_VAR</span>
+<span class="o">//</span> <span class="n">SDS</span> <span class="n">Y</span> <span class="n">EPS</span>
+<span class="n">IF</span> <span class="n">bInit</span> <span class="n">THEN</span>
+    <span class="o">//</span> <span class="n">Set</span> <span class="n">Inital</span> <span class="n">Values</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">20</span><span class="p">;</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">45</span><span class="p">;</span>
 
-    aSDS_Y_EPS[2].fBwd_Limits := 37.5;
-    aSDS_Y_EPS[2].fFwd_Limits := 38.5;
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mf">37.5</span><span class="p">;</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mf">38.5</span><span class="p">;</span>
 
-    aSDS_Y_EPS[3].fBwd_Limits := 30;
-    aSDS_Y_EPS[3].fFwd_Limits := 38.5;
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mf">38.5</span><span class="p">;</span>
 
-    aSDS_Y_EPS[4].fBwd_Limits := 30;
-    aSDS_Y_EPS[4].fFwd_Limits := 38.5;
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mf">38.5</span><span class="p">;</span>
 
-    aSDS_Y_EPS[5].fBwd_Limits := 30;
-    aSDS_Y_EPS[5].fFwd_Limits := 45;
-
-
-    bInit := FALSE;
-END_IF
-
-// Set EPS conditions
-fbEPS(eps:= aSDS_Y_EPS[2].stEPS);
-fbEPS.setMessage(&#39;SDS_Z_ENC in [-1,3.05]&#39;);
-fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1, 3.05));
-
-fbEPS(eps:= aSDS_Y_EPS[3].stEPS);
-fbEPS.setMessage(&#39;SDS_Z_ENC in [3.05, 3.4];SDS_RY in [215, 220]&#39;);
-fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
-fbEPS.setBit(1, F_InRange(fSDS_RY, 215, 220));
-
-fbEPS(eps:= aSDS_Y_EPS[4].stEPS);
-fbEPS.setMessage(&#39;SDS_Z_ENC in [3.05, 3.8];SDS_RY in [124, 215]&#39;);
-fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.8));
-fbEPS.setBit(1, F_InRange(fSDS_RY, 124, 215));
-
-fbEPS(eps:= aSDS_Y_EPS[5].stEPS);
-fbEPS.setDescription(&#39;SDS_Z_ENC in [3.8, 4];(SDS_Y - RCC &lt;= 36&#39;);
-fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.8, 4));
-fbEPS.setBit(1, (fSDS_Y - fRCC_Y) &lt;= 36);
-
-aSDS_Y_EPS[5].fBwd_Limits := 36 + fRCC_Y; // Magic 36?
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fFwd_Limits</span> <span class="o">:=</span> <span class="mi">45</span><span class="p">;</span>
 
 
-bFullRange := (NOT aSDS_Y_EPS[2].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[3].stEPS.bEPS_OK) AND(NOT aSDS_Y_EPS[4].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[5].stEPS.bEPS_OK);
-fbEPS(eps:= aSDS_Y_EPS[1].stEPS);
-fbEPS.setDescription(&#39;Full Range&#39;);
-fbEPS.setBit(0, bFullRange); // FULL RANGE
+    <span class="n">bInit</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="n">END_IF</span>
+
+<span class="o">//</span> <span class="n">Set</span> <span class="n">EPS</span> <span class="n">conditions</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [-1,3.05]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">));</span>
+
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05, 3.4];SDS_RX in [215, 220]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
+
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.05, 3.8];SDS_RX in [124, 215]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">215</span><span class="p">));</span>
+
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setDescription</span><span class="p">(</span><span class="s1">&#39;SDS_Z_ENC in [3.8, 4];(SDS_Y - RCC) &lt;= nozzle_catcher_offset&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">fSDS_Y</span> <span class="o">-</span> <span class="n">fRCC_Y</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fNozzleCatcherOffset</span><span class="p">);</span>
+
+<span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">fBwd_Limits</span> <span class="o">:=</span> <span class="n">fNozzleCatcherOffset</span> <span class="o">+</span> <span class="n">fRCC_Y</span><span class="p">;</span>
 
 
-fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
-fbCheckEPS(stMotor:=M17, fPosition:=fSDS_Y, aEPSLimits:=aSDS_Y_EPS, stForwardMotorEPS:=M17.stEPSForwardEnable, stBackwardMotorEPS:= M17.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+<span class="n">bFullRange</span> <span class="o">:=</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">)</span> <span class="n">AND</span><span class="p">(</span><span class="n">NOT</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="o">.</span><span class="n">bEPS_OK</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span> <span class="n">aSDS_Y_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setDescription</span><span class="p">(</span><span class="s1">&#39;Full Range&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bFullRange</span><span class="p">);</span> <span class="o">//</span> <span class="n">FULL</span> <span class="n">RANGE</span>
 
-END_PROGRAM
+
+<span class="n">fbResetTimer</span><span class="p">(</span><span class="n">bInput</span><span class="o">:=</span><span class="n">bEPS_Override</span><span class="p">,</span> <span class="n">tElapseTime</span><span class="o">:=</span><span class="n">tEPS_OVRD_RESET_TIME</span><span class="p">,</span> <span class="n">tCountDown</span><span class="o">:=</span><span class="n">tEPS_TimerCountDown</span><span class="p">);</span>
+<span class="n">fbCheckEPS</span><span class="p">(</span><span class="n">stMotor</span><span class="o">:=</span><span class="n">M17</span><span class="p">,</span> <span class="n">fPosition</span><span class="o">:=</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="n">aEPSLimits</span><span class="o">:=</span><span class="n">aSDS_Y_EPS</span><span class="p">,</span> <span class="n">stForwardMotorEPS</span><span class="o">:=</span><span class="n">M17</span><span class="o">.</span><span class="n">stEPSForwardEnable</span><span class="p">,</span> <span class="n">stBackwardMotorEPS</span><span class="o">:=</span> <span class="n">M17</span><span class="o">.</span><span class="n">stEPSBackwardEnable</span><span class="p">,</span> <span class="n">bEPS_Override</span><span class="o">:=</span><span class="n">bEPS_Override</span><span class="p">);</span>
+
+<span class="n">END_PROGRAM</span>
 </pre></div>
 </div>
 <dl class="simple">
@@ -4093,34 +4118,34 @@ END_PROGRAM
 <span class="n">END_IF</span>
 
 
-<span class="n">bSDS_vert_transport_state</span> <span class="o">:=</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">)</span> <span class="n">AND</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">fDPL_X</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">fRCC_Y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">34</span><span class="p">);</span>
+<span class="n">bSDS_vert_transport_state</span> <span class="o">:=</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">)</span> <span class="n">AND</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">fDPL_X</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="n">AND</span> <span class="p">(</span><span class="n">fRCC_Y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">34</span><span class="p">);</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_Z_ENC_EPS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [215, 220];SDS_Y in [37.5, 38.5]&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [215, 220];SDS_Y in [37.5, 38.5]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mf">37.5</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_Z_ENC_EPS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [134, 220];SDS_Y in [30, 38.5]&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [134, 220];SDS_Y in [30, 38.5]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">220</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">37.5</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_Z_ENC_EPS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [124, 134];SDS_Z_ENC in [3.05, 3.45];Not SDS VERT. TRANS. State&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [124, 134];SDS_Z_ENC in [3.05, 3.45];NOT SDS VERT. TRANSPORT STATE&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_vert_transport_state</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">INJECTOR</span> <span class="n">Vertical</span> <span class="n">Tansport</span> <span class="n">Condition</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_Z_ENC_EPS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [124, 134];SDS_Y in [30, 38.5];RCC_Y in [-38,-34];DPL_X in [10,30]&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [124, 134];SDS_Y in [30, 38.5];RCC_Y in [-38,-34];DPL_X in [10,30]&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Y</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fRCC_Y</span><span class="p">,</span> <span class="o">-</span><span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">34</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fDPL_X</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">));</span>
 
 <span class="n">fbEPS</span><span class="p">(</span><span class="n">eps</span><span class="o">:=</span><span class="n">aSDS_Z_ENC_EPS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stEPS</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RY in [124, 134];SDS_Z_ENC in [3.75, 4]; NOT SDS VERT. TRANS. State&#39;</span><span class="p">);</span>
-<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RY</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setMessage</span><span class="p">(</span><span class="s1">&#39;SDS_RX in [124, 134];SDS_Z_ENC in [3.75, 4]; NOT SDS VERT. TRANSPORT State&#39;</span><span class="p">);</span>
+<span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_RX</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">134</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">F_InRange</span><span class="p">(</span><span class="n">fSDS_Z_ENC</span><span class="p">,</span> <span class="mf">3.75</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
 <span class="n">fbEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">NOT</span> <span class="n">bSDS_vert_transport_state</span><span class="p">);</span> <span class="o">//</span> <span class="n">NOT</span> <span class="n">INJECTOR</span> <span class="n">Vertical</span> <span class="n">Transport</span> <span class="n">Condition</span>
 
@@ -4325,7 +4350,7 @@ END_PROGRAM
     <span class="n">Main</span><span class="o">.</span><span class="n">M44</span><span class="o">.</span><span class="n">nBrakeMode</span> <span class="o">:=</span> <span class="n">ENUM_StageBrakeMode</span><span class="o">.</span><span class="n">NO_BRAKE</span><span class="p">;</span>
     <span class="n">Main</span><span class="o">.</span><span class="n">M44</span><span class="o">.</span><span class="n">nEnableMode</span> <span class="o">:=</span> <span class="n">ENUM_StageEnableMode</span><span class="o">.</span><span class="n">DURING_MOTION</span><span class="p">;</span>
     <span class="o">//</span><span class="n">Homing</span> <span class="n">routine</span> <span class="n">parameters</span>
-    <span class="n">Main</span><span class="o">.</span><span class="n">M44</span><span class="o">.</span><span class="n">fHomePosition</span><span class="o">:=</span> <span class="o">-</span><span class="mf">3.473</span><span class="p">;</span>
+    <span class="n">Main</span><span class="o">.</span><span class="n">M44</span><span class="o">.</span><span class="n">fHomePosition</span><span class="o">:=</span> <span class="o">-</span><span class="mf">0.2288</span><span class="p">;</span> <span class="o">//</span> <span class="n">old</span> <span class="n">homing</span> <span class="n">position</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.473</span><span class="p">;</span>
     <span class="n">Main</span><span class="o">.</span><span class="n">M44</span><span class="o">.</span><span class="n">nHomingMode</span> <span class="o">:=</span> <span class="n">ENUM_EpicsHomeCmd</span><span class="o">.</span><span class="n">LOW_LIMIT</span><span class="p">;</span>
 
     <span class="o">//</span><span class="n">Grating</span> <span class="n">Pitch</span>

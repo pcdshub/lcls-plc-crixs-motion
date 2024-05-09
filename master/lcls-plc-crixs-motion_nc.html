@@ -18,7 +18,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/docs-versions-menu.js?v=3d6a1aea"></script>
     <script src="_static/js/theme.js"></script>
@@ -69,8 +69,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#axis-16-axis-16-sds-injector-x">Axis 16: Axis 16 - SDS Injector X</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-17-axis-17-sds-injectory-y">Axis 17: Axis 17 - SDS Injectory Y</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-18-axis-18-sds-injector-z">Axis 18: Axis 18 - SDS Injector Z</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#axis-19-axis-19-sds-rotation-y">Axis 19: Axis 19 - SDS Rotation Y</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#axis-20-axis-20-sds-shroud-rotation">Axis 20: Axis 20 - SDS Shroud Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#axis-19-axis-19-sds-rotation-x">Axis 19: Axis 19 - SDS Rotation X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#axis-20-axis-20-sds-jet-rotation">Axis 20: Axis 20 - SDS Jet Rotation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-21-axis-21-questar-focus">Axis 21: Axis 21 - Questar Focus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-22-cryo-x">Axis 22: Cryo X</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-23-cryo-y">Axis 23: Cryo Y</a></li>
@@ -211,10 +211,10 @@
 <td><p>Axis 18 - SDS Injector Z</p></td>
 </tr>
 <tr class="row-even"><td><p>19</p></td>
-<td><p>Axis 19 - SDS Rotation Y</p></td>
+<td><p>Axis 19 - SDS Rotation X</p></td>
 </tr>
 <tr class="row-odd"><td><p>20</p></td>
-<td><p>Axis 20 - SDS Shroud Rotation</p></td>
+<td><p>Axis 20 - SDS Jet Rotation</p></td>
 </tr>
 <tr class="row-even"><td><p>21</p></td>
 <td><p>Axis 21 - Questar Focus</p></td>
@@ -1460,8 +1460,8 @@
 </tbody>
 </table>
 </section>
-<section id="axis-19-axis-19-sds-rotation-y">
-<h2>Axis 19: Axis 19 - SDS Rotation Y<a class="headerlink" href="#axis-19-axis-19-sds-rotation-y" title="Link to this heading"></a></h2>
+<section id="axis-19-axis-19-sds-rotation-x">
+<h2>Axis 19: Axis 19 - SDS Rotation X<a class="headerlink" href="#axis-19-axis-19-sds-rotation-x" title="Link to this heading"></a></h2>
 <table class="docutils align-center">
 <thead>
 <tr class="row-odd"><th class="head"><p>Setting</p></th>
@@ -1473,7 +1473,7 @@
 <td><p>19</p></td>
 </tr>
 <tr class="row-odd"><td><p>Name</p></td>
-<td><p>Axis 19 - SDS Rotation Y</p></td>
+<td><p>Axis 19 - SDS Rotation X</p></td>
 </tr>
 <tr class="row-even"><td><p>AxisType</p></td>
 <td><p>1</p></td>
@@ -1505,35 +1505,32 @@
 <tr class="row-odd"><td><p>Enc:MaxCount</p></td>
 <td><p>#xffffffff</p></td>
 </tr>
-<tr class="row-even"><td><p>Enc:ReferenceSystem</p></td>
-<td><p>1</p></td>
-</tr>
-<tr class="row-odd"><td><p>Enc:ScaleFactorNumerator</p></td>
+<tr class="row-even"><td><p>Enc:ScaleFactorNumerator</p></td>
 <td><p>0.1758</p></td>
 </tr>
-<tr class="row-even"><td><p>General:UnitName</p></td>
+<tr class="row-odd"><td><p>General:UnitName</p></td>
 <td><p>Degree</p></td>
 </tr>
-<tr class="row-odd"><td><p>Id</p></td>
+<tr class="row-even"><td><p>Id</p></td>
 <td><p>19</p></td>
 </tr>
-<tr class="row-even"><td><p>OtherSettings:AllowMotionCmdToSlave</p></td>
+<tr class="row-odd"><td><p>OtherSettings:AllowMotionCmdToSlave</p></td>
 <td><p>true</p></td>
 </tr>
-<tr class="row-odd"><td><p>Velo:FastManual</p></td>
+<tr class="row-even"><td><p>Velo:FastManual</p></td>
 <td><p>0.1</p></td>
 </tr>
-<tr class="row-even"><td><p>Velo:Maximum</p></td>
+<tr class="row-odd"><td><p>Velo:Maximum</p></td>
 <td><p>5</p></td>
 </tr>
-<tr class="row-odd"><td><p>Velo:SlowManual</p></td>
+<tr class="row-even"><td><p>Velo:SlowManual</p></td>
 <td><p>0.1</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="axis-20-axis-20-sds-shroud-rotation">
-<h2>Axis 20: Axis 20 - SDS Shroud Rotation<a class="headerlink" href="#axis-20-axis-20-sds-shroud-rotation" title="Link to this heading"></a></h2>
+<section id="axis-20-axis-20-sds-jet-rotation">
+<h2>Axis 20: Axis 20 - SDS Jet Rotation<a class="headerlink" href="#axis-20-axis-20-sds-jet-rotation" title="Link to this heading"></a></h2>
 <table class="docutils align-center">
 <thead>
 <tr class="row-odd"><th class="head"><p>Setting</p></th>
@@ -1545,7 +1542,7 @@
 <td><p>20</p></td>
 </tr>
 <tr class="row-odd"><td><p>Name</p></td>
-<td><p>Axis 20 - SDS Shroud Rotation</p></td>
+<td><p>Axis 20 - SDS Jet Rotation</p></td>
 </tr>
 <tr class="row-even"><td><p>AxisType</p></td>
 <td><p>1</p></td>
@@ -3257,14 +3254,8 @@
 <tr class="row-odd"><td><p>Enc:ScaleFactorNumerator</p></td>
 <td><p>7.914e-05</p></td>
 </tr>
-<tr class="row-even"><td><p>Enc:SoftEndMaxControl:Enable</p></td>
-<td><p>true</p></td>
-</tr>
-<tr class="row-odd"><td><p>Enc:SoftEndMaxControl:Range</p></td>
+<tr class="row-even"><td><p>Enc:SoftEndMaxControl:Range</p></td>
 <td><p>1.763</p></td>
-</tr>
-<tr class="row-even"><td><p>Enc:SoftEndMinControl:Enable</p></td>
-<td><p>true</p></td>
 </tr>
 <tr class="row-odd"><td><p>Enc:SoftEndMinControl:Range</p></td>
 <td><p>-0.2288</p></td>
