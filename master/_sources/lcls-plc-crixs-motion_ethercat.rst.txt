@@ -994,9 +994,7 @@ EtherCAT Terminals
                                                           </td>
                                                           <td width="75%">Camera X (EL7041)
                                                           </td>
-                                                          <td>            <b>
-                                                                SyncUnit hot connect
-                                                              </b>        </td>
+                                                          <td>        </td>
                                                         </tr>
                                                         <tr>
                                                           <td>

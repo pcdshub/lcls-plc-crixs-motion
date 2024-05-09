@@ -1304,9 +1304,7 @@ Axis 44: M44-VLS-Mirror-Pitch
     Enc:MaxCount, #x0000ffff
     Enc:ScaleFactorDenominator, 4
     Enc:ScaleFactorNumerator, 7.914e-05
-    Enc:SoftEndMaxControl:Enable, true
     Enc:SoftEndMaxControl:Range, 1.763
-    Enc:SoftEndMinControl:Enable, true
     Enc:SoftEndMinControl:Range, -0.2288
     Id, 44
     OtherSettings:AllowMotionCmdToSlave, true
