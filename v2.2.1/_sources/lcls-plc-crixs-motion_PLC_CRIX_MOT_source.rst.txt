@@ -1,0 +1,4345 @@
+
+
+DUTs
+----
+
+
+E_DPaddle_States
+^^^^^^^^^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    {attribute 'strict'}
+    TYPE E_DPaddle_States :
+    (
+        parked := 0,
+        diode,
+        L1,
+        L2,
+        L3,
+        L4,
+        R1,
+        R2,
+        R3,
+        R4
+    );
+    END_TYPE
+
+
+Related:
+    * `E_DPaddle_States`_
+
+
+ENUM_DiagPaddle
+^^^^^^^^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    {attribute 'strict'}
+    TYPE ENUM_DiagPaddle :
+    (
+        UNKNOWN := 0,
+        PARK :=1,
+        UP := 2,
+        CENTER := 3,
+        PINHOLE := 4,
+        DIODE := 5,
+        YAG1 := 6,
+        YAG2 := 7,
+        YAG3 := 8,
+        KNIFE := 9
+    );
+    END_TYPE
+
+
+
+
+ENUM_DPX
+^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    // EPICS states enum for use in FB_DPX (diagnostic paddle X)
+    // Remove strict attribute for easier handling
+    TYPE ENUM_DPX :
+    (
+        UNKNOWN := 0, // UNKNOWN must be in slot 0 or the FB breaks
+        PARK := 1,    // The parked position for the diagnostic paddle
+        CENTER := 2,  // center positon for the diagnostic paddle. This should be
+        KNIFE	:= 3  // Knife edge position for the diagnostic paddle. Should be the same nominal X positon as the "CENTER"
+                      // position, but will use a different set of soft limits to allow scanning of the knife edge.
+    );
+    END_TYPE
+
+
+Related:
+    * `FB_DPX`_
+
+
+ENUM_DPY
+^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    // EPICS states enum for use in FB_DPY (diagnostic paddle Y)
+    // Remove strict attribute for easier handling
+    TYPE ENUM_DPY :
+    (
+        UNKNOWN := 0,	// UNKNOWN must be in slot 0 or the FB breaks
+        PARK := 1,		// The parked position for the diagnostic paddle
+        CENTER := 2,	// center positon for the diagnostic paddle. This should be
+        PINHOLE	:= 3,   // Pinhole position for WFS
+        DIODE :=4,		// Diode position
+        YAG1 := 5,		// Yag 1 position
+        YAG2 := 6,		// Yag 2 position
+        YAG3 := 7,		// Yag 3 position
+        KNIFE := 8 	    // Knife edge position for the diagnostic paddle. Should be the same nominal X positon as the "CENTER"
+                        // position, but will use a different set of soft limits to allow scanning of the knife edge.
+    );
+    END_TYPE
+
+
+
+
+ENUM_DPZ
+^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    // EPICS states enum for use in FB_DPX (diagnostic paddle X)
+    // Remove strict attribute for easier handling
+    TYPE ENUM_DPZ :
+    (
+        UNKNOWN := 0, // UNKNOWN must be in slot 0 or the FB breaks
+        PARK := 1,    // The parked position for the diagnostic paddle
+        CENTER := 2  // center positon for the diagnostic paddle. This should be
+    );
+    END_TYPE
+
+
+Related:
+    * `FB_DPX`_
+
+
+ST_BFSAssemblyState
+^^^^^^^^^^^^^^^^^^^
+
+::
+
+    TYPE ST_BFSAssemblyState :
+    STRUCT
+        iState : DINT;		// state index
+        bDiscovered : BOOL;	// BFS search discovery status
+        iParent		: DINT;	// BFS parent state
+
+    END_STRUCT
+    END_TYPE
+
+
+
+
+ST_DiagPaddleOutputs
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    TYPE ST_DiagPaddleOutputs :
+    STRUCT
+        PARK : ARRAY [1..3] OF DUT_PositionState;
+        UP : ARRAY [1..3] OF DUT_PositionState;
+        CENTER : ARRAY [1..3] OF DUT_PositionState;
+        PINHOLE : ARRAY [1..3] OF DUT_PositionState;
+        DIODE : ARRAY [1..3] OF DUT_PositionState;
+        YAG1 : ARRAY [1..3] OF DUT_PositionState;
+        YAG2 : ARRAY [1..3] OF DUT_PositionState;
+        YAG3 : ARRAY [1..3] OF DUT_PositionState;
+        KNIFE : ARRAY [1..3] OF DUT_PositionState;
+    END_STRUCT
+    END_TYPE
+
+
+
+
+ST_EPSLimits
+^^^^^^^^^^^^
+
+::
+
+    TYPE ST_EPSLimits :
+        // Defines the PLC limits and EPS structure where these limits are valid
+    STRUCT
+        {attribute 'pytmc' := 'pv: FwdLimit'}
+        // Forward Limit
+        fFwd_Limits : LREAL;
+        {attribute 'pytmc' := 'pv: BwdLimit'}
+        // Backward Limit
+        fBwd_Limits	: LREAL;
+        {attribute 'pytmc' := 'pv: ST'}
+        // EPS_OK - TRUE, Use limits as 'plc limits'; EPS_OK - FALSE, DO not use limits
+        stEPS 		: DUT_EPS;
+    END_STRUCT
+    END_TYPE
+
+
+
+
+ST_Queue
+^^^^^^^^
+
+::
+
+    TYPE ST_Queue :
+    STRUCT
+        iLength : DINT := 100; // max number of elements in the queue
+        iFront	: DINT := 0; // oldest item index
+        iBack	: DINT := -1; // newest item index
+        iCount	: DINT := 0; // current item count
+        arrQueue: ARRAY[0..100] OF ST_BFSAssemblyState; // array to hold queued items
+    END_STRUCT
+    END_TYPE
+
+
+Related:
+    * `ST_BFSAssemblyState`_
+
+
+GVLs
+----
+
+
+GVL
+^^^
+
+::
+
+    {attribute 'qualified_only'}
+    VAR_GLOBAL
+        xOverride		:	BOOL := FALSE; // Global override of motion safety settings.
+    END_VAR
+
+
+
+
+GVL_DiagnosticPaddle
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    VAR_GLOBAL
+
+
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // X axis position states
+        stDPXPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPXPosCenter : DUT_PositionState :=	(sName:= 'CENTER',
+                                                 fPosition := 10.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPXPosKnife : DUT_PositionState :=	(sName:= 'KNIFE',
+                                                 fPosition := 15.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+
+
+        // Y axis position states
+        stDPYPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosCenter : DUT_PositionState :=	(sName:= 'CENTER',
+                                                 fPosition := 10.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosDiode : DUT_PositionState :=	(sName:= 'DIODE',
+                                                 fPosition := 15.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosPinhole : DUT_PositionState :=	(sName:= 'PINHOLE',
+                                                 fPosition := 20.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosYAG1 : DUT_PositionState :=		(sName:= 'YAG1',
+                                                 fPosition := 25.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosYAG2 : DUT_PositionState :=		(sName:= 'YAG2',
+                                                 fPosition := 30.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosYAG3 : DUT_PositionState :=		(sName:= 'YAG3',
+                                                 fPosition := 35.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPYPosKnife : DUT_PositionState :=	(sName:= 'KNIFE',
+                                                 fPosition := 40.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Z axis position states
+        stDPZPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        stDPZPosCenter : DUT_PositionState :=	(sName:= 'CENTER',
+                                                 fPosition := 10.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                 fDecel:=1.0,
+                                                bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        stDPPark 	: ST_BFSAssemblyState := (iState:=1, bDiscovered:=FALSE, iParent:=0);
+        stDPUp	 	: ST_BFSAssemblyState := (iState:=2, bDiscovered:=FALSE, iParent:=0);
+        stDPCenter 	: ST_BFSAssemblyState := (iState:=3, bDiscovered:=FALSE, iParent:=0);
+        stDPPinhole : ST_BFSAssemblyState := (iState:=4, bDiscovered:=FALSE, iParent:=0);
+        stDPDiode 	: ST_BFSAssemblyState := (iState:=5, bDiscovered:=FALSE, iParent:=0);
+        stDPYag1 	: ST_BFSAssemblyState := (iState:=6, bDiscovered:=FALSE, iParent:=0);
+        stDPYag2 	: ST_BFSAssemblyState := (iState:=7, bDiscovered:=FALSE, iParent:=0);
+        stDPYag3 	: ST_BFSAssemblyState := (iState:=8, bDiscovered:=FALSE, iParent:=0);
+        stDPKnife 	: ST_BFSAssemblyState := (iState:=9, bDiscovered:=FALSE, iParent:=0);
+
+        arrDPStates : ARRAY [1..9] OF ST_BFSAssemblyState := [stDPPark, stDPUp, stDPCenter, stDPPinhole, stDPDiode,
+                                                              stDPYag1, stDPYag2, stDPYag3, stDPKnife];
+
+    END_VAR
+
+
+Related:
+    * `ST_BFSAssemblyState`_
+
+
+GVL_FiberLite
+^^^^^^^^^^^^^
+
+::
+
+    //{attribute 'qualified_only'}
+    VAR_GLOBAL
+        //Fiber-Lite Control
+        {attribute 'TcLinkTo' := '.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Term 158 (EL4004)^AO Outputs Channel 1^Analog output'}
+        {attribute 'pytmc' := '
+            pv: RIX:CRIX:LED:01
+            io: io
+        '}
+
+        bLedOutput1 : FB_LED;
+
+        {attribute 'TcLinkTo' := '.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004)^AO Outputs Channel 2^Analog output'}
+        {attribute 'pytmc' := '
+            pv: RIX:CRIX:LED:02
+            io: io
+        '}
+
+        bLedOutput2 : FB_LED;
+
+    END_VAR
+
+
+
+
+GVL_Illumination
+^^^^^^^^^^^^^^^^
+
+::
+
+    //{attribute 'qualified_only'}
+    VAR_GLOBAL
+
+
+
+
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // X axis position states
+        stILMXPosPark : DUT_PositionState :=   (sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Y axis position states
+        stILMYPosPark : DUT_PositionState :=   (sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Z axis position states
+        stILMZPosPark : DUT_PositionState :=   (sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        fbILMXStage : FB_MotionStage;
+        fbILMYStage : FB_MotionStage;
+        fbILMZStage : FB_MotionStage;
+
+
+    END_VAR
+
+
+
+
+GVL_MotorEPS
+^^^^^^^^^^^^
+
+::
+
+    VAR_GLOBAL
+
+        fDPL_X  	: LREAL;
+        fDPL_Z 		: LREAL;
+        fDPL_Y 		: LREAL;
+
+        fSDS_RX 	: LREAL;
+        fSDS_Y 		: LREAL;
+        fSDS_Z_ENC 	: LREAL;
+
+        fRCC_Z 		: LREAL;
+        fRCC_Y 		: LREAL;
+
+        tEPS_OVRD_RESET_TIME : TIME := T#5m; // Resets overide after this amount of time.
+
+
+         {attribute 'pytmc' := '
+            pv: RIX:CRIX:EPS:fNozzleCatcherOffset
+            io: io
+        '}
+        fNozzleCatcherOffset	: LREAL := 20;
+
+    END_VAR
+
+
+
+
+GVL_PMPS
+^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    VAR_GLOBAL
+        //MPS
+        {attribute 'pytmc' := '
+        pv: PLC:CRIX:MOT:FFO:01
+        '}
+        {attribute 'TcLinkTo' := '.q_xFastFaultOut:=TIIB[PMPS_FFO]^Channel 1^Output'}
+        g_FastFaultOutput1  :   FB_HardwareFFOutput :=(i_sNetID:='172.21.42.126.1.1');
+
+        {attribute 'pytmc' := '
+        pv: PLC:CRIX:MOT:FFO:02
+        '}
+        {attribute 'TcLinkTo' := '.q_xFastFaultOut:=TIIB[PMPS_FFO]^Channel 2^Output'}
+        g_FastFaultOutput2  :   FB_HardwareFFOutput :=(i_sNetID:='172.21.42.126.1.1');
+
+
+            {attribute 'pytmc' := '
+        pv: PLC:CRIX:MOT:ARB:01
+        '}
+        fbArbiter1   :   FB_Arbiter(1);
+    END_VAR
+
+
+
+
+GVL_PointDetector
+^^^^^^^^^^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    VAR_GLOBAL
+            // Motor axes
+
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // Rotation axis position states
+        stPDRotPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 10.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Y axis position states
+        stPDYPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 21.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+    END_VAR
+
+
+
+
+GVL_Questar
+^^^^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    VAR_GLOBAL
+            // Motor axes
+
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // X axis position states
+        stQSTXPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Y axis position states
+        stQSTYPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+    END_VAR
+
+
+
+
+GVL_SampleDelivery
+^^^^^^^^^^^^^^^^^^
+
+::
+
+    {attribute 'qualified_only'}
+    VAR_GLOBAL
+            // Motor axes
+
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // X axis position states
+        stSDSXPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Y axis position states
+        stSDSYPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Z axis position states
+        stSDSZPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        // Rotation axis position states
+        stSDSRotPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                      fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+        // Shroud axis position states
+        stSDSShroudPosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                         fPosition := 5.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+    END_VAR
+
+
+
+
+Main
+^^^^
+
+::
+
+    //{attribute 'qualified_only'}
+    VAR_GLOBAL
+
+        // Motor axes
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E1 (EL7031)^STM Status^Status^Digital input 2;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E1 (EL7031)^STM Status^Status^Digital input 1'}
+        M1 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stDPXMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E3 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E3 (EL7031)^STM Status^Status^Digital input 2'}
+        M2 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stDPYMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E4 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E4 (EL7031)^STM Status^Status^Digital input 2'}
+        M3 : DUT_MotionStage :=(bPowerSelf:=TRUE,nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stDPZMotor : DUT_MotionStage;
+
+
+
+
+        {attribute 'pytmc' := 'pv: CRIX:OBJ:MMS:X'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E6 (EL7031)^STM Status^Status^Digital input 2;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E6 (EL7031)^STM Status^Status^Digital input 1'}
+        M4: DUT_MotionStage :=(bPowerSelf:=TRUE ,nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stOBJXMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:OBJ:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E7 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E7 (EL7031)^STM Status^Status^Digital input 2'}
+        M5 : DUT_MotionStage :=(bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stOBJYMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:OBJ:MMS:Z'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E9 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E9 (EL7031)^STM Status^Status^Digital input 2'}
+        M6 : DUT_MotionStage :=(bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stOBJZMotor : DUT_MotionStage;
+
+
+
+        {attribute 'pytmc' := 'pv: CRIX:PDET:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E11 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E11 (EL7031)^STM Status^Status^Digital input 2'}
+        M7 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stPDYMotor : DUT_MotionStage;
+        {attribute 'pytmc' := 'pv: CRIX:PDET:MMS:THETA'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E13 (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E13 (EL7041)^STM Status^Status^Digital input 2'}
+        M8 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stPDRotMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:ILM:MMS:X'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 65 (EL1084)^Channel 1^Input;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 65 (EL1084)^Channel 2^Input'}
+        M9 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stILMXMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:ILM:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 65 (EL1084)^Channel 3^Input;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 65 (EL1084)^Channel 4^Input'}
+        M10 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stILMYMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:ILM:MMS:Z'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 68 (EL1084)^Channel 1^Input;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 68 (EL1084)^Channel 2^Input'}
+        M11 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stILMZMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:QSTR:MMS:X'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E17 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E17 (EL7031)^STM Status^Status^Digital input 2'}
+        M12 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stQSTXMotor : DUT_MotionStage;
+        {attribute 'pytmc' := 'pv: CRIX:QSTR:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E19 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E19 (EL7031)^STM Status^Status^Digital input 2'}
+        M13 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION);
+        //stQSTYMotor : DUT_MotionStage;
+
+        M14 : DUT_MotionStage; // SPARE 1
+        M15 : DUT_MotionStage; // SPARE 2
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:X'}
+        M16 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stSDSXMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E26 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E26 (EL7031)^STM Status^Status^Digital input 2'}
+        M17 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stSDSYMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Z'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031)^STM Status^Status^Digital input 1'}
+        M18 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stSDSZMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RX'}
+    (*	{attribute 'TcLinkTo' := '.bLimitForwardEnable := ;   // There are currently no limits on this stage
+                                  .bLimitBackwardEnable := '} *)
+        M19 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stSDSRotMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RJET'}
+    (*	{attribute 'TcLinkTo' := '.bLimitForwardEnable := ;  // There are currently no limits on this stage
+                                  .bLimitBackwardEnable := '} *)
+        M20 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //stSDSShroudMotor : DUT_MotionStage;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENCODER'}
+        M36 : DUT_MotionStage; // SDS Z Encoder Axis
+
+        {attribute 'pytmc' := 'pv: CRIX:CRYO:MMS:X'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo X (EL7041)^STM Status^Status^Digital input 2'}
+        M22 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CryoStat X
+        {attribute 'pytmc' := 'pv: CRIX:CRYO:MMS:Y'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo Y (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo Y (EL7041)^STM Status^Status^Digital input 2'}
+        M23 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CryoStat Y
+        {attribute 'pytmc' := 'pv: CRIX:CRYO:MMS:Z'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo Z (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^Cryo Z (EL7041)^STM Status^Status^Digital input 2'}
+        M24 : DUT_MotionStage:= (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CryoStat Z
+        {attribute 'pytmc' := 'pv: CRIX:CRYO:MMS:RY'}
+        M25 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CryoStat rY
+         {attribute 'pytmc' := 'pv: CRIX:RCI:MMS:X'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI X (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI X (EL7041)^STM Status^Status^Digital input 2'}
+        M26 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCI X
+         {attribute 'pytmc' := 'pv: CRIX:RCI:MMS:Y'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI Y (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI Y (EL7041)^STM Status^Status^Digital input 2'}
+        M27 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCI Y
+         {attribute 'pytmc' := 'pv: CRIX:RCI:MMS:Z'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI Z (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^RCI (EK1101-0080)^RCI Z (EL7041)^STM Status^Status^Digital input 2'}
+        M28 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCI Z
+         {attribute 'pytmc' := 'pv: CRIX:RCI:MMS:RX'}
+        M29 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCI rX
+         {attribute 'pytmc' := 'pv: CRIX:BEAM:MMS:X'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock X (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock X (EL7041)^STM Status^Status^Digital input 2'}
+        M30 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //BEAM X
+         {attribute 'pytmc' := 'pv: CRIX:BEAM:MMS:Y'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock Y (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock Y (EL7041)^STM Status^Status^Digital input 2'}
+        M31 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //BEAM Y
+         {attribute 'pytmc' := 'pv: CRIX:BEAM:MMS:Z'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock Z (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 113 (EK1101-0080)^Beamblock Z (EL7041)^STM Status^Status^Digital input 2'}
+        M32 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //BEAM Z
+         {attribute 'pytmc' := 'pv: CRIX:CAM:MMS:X'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 109 (EK1101-0080)^Camera X (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 109 (EK1101-0080)^Camera X (EL7041)^STM Status^Status^Digital input 2'}
+        M33 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CAM X
+         {attribute 'pytmc' := 'pv: CRIX:CAM:MMS:Y'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 109 (EK1101-0080)^Camera Y (EL7041)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ0 (EK1122-0080)^Term 109 (EK1101-0080)^Camera Y (EL7041)^STM Status^Status^Digital input 2'}
+        M34 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //CAM Z
+         {attribute 'pytmc' := 'pv: CRIX:OUTCOUP:MMS:Y'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E31 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E31 (EL7031)^STM Status^Status^Digital input 2'}
+        M35 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //OUTCOUP LENS Y
+
+    (*
+        M21 : DUT_MotionStage; // Out-coupling y
+     *)
+
+     (* not needed for now; it has a manual knob
+     // NOTE: Questar is M21, even though Outcoupling Y stage is before it on the DIN rail
+         {attribute 'pytmc' := 'pv: CRIX:QSTR:MMS:FOCUS'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E33 (EL7031)^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E33 (EL7031)^STM Status^Status^Digital input 2'}
+        M21 : DUT_MotionStage; // Questar Focus
+    *)
+        //Catcher Axes
+         {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:X'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[Catcher_E1_EL7041]^STM Status^Status^Digital input 2;
+                                  .bLimitBackwardEnable := TIIB[Catcher_E1_EL7041]^STM Status^Status^Digital input 1'}
+        M37 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCC X
+         {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[Catcher_E3_EL7041]^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIIB[Catcher_E3_EL7041]^STM Status^Status^Digital input 2'}
+        M38 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCC Y
+         {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z'}
+         {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[Catcher_E4_EL7041]^STM Status^Status^Digital input 2;
+                                  .bLimitBackwardEnable := TIIB[Catcher_E4_EL7041]^STM Status^Status^Digital input 1'}
+        M39 : DUT_MotionStage := (bPowerSelf:=TRUE, nEnableMode:=ENUM_StageEnableMode.DURING_MOTION); //RCC Z
+
+         // VLS SLIT TOP
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP6_EP7041-1002]^STM Status^Status^Digital input 1;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP6_EP7041-1002]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv: CRIX:VLS:MMS:SLTOP
+            field: DESC VLS Slit TOP Blade
+        '}
+        M40: DUT_MotionStage;
+
+         // VLS SLIT BOTTOM
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP7_EP7041-1002]^STM Status^Status^Digital input 1;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP7_EP7041-1002]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv: CRIX:VLS:MMS:SLBOTTOM
+            field: DESC VLS Slit BOTTOM Blade
+        '}
+        M41: DUT_MotionStage;
+
+        // VLS SLIT RIGHT
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP8_EP7041-1002]^STM Status^Status^Digital input 1;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP8_EP7041-1002]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv: CRIX:VLS:MMS:SLRIGHT
+            field: DESC VLS Slit RIGHT Blade
+        '}
+        M42: DUT_MotionStage;
+
+
+        // VLS SLIT LEFT
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP9_EP7041-1002]^STM Status^Status^Digital input 1;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP9_EP7041-1002]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv: CRIX:VLS:MMS:SLLEFT
+            field: DESC VLS Slit LEFT Blade
+        '}
+        M43: DUT_MotionStage;
+
+
+
+        // VLS focusing mirror pitch
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP10_EP7041-3102]^STM Status^Status^Digital input 2;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP10_EP7041-3102]^STM Status^Status^Digital input 1;
+                                    .nRawEncoderUINT:=TIIB[VLS_EP10_EP7041-3102]^ENC Status compact^Counter value;
+                                    .bHome:=TIIB[VLS_EP10_EP7041-3102]^ENC Status compact^Status^Status of input C'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:VLS:MMS:MP
+            field: DESC VLS Focus Mirror
+        '}
+        M44: DUT_MotionStage;
+
+        // VLS grating pitch
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP11_EP7041-3102]^STM Status^Status^Digital input 2;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP11_EP7041-3102]^STM Status^Status^Digital input 1;
+                                    .nRawEncoderUINT:=TIIB[VLS_EP11_EP7041-3102]^ENC Status compact^Counter value;
+                                    .bHome:=TIIB[VLS_EP11_EP7041-3102]^ENC Status compact^Status^Status of input C'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:VLS:MMS:GP
+            field: DESC VLS Grating
+        '}
+        M45: DUT_MotionStage;
+
+        // VLS camera Pitch
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP12_EP7041-3102]^STM Status^Status^Digital input 1;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP12_EP7041-3102]^STM Status^Status^Digital input 2;
+                                    .bHome:=TIIB[VLS_EP12_EP7041-3102]^ENC Status compact^Status^Status of input C'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:VLS:CAM:MMS:PITCH
+            field: DESC VLS Camera Pitch
+        '}
+        M46: DUT_MotionStage;
+
+        // VLS camera Distance
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[VLS_EP13_EP7041-3102]^STM Status^Status^Digital input 2;
+                                    .bLimitBackwardEnable:=TIIB[VLS_EP13_EP7041-3102]^STM Status^Status^Digital input 1;
+                                    .bHome:=TIIB[VLS_EP13_EP7041-3102]^ENC Status compact^Status^Status of input C'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:VLS:CAM:MMS:DIST
+            field: DESC VLS Camera Translation
+        '}
+        M47: DUT_MotionStage;
+
+        //Cryo pump
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[DRL02-E23 (EL7041)]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:PTC:Y:MMS:10
+            field:Cryo Pump Y stage 10
+        '}
+        M48: DUT_MotionStage;
+        {attribute 'TcLinkTo' := '	.bLimitForwardEnable:=TIIB[DRL02-E21 (EL7041)]^STM Status^Status^Digital input 2'}
+        {attribute 'pytmc' := '
+            pv:  CRIX:PTC:Y:MMS:11
+            field:Cryo Pump Y stage 11
+        '}
+        M49: DUT_MotionStage;
+
+        // SL2K2-SCATTER: 4 Axes
+        {attribute 'pytmc' := 'pv: SL2K2:SCATTER:MMS:BOTTOM'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[SL2K2-EL7031-E1]^STM Status^Status^Digital input 2;
+                                 .bLimitBackwardEnable := TIIB[SL2K2-EL7031-E1]^STM Status^Status^Digital input 1;
+                                  .nRawEncoderUINT      := TIIB[SL2K2-EL5101-E2]^ENC Status compact^Counter value'}
+        M50: DUT_MotionStage := (sName := 'SL2K2:SCATTER:MMS:BOTTOM');
+        {attribute 'pytmc' := 'pv: SL2K2:SCATTER:MMS:TOP'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[SL2K2-EL7031-E3]^STM Status^Status^Digital input 2;
+                                  .bLimitBackwardEnable := TIIB[SL2K2-EL7031-E3]^STM Status^Status^Digital input 1;
+                                  .nRawEncoderUINT      := TIIB[SL2K2-EL5101-E4]^ENC Status compact^Counter value'}
+        M51: DUT_MotionStage := (sName := 'SL2K2:SCATTER:MMS:TOP');
+        {attribute 'pytmc' := 'pv: SL2K2:SCATTER:MMS:NORTH'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[SL2K2-EL7031-E5]^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIIB[SL2K2-EL7031-E5]^STM Status^Status^Digital input 2;
+                                  .nRawEncoderUINT      := TIIB[SL2K2-EL5101-E6]^ENC Status compact^Counter value'}
+        M52: DUT_MotionStage := (sName := 'SL2K2:SCATTER:MMS:NORTH');
+        {attribute 'pytmc' := 'pv: SL2K2:SCATTER:MMS:SOUTH'}
+        {attribute 'TcLinkTo' := '.bLimitForwardEnable  := TIIB[SL2K2-EL7031-E7]^STM Status^Status^Digital input 1;
+                                  .bLimitBackwardEnable := TIIB[SL2K2-EL7031-E7]^STM Status^Status^Digital input 2;
+                                  .nRawEncoderUINT      := TIIB[SL2K2-EL5101-E8]^ENC Status compact^Counter value'}
+        M53: DUT_MotionStage := (sName := 'SL2K2:SCATTER:MMS:SOUTH');
+
+    END_VAR
+
+
+
+
+POUs
+----
+
+
+F_InRange
+^^^^^^^^^
+
+::
+
+    FUNCTION F_InRange : BOOL
+    // Determine if value is between the lower and upper limit
+    VAR_INPUT
+        value 		: LREAL;
+        lower_limit : LREAL;
+        upper_limit : LREAL;
+    END_VAR
+    VAR
+    END_VAR
+    F_InRange := (lower_limit < value) AND (value < upper_limit);
+
+    END_FUNCTION
+
+
+
+
+FB_AdjacentStates
+^^^^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_AdjacentStates
+    VAR_IN_OUT
+        arrTransitionMatrix : ARRAY [*, *] OF BOOL; // adjacency matrix of allowed transitions
+        arrAdjacentStates : ARRAY [*] OF ST_BFSAssemblyState; // output array of found adjacent states
+        arrStates : ARRAY [*] OF ST_BFSAssemblyState; // array of assembly states
+    END_VAR
+    VAR_INPUT
+        iRootState : DINT;
+    END_VAR
+    VAR_OUTPUT
+        nAdjacentStates : DINT;
+    END_VAR
+    VAR
+        nStates : DINT;
+        iCounter : INT;
+        iState : DINT;
+        iTransition : DINT;
+    END_VAR
+    iCounter := 0;
+    nStates := UPPER_BOUND(arrStates, 1);
+    FOR iTransition := 1 TO nStates DO
+        iState := arrStates[iTransition].iState; // pick out the state index of the state in question
+        IF iState <> iRootState THEN // only look at transitions away from root state
+            IF arrTransitionMatrix[iRootState, iTransition] THEN // the transition is allowed
+                iCounter := iCounter + 1;
+                arrAdjacentStates[iCounter] := arrStates[iTransition]; // save this adjacent state
+            END_IF
+        END_IF
+    END_FOR
+    nAdjacentStates := iCounter;
+
+    END_FUNCTION_BLOCK
+
+
+Related:
+    * `ST_BFSAssemblyState`_
+
+
+FB_AssemblyPositionStateManager
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_AssemblyPositionStateManager
+    (*
+        Handles EPICS moves between multiple states for multiple axes.
+        See FB_XXXX for an example.
+    *)
+    VAR_IN_OUT
+
+        // Array of bMoveEnables to, well, enable based on the assembly state.
+        arrOutputs: ARRAY [*, *] OF DUT_PositionState;
+        // Array of allowed position state transitions. This is the adjacency matrix
+        arrTransitions : ARRAY [*, *] OF BOOL;
+        // Array of all axes in the assembly
+        arrAxes : ARRAY [*] OF DUT_MotionStage;
+        // Array of all assembly states
+        arrAssemblyStates : ARRAY [*] OF STRING;
+    END_VAR
+    VAR
+        nAssemblyStates : DINT;
+        nAxes :DINT;
+        nOutputs :DINT;
+        bInit : BOOL := FALSE;
+        bAtState : BOOL;
+        iAxis : DINT;
+        stAxis : DUT_MotionStage;
+        stState : DUT_PositionState;
+
+        currState : DINT;
+        nextState : DINT;
+    END_VAR
+    IF NOT bInit THEN
+        bInit := TRUE;
+        //nAssemblyStates := UPPER_BOUND(arrAssemblyStates, 1);
+        nAssemblyStates := UPPER_BOUND(arrTransitions, 2); // take from # of columns in transition matrix
+        nAxes := UPPER_BOUND(arrAxes, 1);
+        nOutputs := UPPER_BOUND(arrOutputs, 1);
+    END_IF
+
+    // Determine current assembly state
+    currState := 0; // Start in the unknown state
+    FOR nextState := 1 TO nOutputs DO // For each defined output state
+        bAtState := TRUE;
+        FOR iAxis := 1 TO UPPER_BOUND(arrAxes,1) DO // check each axis for a match with the assembly position state
+            bAtState := (bAtState AND F_AtPositionState(stMotionStage:=arrAxes[iAxis], stPositionState:=arrOutputs[nextState, iAxis]));
+        END_FOR
+        IF bAtState THEN
+            currState := nextState;
+        END_IF
+    END_FOR
+
+    // Reset logic before determining allowed moves
+    FOR nextState := 1 TO UPPER_BOUND(arrAssemblyStates, 1) DO
+        FOR iAxis := 1 TO UPPER_BOUND(arrAxes, 1) DO
+            arrOutputs[nextState, iAxis].bMoveOk := FALSE;
+        END_FOR
+    END_FOR
+
+    // Update motion logic for next state based on current state
+    FOR nextState := 1 TO nAssemblyStates DO
+        IF arrTransitions[currState, nextState] THEN
+            FOR iAxis :=1 TO UPPER_BOUND(arrAxes, 1) DO
+                arrOutputs[nextState, iAxis].bMoveOk := TRUE;
+            END_FOR
+        END_IF
+    END_FOR
+
+    END_FUNCTION_BLOCK
+
+
+
+
+FB_BFS
+^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_BFS
+    VAR_IN_OUT
+        fbAdjacent : FB_AdjacentStates;
+        arrTransitions: ARRAY [*, *] OF BOOL;
+        arrAdjStates: ARRAY [*] OF ST_BFSAssemblyState;
+        //arrAdjStates : ARRAY [*] OF DINT;
+        nAdjacentStates : DINT;
+        arrStates : ARRAY [*] OF ST_BFSAssemblyState;
+        arrPath : ARRAY [*] OF ST_BFSAssemblyState;
+        stQueue : ST_Queue;
+        fbQueue : FB_Queue;
+    END_VAR
+    VAR_INPUT
+        RootState : ST_BFSAssemblyState;
+        Target : ST_BFSAssemblyState;
+    END_VAR
+    VAR_OUTPUT
+        bError : BOOL; // an error occured, e.g. we didn't find the requested state
+    END_VAR
+    VAR
+        Current : ST_BFSAssemblyState;
+        Root	: ST_BFSAssemblyState;
+        Adjacent : ST_BFSAssemblyState;
+        iCounter : DINT;
+        nStates : DINT;
+        //
+        iState : DINT;
+        iTransition : DINT;
+        bFound : BOOL := FALSE;
+        Next : ST_BFSAssemblyState;
+        iLower : DINT;
+        iUpper : DINT;
+        bFirst : BOOL;
+    END_VAR
+    THIS^.ClearStates();
+    Root := THIS^.GetState(iState:=RootState.iState, bDiscover:=TRUE);
+    fbQueue.Enqueue(Root);
+    WHILE NOT fbQueue.Queue_Is_Empty() DO
+        Current := fbQueue.Dequeue();
+        IF Current.iState = Target.iState THEN // found destination
+            bFound := TRUE;
+            EXIT;
+        ELSE
+            // Put adjacent states into arrAdjStates, count # of adjacent states
+            THIS^.GetAdjacentStates(Current.iState);
+            // Mark any undiscovered states in arrAdjStates, add them to the queue, and label their parent state
+            THIS^.DiscoverStates();
+        END_IF
+    END_WHILE
+
+    // Stuff the target in first
+    //arrPath[1] := arrStates[Target.iState];
+    arrPath[1] := THIS^.GetState(iState:=Target.iState, bDiscover:=FALSE);
+    // Get the next state before starting loop
+    Current := THIS^.GetNextState(PrevState:=Target);
+    iCounter := 2;
+    WHILE Current.iParent <> 0 DO
+        // Stuff state into path array
+        arrPath[iCounter] := arrStates[Current.iState];
+        // Locate the next child state
+        Current := THIS^.GetNextState(PrevState:=Current);
+        iCounter := iCounter + 1;
+        IF iCounter >= nStates THEN
+            EXIT; // Something bad happened. We exceeded the number of possible states.
+        END_IF
+    END_WHILE
+
+    END_FUNCTION_BLOCK
+
+    METHOD ClearStates : BOOL
+    VAR_INPUT
+    END_VAR
+    VAR
+        Counter : DINT;
+    END_VAR
+    FOR Counter := LOWER_BOUND(arrStates,1) TO UPPER_BOUND(arrStates,1) DO // set all states to undiscovered, clear parent states
+        arrStates[Counter].bDiscovered := FALSE;
+        arrStates[Counter].iParent := 0;
+    END_FOR
+    END_METHOD
+
+    METHOD DiscoverStates : BOOL
+    VAR_INPUT
+    END_VAR
+    VAR
+        Counter : DINT;
+    END_VAR
+    FOR Counter := LOWER_BOUND(arrAdjStates,1) TO nAdjacentStates DO // for all adjacent states
+        Adjacent := arrAdjStates[Counter];
+        IF NOT arrStates[Adjacent.iState].bDiscovered THEN // check that we haven't visited this one yet
+            arrStates[Adjacent.iState].bDiscovered := TRUE; // mark state as discovered
+            arrStates[Adjacent.iState].iParent := Current.iState;
+            fbQueue.Enqueue(arrStates[Adjacent.iState]); // add state to queue to continue search
+        END_IF
+    END_FOR
+    END_METHOD
+
+    METHOD GetAdjacentStates : BOOL
+    VAR_INPUT
+        iStartState : DINT; // Node to expand find adjacent nodes from
+    END_VAR
+    VAR
+        stateCounter : DINT;
+        transitionCounter : DINT;
+    END_VAR
+    transitionCounter := 0;
+    // Loop over all states to find states adjacent to the current state
+    FOR stateCounter := LOWER_BOUND(arrStates, 1) TO UPPER_BOUND(arrStates,1) DO // start at zero due to arrStates index
+        iState := arrStates[stateCounter].iState; // pick out the state index of the state in question
+        IF iState <> iStartState THEN // only look at transitions away from root state
+            IF arrTransitions[iStartState, stateCounter] THEN // the transition is allowed
+                transitionCounter := transitionCounter + 1;
+                arrAdjStates[transitionCounter] := arrStates[stateCounter]; // save this adjacent state
+            END_IF
+        END_IF
+    END_FOR
+    nAdjacentStates := transitionCounter;
+    END_METHOD
+
+    METHOD GetNextState : ST_BFSAssemblyState
+    VAR_INPUT
+        PrevState : ST_BFSAssemblyState;
+    END_VAR
+    VAR
+        Counter : DINT;
+    END_VAR
+    // Find next state in path by following parent attribute
+    FOR Counter := LOWER_BOUND(arrStates, 1) TO UPPER_BOUND(arrStates, 1) DO
+        IF PrevState.iParent = arrStates[Counter].iState THEN
+            GetNextState := arrStates[Counter];
+            EXIT;
+        END_IF
+    END_FOR
+    END_METHOD
+
+    METHOD GetState : ST_BFSAssemblyState
+    VAR_INPUT
+        iState : DINT;
+        bDiscover : BOOL := FALSE;
+    END_VAR
+    VAR
+        Counter : DINT;
+    END_VAR
+    FOR Counter := LOWER_BOUND(arrStates,1) TO UPPER_BOUND(arrStates,1) DO
+        IF arrStates[Counter].iState = iState THEN
+            arrStates[Counter].bDiscovered := bDiscover; // set state to discovered
+            GetState := arrStates[Counter];
+        END_IF
+    END_FOR
+    END_METHOD
+
+
+Related:
+    * `FB_AdjacentStates`_
+    * `FB_Queue`_
+    * `ST_BFSAssemblyState`_
+    * `ST_Queue`_
+
+
+FB_CheckEPS
+^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_CheckEPS
+    VAR_IN_OUT
+        stMotor	: ST_MotionStage;
+        aEPSLimits : ARRAY [*] OF ST_EPSLimits;
+        // Allows for user to define what is 'forward' and what is 'backward'. In most cases, use the in_out stMotor as default.
+        stForwardMotorEPS : DUT_EPS;
+        stBackwardMotorEPS: DUT_EPS;
+
+    END_VAR
+    VAR_INPUT
+        // Encoder Position, Current position of motor. Needed for the case where the motor and encoders are seperate. Default use stMotor Position
+        fPosition : LREAL;
+        // Ignores EPS
+        bEPS_Override : BOOL;
+
+    END_VAR
+    VAR_OUTPUT
+    END_VAR
+    VAR
+        nPreviousState : DINT;
+        nIndex: DINT;
+        nEPSIndex: DINT;
+        bUnknownState: BOOL;
+        fbBwdEPS: FB_EPS;
+        fbFwdEPS: FB_EPS;
+    END_VAR
+    fbBwdEps(eps:=stBackwardMotorEPS);
+    fbFwdEPS(eps:=stForwardMotorEPS);
+
+    // Look through possible states to see which state we are in
+    bUnknownState := TRUE;
+    FOR nIndex := LOWER_BOUND(aEPSLimits, 1) TO UPPER_BOUND(aEPSLimits, 1) BY 1 DO
+        IF aEPSLimits[nIndex].stEPS.bEPS_OK THEN
+            nEPSIndex := nIndex;
+            bUnknownState := FALSE; // Known State
+            exit; // stop when found state
+        END_IF
+    END_FOR
+
+    IF (nPreviousState <> nEPSIndex) THEN
+        // only clear stMotor eps from previous state.
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+        fbFwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    END_IF
+
+    // Check if position is in plc limit rage, Stop motor if out of Upper/Lower bounds
+    IF fPosition > aEPSLimits[nEPSIndex].fBwd_Limits THEN
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    ELSE
+        fbBwdEPS.setBit(DINT_TO_BYTE(0), FALSE);
+    END_IF
+
+    IF fPosition < aEPSLimits[nEPSIndex].fFwd_Limits THEN
+        fbFwdEPS.setBit(DINT_TO_BYTE(0), TRUE);
+    ELSE
+        fbFwdEPS.setBit(DINT_TO_BYTE(0), FALSE);
+    END_IF
+
+    IF bUnknownState THEN
+        stBackwardMotorEPS.bEPS_OK := FALSE;
+        stForwardMotorEPS.bEPS_OK := FALSE;
+
+        stBackwardMotorEPS.sMessage := 'UNKNOWN STATE';
+        stForwardMotorEPS.sMessage := 'UNKNOWN STATE';
+        ELSE
+        // Update Labels
+        stBackwardMotorEPS.sMessage := aEPSLimits[nEPSIndex].stEPS.sMessage;
+        stForwardMotorEPS.sMessage := aEPSLimits[nEPSIndex].stEPS.sMessage;
+    END_IF
+
+    IF bEPS_Override THEN
+        stBackwardMotorEPS.bEPS_OK := TRUE;
+        stForwardMotorEPS.bEPS_OK := TRUE;
+    END_IF
+
+    nPreviousState := nEPSIndex; // Update Previous State
+
+    END_FUNCTION_BLOCK
+
+
+Related:
+    * `ST_EPSLimits`_
+
+
+FB_DPX
+^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_DPX
+
+    VAR_IN_OUT
+        // Motor to apply states to
+        stMotionStage: DUT_MotionStage;
+        // Information about the park position
+        stPark: DUT_PositionState;
+        // Information about the center parameter
+        stCenter: DUT_PositionState;
+        // Information about the knife edge parameter
+        stKnife: DUT_PositionState;
+    END_VAR
+    VAR_INPUT
+        // If TRUE, the motor will be moved when enumSet is changed
+        bEnable: BOOL;
+        // When changed, sets the destination and starts a move
+        {attribute 'pytmc' := '
+            pv: SET
+            io: io
+        '}
+        enumSet: ENUM_DPX;
+        bOverride: BOOL; // Override for state locking. If TRUE, do not lock states.
+    END_VAR
+    VAR_OUTPUT
+        // If TRUE, we are in an error state
+        bError: BOOL; // NOTE: do not pragma these, already has pragma in manager
+        // Error code
+        nErrorId: UDINT;
+        // Message associated with bError = TRUE
+        sErrorMessage: STRING;
+        // If TRUE, we are currently moving between states
+        bBusy: BOOL;
+        // If TRUE, we asked for a move between states, it completed successfully, and there is no ongoing move
+        bDone: BOOL;
+        // The current state readback
+        {attribute 'pytmc' := '
+            pv: GET
+            io: i
+        '}
+        enumGet: ENUM_DPX; // NOTE: Please copy this pragma exactly on your enumGet
+    END_VAR
+    VAR
+        bInit: BOOL;
+        arrStates: ARRAY[1..15] OF DUT_PositionState;
+
+        {attribute 'pytmc' := '
+            pv:
+            io: io
+        '}
+        fbStateManager: FB_PositionStateManager; // NOTE: Please copy this pragma exactly to pick up the standard PVs
+        fbLockPark: 	FB_PositionStateLock;
+        fbLockCenter: 	FB_PositionStateLock;
+        fbLockKnife: 	FB_PositionStateLock;
+    END_VAR
+    // Fist cycle setup
+    IF NOT bInit THEN
+        stPark.sName := 'PARK';
+        stCenter.sName := 'CENTER';
+        stKnife.sName := 'KNIFE';
+        bInit := TRUE;
+    END_IF
+
+    // If any of these have bLocked = TRUE, do not allow user to change them
+    IF NOT bOverride THEN
+        fbLockPark(stPositionState:=stPark);
+        fbLockCenter(stPositionState:=stCenter);
+        fbLockKnife(stPositionState:=stKnife);
+    END_IF
+
+    // Stuff values into the 15 element array for the manager
+    arrStates[1] := stPark;
+    arrStates[2] := stCenter;
+    arrStates[3] := stKnife;
+
+    // Call the function block every cycle
+    fbStateManager(
+        stMotionStage := stMotionStage,
+        arrStates := arrStates,
+        setState := enumSet,
+        bEnable := bEnable,
+        bError => bError,
+        nErrorId => nErrorId,
+        sErrorMessage => sErrorMessage,
+        bBusy => bBusy,
+        bDone => bDone,
+        getState => enumGet); // Cannot do this assignment if enumGet has attribute strict
+
+    END_FUNCTION_BLOCK
+
+
+Related:
+    * `ENUM_DPX`_
+
+
+FB_Queue
+^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_Queue
+    VAR_INPUT
+        stQ : ST_Queue;
+    END_VAR
+    VAR_OUTPUT
+    END_VAR
+    VAR
+    END_VAR
+
+
+    END_FUNCTION_BLOCK
+
+    METHOD PUBLIC Dequeue : ST_BFSAssemblyState
+    VAR_INPUT
+    END_VAR
+    IF NOT THIS^.Queue_Is_Empty() THEN
+        Dequeue := stQ.arrQueue[stQ.iFront];
+        stQ.iFront := stQ.iFront + 1;
+        stQ.iCount := stQ.iCount - 1;
+    END_IF
+    END_METHOD
+
+    METHOD Empty_Queue : BOOL
+    VAR_INPUT
+    END_VAR
+    // Reset queue to ST_Queue initial values
+    stQ.iCount := 0;
+    stQ.iBack := -1;
+    stQ.iFront := 0;
+    END_METHOD
+
+    METHOD PUBLIC Enqueue : BOOL
+    VAR_INPUT
+        element : ST_BFSAssemblyState;
+    END_VAR
+    IF 	NOT THIS^.Queue_Is_Full() THEN
+        IF stQ.iBack = stQ.iLength THEN
+            stQ.iBack := -1;
+        END_IF
+        stQ.iBack := stQ.iBack + 1;
+        stQ.arrQueue[stQ.iBack] := element;
+        stQ.iCount := stQ.iCount + 1;
+        Enqueue := TRUE;
+    ELSE
+        Enqueue := FALSE;
+    END_IF
+    END_METHOD
+
+    METHOD Queue_Is_Empty : BOOL
+    VAR_INPUT
+    END_VAR
+    IF stQ.iCount = 0 THEN
+        Queue_Is_Empty := TRUE;
+    ELSE
+        Queue_Is_Empty := FALSE;
+    END_IF
+    END_METHOD
+
+    METHOD Queue_Is_Full : BOOL
+    VAR_INPUT
+    END_VAR
+    IF stQ.iCount = stQ.iLength THEN
+        Queue_Is_Full := TRUE;
+    ELSE
+        Queue_Is_Full := FALSE;
+    END_IF
+    END_METHOD
+
+
+Related:
+    * `ST_BFSAssemblyState`_
+    * `ST_Queue`_
+
+
+FB_RCI_Analog_Input
+^^^^^^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_RCI_Analog_Input
+    VAR_INPUT
+        // Connect this input to the terminal
+        iRaw AT %I*: INT;
+        // The number of bits correlated with the terminal's max value. This is not necessarily the resolution parameter.
+        iTermBits: UINT;
+        // The fReal value correlated with the terminal's max value
+        fTermMax: LREAL;
+        // The fReal value correlated with the terminal's min value
+        fTermMin: LREAL;
+    END_VAR
+    VAR_OUTPUT
+        // The real value read from the output
+        fReal: LREAL;
+    END_VAR
+    VAR
+        fScale: LREAL;
+    END_VAR
+    IF fScale = 0 AND fTermMax > fTermMin THEN
+        fScale := (EXPT(2, iTermBits) - 1) / (fTermMax - fTermMin);
+    END_IF
+    IF fScale <> 0 THEN
+        fReal := iRaw / (fScale/2);
+    END_IF
+
+    END_FUNCTION_BLOCK
+
+
+
+
+FB_RCI_Analog_Output
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_RCI_Analog_Output
+    VAR_INPUT
+        // The real value to send to the output
+        fReal: LREAL;
+        // The maximum allowed real value for the connected hardware
+        fSafeMax: LREAL;
+        // The minimum allowed real value for the connected hardware
+        fSafeMin: LREAL;
+        // The number of bits correlated with the terminal's max output. This is not necessarily the resolution parameter.
+        iTermBits: UINT;
+        // The fReal value correlated with the terminal's max output
+        fTermMax: LREAL;
+        // The fReal value correlated with the terminal's min output
+        fTermMin: LREAL;
+    END_VAR
+    VAR_OUTPUT
+        // Connect this output to the terminal
+        iRaw AT %Q*: INT;
+    END_VAR
+    VAR
+        fScale: LREAL;
+    END_VAR
+    // Set the scaling from real to raw
+    IF fScale = 0 AND fTermMax > fTermMin THEN
+        fScale := (EXPT(2, iTermBits) - 1) / (fTermMax - fTermMin);
+    END_IF
+
+    // Adjust real value to be within the limits
+    fReal := MIN(fReal, fSafeMax, fTermMax);
+    fReal := MAX(fReal, fSafeMin, fTermMin);
+
+    // Scale the output accordingly
+    iRaw := LREAL_TO_INT((fReal) * fScale);
+
+    END_FUNCTION_BLOCK
+
+
+
+
+FB_RestTimer
+^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_RestTimer
+    // Resets value of input after some time
+    // bInput 	: Value that will reset when set to true after some time passes
+    // tCountdown : count down when input will be rest
+    // tElapseTime : Time before input is reset
+
+    VAR_IN_OUT
+        bInput : BOOL;
+        tCountDown : STRING;
+    END_VAR
+    VAR_INPUT
+        tElapseTime : TIME;
+    END_VAR
+    VAR
+        fbTimer : TON;
+    END_VAR
+    fbTimer(IN := bInput, PT:= tElapseTime);
+
+    IF bInput THEN
+        tCountDown := TIME_TO_STRING(tElapseTime - fbTimer.ET);
+    END_IF
+
+    IF fbTimer.Q THEN
+        bInput := FALSE;
+        tCountDown := TIME_TO_STRING(T#0s);
+    END_IF
+
+    END_FUNCTION_BLOCK
+
+
+
+
+FB_SLITS
+^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_SLITS
+    VAR_IN_OUT
+        stTopBlade: DUT_MotionStage;
+        stBottomBlade: DUT_MotionStage;
+        stNorthBlade: DUT_MotionStage;
+        stSouthBlade: DUT_MotionStage;
+        bExecuteMotion:BOOL ;
+        io_fbFFHWO    :    FB_HardwareFFOutput;
+        fbArbiter: FB_Arbiter();
+    END_VAR
+
+    VAR_INPUT
+
+        {attribute 'pytmc' := '
+        pv: PMPS_OK;
+        io: i;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bMoveOk:BOOL;
+
+            (*Offsets*)
+        {attribute 'pytmc' := '
+        pv: Offset_Top;
+        io: io;
+        '}
+        rEncoderOffsetTop: REAL;
+        {attribute 'pytmc' := '
+        pv: ZeroOffset_Bottom;
+        io: io;
+        '}
+        rEncoderOffsetBottom: REAL;
+        {attribute 'pytmc' := '
+        pv: ZeroOffset_North;
+        io: io;
+        '}
+        rEncoderOffsetNorth: REAL;
+        {attribute 'pytmc' := '
+        pv: ZeroOffset_South;
+        io: io;
+        '}
+        rEncoderOffsetSouth: REAL;
+        i_DevName : STRING; //device name for FFO and PMPS diagnostics
+         {attribute 'pytmc' := '
+        pv: Home;
+        io: i;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bHome:BOOL:=FALSE;
+    END_VAR
+
+    VAR
+        fbTopBlade: FB_MotionStage;
+        fbBottomBlade: FB_MotionStage;
+        fbNorthBlade: FB_MotionStage;
+        fbSouthBlade: FB_MotionStage;
+        fPosTopBlade: LREAL;
+        fPosBottomBlade: LREAL;
+        fPosNorthBlade: LREAL;
+        fPosSouthBlade: LREAL;
+
+        (*Motion Parameters*)
+        fSmallDelta: LREAL := 0.01;
+        fBigDelta: LREAL := 10;
+        fMaxVelocity: LREAL := 0.2;
+        fHighAccel: LREAL := 0.8;
+        fLowAccel: LREAL := 0.1;
+
+        stTop: DUT_PositionState;
+        stBOTTOM: DUT_PositionState;
+        stNorth: DUT_PositionState;
+        stSouth: DUT_PositionState;
+
+        {attribute 'pytmc' := 'pv: TOP'}
+        fbTop: FB_StatePTPMove;
+        {attribute 'pytmc' := 'pv: BOTTOM'}
+        fbBottom: FB_StatePTPMove;
+        {attribute 'pytmc' := 'pv: NORTH'}
+        fbNorth: FB_StatePTPMove;
+        {attribute 'pytmc' := 'pv: SOUTH'}
+        fbSouth: FB_StatePTPMove;
+
+        (*EPICS pvs*)
+        {attribute 'pytmc' := '
+        pv: XWID_REQ;
+        io: io;
+        '}
+        rReqApertureSizeX : REAL;
+        {attribute 'pytmc' := '
+        pv: YWID_REQ;
+        io: io;
+        '}
+        rReqApertureSizeY : REAL;
+        {attribute 'pytmc' := '
+        pv: XCEN_REQ;
+        io: io;
+        '}
+        rReqCenterX: REAL;
+        {attribute 'pytmc' := '
+        pv: YCEN_REQ;
+        io: io;
+        '}
+        rReqCenterY: REAL;
+
+        {attribute 'pytmc' := '
+        pv: ACTUAL_XWIDTH;
+        io: io;
+        '}
+        rActApertureSizeX : REAL;
+
+        {attribute 'pytmc' := '
+        pv: ACTUAL_YWIDTH;
+        io: io;
+        '}
+        rActApertureSizeY : REAL;
+        {attribute 'pytmc' := '
+        pv: ACTUAL_XCENTER;
+        io: io;
+        '}
+        rActCenterX: REAL;
+        {attribute 'pytmc' := '
+        pv: ACTUAL_YCENTER;
+        io: io;
+        '}
+        rActCenterY: REAL;
+
+        {attribute 'pytmc' := '
+        pv: XCEN_SETZERO;
+        io: io;
+        '}
+        rSetCenterX: BOOL;
+        {attribute 'pytmc' := '
+        pv: YCEN_SETZERO;
+        io: io;
+        '}
+        rSetCenterY: BOOL;
+
+
+        {attribute 'pytmc' := '
+        pv: OPEN;
+        io: io;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bOpen: BOOL;
+
+        {attribute 'pytmc' := '
+        pv: CLOSE;
+        io: io;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bClose: BOOL;
+
+        {attribute 'pytmc' := '
+        pv: BLOCK;
+        io: io;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bBlock: BOOL;
+
+
+         {attribute 'pytmc' := '
+        pv: HOME_READY;
+        io: i;
+        field: ZNAM False
+        field: ONAM True
+        '}
+        bHomeReady:BOOL:=FALSE;
+
+
+            //Local variables
+        bInit: BOOL :=true;
+        rTrig_Block: R_TRIG;
+        rTrig_Open: R_TRIG;
+        rTrig_Close: R_TRIG;
+
+        //old values
+        rOldReqApertureSizeX : REAL;
+        rOldReqApertureSizeY : REAL;
+        rOldReqCenterX: REAL;
+        rOldReqCenterY: REAL;
+
+        bExecuteMotionX: BOOL;
+        bExecuteMotionY: BOOL;
+
+
+        fPosBlock: LREAL;
+        fPosClose: LREAL;
+        fPosOpen: LREAL;
+
+        stSetPositionOptions:ST_SetPositionOptions;
+        fbSetPosition_TOP: MC_SetPosition;
+        fbSetPosition_Bottom: MC_SetPosition;
+        fbSetPosition_North: MC_SetPosition;
+        fbSetPosition_South: MC_SetPosition;
+
+        // For logging
+        fbLogger : FB_LogMessage := (eSubsystem:=E_SubSystem.MOTION);
+        tErrorPresent : R_TRIG;
+        tAction : R_TRIG;
+        tOverrideActivated : R_TRIG;
+
+        FFO    :    FB_FastFault :=(
+            i_DevName := 'Slits',
+            i_Desc := 'Fault occurs when center is greated than that requested',
+            i_TypeCode := 16#1010);
+
+
+        bTest: BOOL;
+
+        AptArrayStatus AT %Q* : ST_PMPS_Aperture_IO;
+        AptArrayReq AT %I* : ST_PMPS_Aperture_IO;
+
+    END_VAR
+    ACT_init();
+
+    // Instantiate Function block for all the blades
+    ACT_Motion();
+    //SET and GET the requested and Actual values
+    ACT_CalculatePositions();
+    //ACT_BLOCK();
+
+    END_FUNCTION_BLOCK
+
+    ACTION ACT_BLOCK:
+    rTrig_Block (CLK:= bBlock);
+    rTrig_Open (CLK:= bOpen);
+    rTrig_Close (CLK:= bClose);
+
+    if (rTrig_Block.Q) THEN
+        //BLOCK
+
+        bBlock := false;
+    END_IF
+
+    if (rTrig_Open.Q) THEN
+
+
+        bOpen := false;
+    END_IF
+
+    if (rTrig_Close.Q) THEN
+
+
+        bClose := false;
+    END_IF
+    END_ACTION
+
+    ACTION ACT_CalculatePositions:
+    //check if requested center or gap has changed
+    //check that the requested values are within acceptable motion range
+    IF (rOldReqApertureSizeX <> rReqApertureSizeX) THEN
+            rOldReqApertureSizeX := rReqApertureSizeX;
+            bExecuteMotionX := TRUE;
+            fbLogger(sMsg:='Requested new X gap.', eSevr:=TcEventSeverity.Verbose);
+    END_IF
+
+    IF (rOldReqCenterX <> rReqCenterX) THEN
+        rOldReqCenterX := rReqCenterX;
+        bExecuteMotionX := TRUE;
+        fbLogger(sMsg:='Requested new X center', eSevr:=TcEventSeverity.Verbose);
+       // ELSE
+          //  rReqCenterX := rActCenterX;
+    END_IF
+
+    IF (rOldReqApertureSizeY <> rReqApertureSizeY) THEN
+            rOldReqApertureSizeY := rReqApertureSizeY;
+            bExecuteMotionY := TRUE;
+            fbLogger(sMsg:='Requested new Y gap.', eSevr:=TcEventSeverity.Verbose);
+
+    END_IF
+
+    IF (rOldReqCenterY <> rReqCenterY) THEN
+        rOldReqCenterY := rReqCenterY;
+        bExecuteMotionY := TRUE;
+        fbLogger(sMsg:='Requested new Y center.', eSevr:=TcEventSeverity.Verbose);
+       // ELSE
+          //  rReqCenterY := rActCenterY;
+    END_IF
+
+
+    //Calculate requested target positions from requested gap and center
+    fPosTopBlade := (rReqApertureSizeY/2) + (rReqCenterY + rEncoderOffsetTop) ;
+    fPosBottomBlade := (-1*rReqApertureSizeY/2) + (rReqCenterY+rEncoderOffsetBottom);
+
+    fPosNorthBlade := (rReqApertureSizeX/2) + (rReqCenterX + rEncoderOffsetNorth);
+    fPosSouthBlade := (-1*rReqApertureSizeX/2) + (rReqCenterX + rEncoderOffsetSouth);
+
+
+    //Calculate actual gap and center from actual stages positions
+    rActApertureSizeX := LREAL_TO_REAL((stNorthBlade.stAxisStatus.fActPosition - rEncoderOffsetNorth) - (stSouthBlade.stAxisStatus.fActPosition- rEncoderOffsetSouth));
+
+    rActApertureSizeY := LREAL_TO_REAL((stTopBlade.stAxisStatus.fActPosition - rEncoderOffsetTop) - (stBottomBlade.stAxisStatus.fActPosition - rEncoderOffsetBottom));
+
+    rActCenterX := LREAL_TO_REAL((((stNorthBlade.stAxisStatus.fActPosition - rEncoderOffsetNorth)  + (stSouthBlade.stAxisStatus.fActPosition - rEncoderOffsetSouth ))/2));
+
+    rActCenterY := LREAL_TO_REAL((((stTopBlade.stAxisStatus.fActPosition - rEncoderOffsetTop) + (stBottomBlade.stAxisStatus.fActPosition - rEncoderOffsetBottom))/2));
+
+
+
+    //Update PMPS Arbiter with the Actual Size and Center of the Aperture
+    END_ACTION
+
+    ACTION ACT_Home:
+
+    END_ACTION
+
+    ACTION ACT_Init:
+    //  init the motion stages parameters
+    IF ( bInit) THEN
+        stTopBlade.bHardwareEnable := TRUE;
+        stBottomBlade.bHardwareEnable := TRUE;
+        stNorthBlade.bHardwareEnable := TRUE;
+        stSouthBlade.bHardwareEnable := TRUE;
+        stTopBlade.bPowerSelf :=TRUE;
+        stBottomBlade.bPowerSelf :=TRUE;
+        stNorthBlade.bPowerSelf :=TRUE;
+        stSouthBlade.bPowerSelf :=TRUE;
+        stTopBlade.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        stBottomBlade.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        stNorthBlade.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        stSouthBlade.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        FFO.i_DevName := i_DevName;
+    END_IF
+    END_ACTION
+
+    ACTION ACT_Motion:
+    // Instantiate Function block for all the blades
+    fbTopBlade(stMotionStage:=stTopBlade);
+    fbBottomBlade(stMotionStage:=stBottomBlade);
+    fbNorthBlade(stMotionStage:=stNorthBlade);
+    fbSouthBlade(stMotionStage:=stSouthBlade);
+
+    // PTP Motion for each blade
+    stTop.sName := 'Top';
+    stTop.fPosition := fPosTopBlade;
+    stTop.fDelta := fSmallDelta;
+    stTop.fVelocity := fMaxVelocity;
+    stTop.fAccel := fHighAccel;
+    stTop.fDecel := fHighAccel;
+
+    stBOTTOM.sName := 'Bottom';
+    stBOTTOM.fPosition := fPosBottomBlade;
+    stBOTTOM.fDelta := fSmallDelta;
+    stBOTTOM.fVelocity := fMaxVelocity;
+    stBOTTOM.fAccel := fHighAccel;
+    stBOTTOM.fDecel := fHighAccel;
+
+    stNorth.sName := 'North';
+    stNorth.fPosition := fPosNorthBlade;
+    stNorth.fDelta := fSmallDelta;
+    stNorth.fVelocity := fMaxVelocity;
+    stNorth.fAccel := fHighAccel;
+    stNorth.fDecel := fHighAccel;
+
+    stSouth.sName := 'South';
+    stSouth.fPosition := fPosSouthBlade;
+    stSouth.fDelta := fSmallDelta;
+    stSouth.fVelocity := fMaxVelocity;
+    stSouth.fAccel := fHighAccel;
+    stSouth.fDecel := fHighAccel;
+
+    IF (bExecuteMotionY) THEN
+        fbTop.bExecute := fbBottom.bExecute := bExecuteMotionY;
+        bExecuteMotionY:= FALSE;
+    END_IF
+
+    IF (bExecuteMotionX) THEN
+        fbNorth.bExecute := fbSouth.bExecute := bExecuteMotionX;
+        bExecuteMotionX:= FALSE;
+    END_IF
+
+
+    fbTop(
+        stPositionState:=stTop,
+        bMoveOk:=bMoveOk,
+        stMotionStage:=stTopBlade);
+
+    fbBottom(
+        stPositionState:=stBOTTOM,
+        bMoveOk:=bMoveOk,
+        stMotionStage:=stBottomBlade);
+
+    fbNorth(
+        stPositionState:=stNorth,
+        bMoveOk:=bMoveOk,
+        stMotionStage:=stNorthBlade);
+
+    fbSouth(
+        stPositionState:=stSouth,
+        bMoveOk:=bMoveOk,
+        stMotionStage:=stSouthBlade);
+    END_ACTION
+
+    ACTION ACT_Zero:
+    //ZERO BIAS
+
+    // Set Y center to zero
+
+    // Set X center to zero
+    (*
+    if (rSetCenterY)THEN
+            rSetCenterY := false;
+            // Set Current Position
+            fbSetPosition_TOP.Position :=  stTopBlade.stAxisStatus.fActPosition - rActCenterY ;
+            fbSetPosition_TOP.Execute := TRUE;
+            fbSetPosition_Bottom.Position := stBottomBlade.stAxisStatus.fActPosition - rActCenterY;
+            fbSetPosition_Bottom.Execute := TRUE;
+    END_IF
+
+    if (rSetCenterX)THEN
+            rSetCenterX := false;
+            // Set Current Position
+            fbSetPosition_North.Position := stNorthBlade.stAxisStatus.fActPosition - rActCenterX ;
+            fbSetPosition_North.Execute := TRUE;
+            fbSetPosition_South.Position := stSouthBlade.stAxisStatus.fActPosition - rActCenterX ; ;
+            fbSetPosition_South.Execute := TRUE;
+    END_IF
+
+
+    //Reset
+    if (fbSetPosition_TOP.Done ) THEN
+        fbSetPosition_TOP.Execute := FALSE;
+    END_IF
+    if (fbSetPosition_Bottom.Done ) THEN
+        fbSetPosition_Bottom.Execute := FALSE;
+    END_IF
+    if (fbSetPosition_North.Done ) THEN
+        fbSetPosition_North.Execute := FALSE;
+    END_IF
+    if (fbSetPosition_South.Done ) THEN
+        fbSetPosition_South.Execute := FALSE;
+    END_IF
+
+    // Set Encoder Position
+    //Clear position lag error
+    stSetPositionOptions.ClearPositionLag := TRUE;
+    fbSetPosition_TOP(
+        Axis:=  stTopBlade.Axis ,
+        Execute:= ,
+        Position:= 0 ,
+        Mode:= FALSE,
+        Options:= stSetPositionOptions,
+        Done=> ,
+        Busy=> ,
+        Error=> ,
+        ErrorID=> );
+    fbSetPosition_Bottom(
+        Axis:= stBottomBlade.Axis ,
+        Execute:= ,
+        Position:= 0 ,
+        Mode:= FALSE,
+        Options:= stSetPositionOptions,
+        Done=> ,
+        Busy=> ,
+        Error=> ,
+        ErrorID=> );
+    fbSetPosition_North(
+        Axis:= stNorthBlade.Axis ,
+        Execute:= ,
+        Position:= 0 ,
+        Mode:= FALSE,
+        Options:= stSetPositionOptions,
+        Done=> ,
+        Busy=> ,
+        Error=> ,
+        ErrorID=> );
+    fbSetPosition_South(
+        Axis:= stSouthBlade.Axis ,
+        Execute:= ,
+        Position:= 0 ,
+        Mode:= FALSE,
+        Options:= stSetPositionOptions,
+        Done=> ,
+        Busy=> ,
+        Error=> ,
+        ErrorID=> );
+
+        *)
+    END_ACTION
+
+    METHOD M_CheckPMPS : BOOL
+    VAR_INPUT
+         index: int;
+    END_VAR
+    IF(rActApertureSizeX < (PMPS_GVL.stCurrentBeamParameters.astApertures[index].Width)+0.001)
+        OR (rActApertureSizeY < (PMPS_GVL.stCurrentBeamParameters.astApertures[index].Height)+0.001) THEN
+            FFO.i_xOK := FALSE;
+        ELSE
+            FFO.i_xOK := TRUE;
+    END_IF
+
+    (*FAST FAULT*)
+    FFO(i_xOK := ,
+        i_xReset := ,
+        i_xAutoReset :=TRUE,
+        io_fbFFHWO := this^.io_fbFFHWO);
+    END_METHOD
+
+    METHOD M_UpdatePMPS : BOOL
+    VAR_INPUT
+        index: int;
+    END_VAR
+    //Keep updating the status of the apertures PMPS
+    This^.AptArrayStatus.Height := This^.rActApertureSizeY;
+    This^.AptArrayStatus.Width := This^.rActApertureSizeX;
+    This^.AptArrayStatus.xOK := NOT (This^.stTopBlade.bError) AND NOT (This^.stBottomBlade.bError)
+                                     AND NOT (This^.stNorthBlade.bError) AND NOT (This^.stNorthBlade.bError);
+
+    //Evaluate that the current center on the X and the y direction didn't exceed limits
+    //Fast fault when it does.
+    IF(rActCenterX > (PMPS_GVL.stCurrentBeamParameters.astApertures[index].Width/2))
+        OR (rActCenterY > (PMPS_GVL.stCurrentBeamParameters.astApertures[index].Height/2)) THEN
+            FFO.i_xOK := FALSE;
+        ELSE
+            FFO.i_xOK := TRUE;
+    END_IF
+
+    //Evaluate that the requested gaps on the X and the y direction is not larger than the current gap
+    // narrow  the gap if the requested is larger
+    IF(bTest) THEN
+        IF (This^.rActApertureSizeX > AptArrayReq.Width) THEN
+            rReqApertureSizeX := AptArrayReq.Width;
+        END_IF
+        IF (This^.rActApertureSizeY > AptArrayReq.Height) THEN
+             rReqApertureSizeY := AptArrayReq.Height;
+        END_IF
+    END_IF
+
+
+    (*FAST FAULT*)
+    FFO(i_xOK := ,
+        i_xReset := ,
+        i_xAutoReset :=TRUE,
+        io_fbFFHWO := io_fbFFHWO);
+    END_METHOD
+
+
+
+
+FB_SLITS_POWER
+^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_SLITS_POWER EXTENDS FB_SLITS
+    VAR_INPUT
+    END_VAR
+    VAR
+         {attribute 'pytmc' := '
+            pv: FSW
+        '}
+        fbFlowSwitch: FB_XTES_Flowswitch;
+
+
+
+        //RTDs
+        {attribute 'pytmc' := '
+            pv: TOP:RTD:01
+        '}
+        RTD_TOP_1: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: TOP:RTD:02
+        '}
+        RTD_TOP_2: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: BOTTOM:RTD:01
+        '}
+        RTD_Bottom_1: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: BOTTOM:RTD:02
+        '}
+        RTD_Bottom_2: FB_TempSensor;
+
+        {attribute 'pytmc' := '
+            pv: NORTH:RTD:01
+        '}
+        RTD_North_1: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: NORTH:RTD:02
+        '}
+        RTD_North_2: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: SOUTH:RTD:01
+        '}
+        RTD_South_1: FB_TempSensor;
+        {attribute 'pytmc' := '
+            pv: SOUTH:RTD:02
+        '}
+        RTD_South_2: FB_TempSensor;
+
+
+
+    END_VAR
+    ACT_RTDs();
+
+    END_FUNCTION_BLOCK
+
+    ACTION ACT_CalculatePositions:
+    //check if requested center or gap has changed
+    //check that the requested values are within acceptable motion range
+    IF (rOldReqApertureSizeX <> rReqApertureSizeX) THEN
+        IF (rReqApertureSizeX <= AptArrayReq.Width)  THEN
+            rOldReqApertureSizeX := rReqApertureSizeX;
+            bExecuteMotionX := TRUE;
+            fbLogger(sMsg:='Requested new X gap.', eSevr:=TcEventSeverity.Verbose);
+        ELSE
+            fbLogger(sMsg:='Requested new X gap is larger than PMPS request.', eSevr:=TcEventSeverity.Verbose);
+        END_IF
+      //  ELSE
+        //    rReqApertureSizeX := rActApertureSizeX;
+    END_IF
+
+    IF (rOldReqCenterX <> rReqCenterX) THEN
+        rOldReqCenterX := rReqCenterX;
+        bExecuteMotionX := TRUE;
+        fbLogger(sMsg:='Requested new X center', eSevr:=TcEventSeverity.Verbose);
+       // ELSE
+          //  rReqCenterX := rActCenterX;
+    END_IF
+
+    IF (rOldReqApertureSizeY <> rReqApertureSizeY) THEN
+        IF rReqApertureSizeY <= AptArrayReq.Height THEN
+            rOldReqApertureSizeY := rReqApertureSizeY;
+            bExecuteMotionY := TRUE;
+            fbLogger(sMsg:='Requested new Y gap.', eSevr:=TcEventSeverity.Verbose);
+        ELSE
+            fbLogger(sMsg:='Requested new Y gap is larger than PMPS request.', eSevr:=TcEventSeverity.Verbose);
+        END_IF
+       // ELSE
+           // rReqApertureSizeY := rActApertureSizeY;
+    END_IF
+
+    IF (rOldReqCenterY <> rReqCenterY) THEN
+        rOldReqCenterY := rReqCenterY;
+        bExecuteMotionY := TRUE;
+        fbLogger(sMsg:='Requested new Y center.', eSevr:=TcEventSeverity.Verbose);
+       // ELSE
+          //  rReqCenterY := rActCenterY;
+    END_IF
+
+
+    //Calculate requested target positions from requested gap and center
+    fPosTopBlade := (rReqApertureSizeY/2) + (rReqCenterY + rEncoderOffsetTop) ;
+    fPosBottomBlade := (-1*rReqApertureSizeY/2) + (rReqCenterY+rEncoderOffsetBottom);
+
+    fPosNorthBlade := (rReqApertureSizeX/2) + (rReqCenterX + rEncoderOffsetNorth);
+    fPosSouthBlade := (-1*rReqApertureSizeX/2) + (rReqCenterX + rEncoderOffsetSouth);
+
+
+    //Calculate actual gap and center from actual stages positions
+    rActApertureSizeX := LREAL_TO_REAL((stNorthBlade.stAxisStatus.fActPosition - rEncoderOffsetNorth) - (stSouthBlade.stAxisStatus.fActPosition- rEncoderOffsetSouth));
+
+    rActApertureSizeY := LREAL_TO_REAL((stTopBlade.stAxisStatus.fActPosition - rEncoderOffsetTop) - (stBottomBlade.stAxisStatus.fActPosition - rEncoderOffsetBottom));
+
+    rActCenterX := LREAL_TO_REAL((((stNorthBlade.stAxisStatus.fActPosition - rEncoderOffsetNorth)  + (stSouthBlade.stAxisStatus.fActPosition - rEncoderOffsetSouth ))/2));
+
+    rActCenterY := LREAL_TO_REAL((((stTopBlade.stAxisStatus.fActPosition - rEncoderOffsetTop) + (stBottomBlade.stAxisStatus.fActPosition - rEncoderOffsetBottom))/2));
+
+
+
+    //Update PMPS Arbiter with the Actual Size and Center of the Aperture
+    END_ACTION
+
+    ACTION ACT_RTDs:
+    ////RTDs
+    RTD_TOP_1();
+    RTD_TOP_2();
+    RTD_Bottom_1();
+    RTD_Bottom_2();
+    RTD_North_1();
+    RTD_North_2();
+    RTD_South_1();
+    RTD_South_2();
+
+    //Flow Switch
+    fbFlowSwitch();
+    END_ACTION
+
+
+Related:
+    * `FB_SLITS`_
+
+
+FB_SLITS_SCATTER
+^^^^^^^^^^^^^^^^
+
+::
+
+    FUNCTION_BLOCK FB_SLITS_SCATTER EXTENDS FB_SLITS
+    VAR_INPUT
+    END_VAR
+    VAR
+
+
+
+    END_VAR
+
+
+    END_FUNCTION_BLOCK
+
+
+Related:
+    * `FB_SLITS`_
+
+
+PRG_Beamblock
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_Beamblock
+    VAR
+        fbBEAM_Motor_X : FB_MotionStage;
+        fbBEAM_Motor_Y : FB_MotionStage;
+        fbBEAM_Motor_Z : FB_MotionStage;
+        fbOUTCOUP_Motor_Y : FB_MotionStage;
+    END_VAR
+    Main.M30.bHardwareEnable := TRUE;
+    fbBEAM_Motor_X(stMotionStage:=Main.M30);
+
+    Main.M31.bHardwareEnable := TRUE;
+    fbBEAM_Motor_Y(stMotionStage:=Main.M31);
+
+    Main.M32.bHardwareEnable := TRUE;
+    fbBEAM_Motor_Z(stMotionStage:=Main.M32);
+
+    Main.M35.bHardwareEnable := TRUE;
+    fbOUTCOUP_Motor_Y(stMotionStage:=Main.M35);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_BFS
+^^^^^^^
+
+::
+
+    PROGRAM PRG_BFS
+    VAR
+        arrDPTransitions : ARRAY [0..9, 1..9] OF BOOL := // Note one more row than columns (Unknown state)
+        //Park  Up     Center Pinh.  Diode  Yag1   Yag2   Yag3   Knife
+        [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Unknown (This should always be included)
+         TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Park
+         TRUE,  TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Up
+         FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Center
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Pinhole
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Diode
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag1
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag2
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag3
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE]; // Knife
+
+         arrAdjStates : ARRAY [1..9] OF ST_BFSAssemblyState;
+
+         nStates : DINT := 9;
+         iRootState : DINT := 8;
+
+         fbAdjacent : FB_AdjacentStates;
+
+         iAdjacentStates : DINT;
+
+        stQueue : ST_Queue;
+        fbQueue : FB_Queue;
+
+        bInit : BOOL := FALSE;
+        iResult : DINT;
+        bResult : BOOL;
+
+        arrDiscovered : ARRAY [1..9] OF BOOL := [9(FALSE)];
+
+        arrPath : ARRAY [1..9] OF ST_BFSAssemblyState;
+
+        iCurrent : DINT;
+
+        iTarget : DINT;
+        Target : ST_BFSAssemblyState;
+        Root : ST_BFSAssemblyState;
+
+        iCounter : DINT;
+
+        fbBFS	:	FB_BFS;
+
+        arrStates : ARRAY [1..9] OF ST_BFSAssemblyState;
+    END_VAR
+    arrStates[1] := stDPPark;
+    arrStates[2] := stDPUp;
+    arrStates[3] := stDPCenter;
+    arrStates[4] := stDPPinhole;
+    arrStates[5] := stDPDiode;
+    arrStates[6] := stDPYag1;
+    arrStates[7] := stDPYag2;
+    arrStates[8] := stDPYag3;
+    arrStates[9] := stDPKnife;
+
+    Target := stDPYag3;
+    Root := stDPPark;
+    fbBFS(fbAdjacent:=fbAdjacent,
+          arrTransitions:=arrDPTransitions,
+          arrAdjStates:=arrAdjStates,
+          nAdjacentStates:=iAdjacentStates,
+          arrStates:=arrStates,
+          stQueue:=stQueue,
+          fbQueue:=fbQueue,
+          RootState:=Root,
+          arrPath:=arrPath,
+          Target:=Target);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_AdjacentStates`_
+    * `FB_BFS`_
+    * `FB_Queue`_
+    * `ST_BFSAssemblyState`_
+    * `ST_Queue`_
+
+
+PRG_Camera
+^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_Camera
+    VAR
+        fbCAM_Motor_X : FB_MotionStage;
+        fbCAM_Motor_Y : FB_MotionStage;
+    END_VAR
+    Main.M33.bHardwareEnable := TRUE;
+    fbCAM_Motor_X(stMotionStage:=Main.M33);
+
+    Main.M34.bHardwareEnable := TRUE;
+    fbCAM_Motor_Y(stMotionStage:=Main.M34);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_CryoPump
+^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_CryoPump
+    VAR
+        fbCryoPump_Motor_Y_10 : FB_MotionStage;
+        fbCryoPump_Motor_Y_11 : FB_MotionStage;
+
+        bEPS_OK_Y_10: BOOL; //Valve is in the Open State And communication ok
+        bEPS_OK_Y_11: BOOL; //Valve is in the Open State And communication ok
+
+        bInit : BOOl := TRUE;
+
+        (*Limit switches*)
+        {attribute 'TcLinkTo' := 'TIIB[DRL02-E23 (EL7041)]^STM Status^Status^Digital input 1'}
+        bLimitBackwardEnable_Y_10 AT %I* :BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[DRL02-E21 (EL7041)]^STM Status^Status^Digital input 1'}
+        bLimitBackwardEnable_Y_11 AT %I* :BOOL;
+
+        (*ETHERCAT BRRIDGE COM STATUS*)
+        //0: Other side is in OP state, >0: Error
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^TxPDO state
+        '}
+        xEcatBridge_TxPDO_state AT %I* :BOOL;
+
+        //0: External device connectd, 1: External device not connected
+        {attribute := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^External device not connected
+        '}
+        xEcatBridge_External_device_not_connected AT %I* : BOOL;
+
+        //0 = Data valid, 1 = Data invalid
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^WcState^WcState
+        '}
+        xEcatBridge_WcState AT %I* : BOOL;
+
+        //Inputs
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bCRYO_VGC_01_CLS'}
+        bCRYO_VGC_01_CLS AT %I* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bCRYO_VGC_01_OPN'}
+        bCRYO_VGC_01_OPN AT %I* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bCRYO_VGC_02_CLS'}
+        bCRYO_VGC_02_CLS AT %I* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bCRYO_VGC_02_OPN'}
+        bCRYO_VGC_02_OPN AT %I* : BOOL;
+
+        //Outputs
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTY10_IN'}
+        bMOTY10_IN AT %Q* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTY10_OUT'}
+        bMOTY10_OUT AT %Q* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTY11_IN'}
+        bMOTY11_IN AT %Q* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTY11_OUT'}
+        bMOTY11_OUT AT %Q* : BOOL;
+    END_VAR
+    IF ( bInit) THEN
+        bInit := FALSE;
+        Main.M48.bHardwareEnable := TRUE; //Linked to valve state
+        Main.M48.bPowerSelf := TRUE;
+        Main.M48.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M48.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M49.bHardwareEnable := TRUE; //Linked to valve state
+        Main.M49.bPowerSelf := TRUE;
+        Main.M49.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M49.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+
+        //Homing routine parameters
+        Main.M48.fHomePosition:= 0;
+        Main.M48.nHomingMode := ENUM_EpicsHomeCmd.HIGH_LIMIT;
+        Main.M49.fHomePosition:= 0;
+        Main.M49.nHomingMode := ENUM_EpicsHomeCmd.HIGH_LIMIT;
+    END_IF
+
+    fbCryoPump_Motor_Y_10(stMotionStage:=Main.M48);
+    fbCryoPump_Motor_Y_11(stMotionStage:=Main.M49);
+
+    //Interface
+    bMOTY10_IN := NOT bLimitBackwardEnable_Y_10;
+    bMOTY10_OUT := NOT Main.M48.bLimitForwardEnable;
+    bMOTY11_IN := NOT bLimitBackwardEnable_Y_11;
+    bMOTY11_OUT := NOT Main.M49.bLimitForwardEnable;
+    bEPS_OK_Y_10 := (NOT bCRYO_VGC_01_CLS) AND bCRYO_VGC_01_OPN AND NOT (xEcatBridge_External_device_not_connected) AND NOT (xEcatBridge_WcState) AND NOT (xEcatBridge_TxPDO_state);
+    bEPS_OK_Y_11 := (NOT bCRYO_VGC_02_CLS) AND bCRYO_VGC_02_OPN AND NOT (xEcatBridge_External_device_not_connected) AND NOT (xEcatBridge_WcState) AND NOT (xEcatBridge_TxPDO_state);
+
+
+    //Handle EPS
+    Main.M48.bLimitBackwardEnable := bEPS_OK_Y_10 AND bLimitBackwardEnable_Y_10;
+    Main.M49.bLimitBackwardEnable := bEPS_OK_Y_11 AND bLimitBackwardEnable_Y_11;
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_Cryopumps
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_Cryopumps
+    VAR
+        // Motor axes
+        stCP1Motor : DUT_MotionStage;
+        stCP2Motor : DUT_MotionStage;
+
+        // Define axis states for each axis. These are fed to a FB_PositionState manager for each axis
+        // Rotation axis position states
+        stCP1PosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+
+        // Y axis position states
+        stCP2PosPark : DUT_PositionState :=		(sName:= 'PARK',
+                                                 fPosition := 0.0,
+                                                 fDelta:=1.0,
+                                                 fVelocity:=5.0,
+                                                 fAccel:=1.0,
+                                                fDecel:=1.0,
+                                                 bMoveOk:=FALSE,
+                                                 bLocked:=TRUE,
+                                                 bValid:=TRUE);
+    END_VAR
+
+
+    END_PROGRAM
+
+
+
+
+PRG_CryoStat
+^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_CryoStat
+    VAR
+        fbCRYO_Motor_X : FB_MotionStage;
+        fbCRYO_Motor_Y : FB_MotionStage;
+        fbCRYO_Motor_Z : FB_MotionStage;
+        fbCRYO_Motor_rY : FB_MotionStage;
+    END_VAR
+    Main.M22.bHardwareEnable := TRUE;
+    fbCRYO_Motor_X(stMotionStage:=Main.M22);
+
+    Main.M23.bHardwareEnable := TRUE;
+    fbCRYO_Motor_Y(stMotionStage:=Main.M23);
+
+    Main.M24.bHardwareEnable := TRUE;
+    fbCRYO_Motor_Z(stMotionStage:=Main.M24);
+
+    Main.M25.bHardwareEnable := TRUE;
+    fbCRYO_Motor_rY(stMotionStage:=Main.M25);
+    Main.M25.bLimitBackwardEnable:=TRUE;
+    Main.M25.bLimitForwardEnable:=TRUE;
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_DiagnosticPaddle
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DiagnosticPaddle
+    (*	Program for the ChemRIXS diagnostic paddle. This program sets up a series of PositionStateManagers to implement
+        the necessary logic to protect the assembly from running into the recirculation system tube and catcher. *)
+
+        // TODO: Setup position state locks?
+    VAR_INPUT
+        xMoveOK : BOOL := FALSE; // External interlock. Applied to bEnable of all PositionStateManagers.
+    END_VAR
+    VAR
+        bInit : BOOL := FALSE; // Initialization variable
+        //iCounter : UDINT; // loop counter
+
+        // Setup Assembly manager to set bMoveOK for appropriate states
+        fbDPAssemblyManager : FB_AssemblyPositionStatemanager;
+
+        // Array of axes for protection FB
+        arrDPAxes : ARRAY [1..3] OF DUT_MotionStage := [stDPXMotor, stDPYMotor, stDPZMotor];
+
+        //  Setup diagnostic paddle adjacency matrix
+        arrDPTransitions : ARRAY [0..9, 1..9] OF BOOL :=
+        //Park  Up     Center Pinh.  Diode  Yag1   Yag2   Yag3   Knife
+        [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Unknown (This should always be included)
+         TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Park
+         TRUE,  TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Up
+         TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Center
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Pinhole
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Diode
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag1
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag2
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag3
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE]; // Knife
+
+        // Setup diagnostic paddle output matrix
+        arrDPOutputs		: ARRAY [1..9, 1..3] OF DUT_PositionState :=
+        //X axis		    Y axis			    Z axis		         Assembly state
+        [stDPXPosPark,		stDPYPosPark,		stDPZPosPark,	  // Park
+         stDPXPosPark, 		stDPYPosCenter,		stDPZPosPark, 	  // Up
+         stDPXPosCenter, 	stDPYPosCenter,		stDPZPosCenter,   // Center
+         stDPXPosCenter, 	stDPYPosPinhole,	stDPZPosCenter,   // Pinhole
+         stDPXPosCenter,	stDPYPosDiode,		stDPZPosCenter,   // Diode
+         stDPXPosCenter,	stDPYPosYag1,		stDPZPosCenter,   // Yag1
+         stDPXPosCenter,	stDPYPosYag2,		stDPZPosCenter,   // Yag2
+         stDPXPosCenter,	stDPYPosYag3,		stDPZPosCenter,   // Yag3
+         stDPXPosCenter,	stDPYPosKnife,		stDPZPosCenter];  // Knife
+
+        // TODO: Figure out a way to make this more useful, or remove it.
+        arrDPStates			: ARRAY[0..9] OF STRING := ['UNKNOWN', 'PARK', 'UP', 'CENTER',
+                                                        'PINHOLE', 'DIODE', 'YAG1', 'YAG2',
+                                                        'YAG3',	'KNIFE'];
+
+        // Array of position states for PositionStateManagers (initialize later)
+        arrDPXStates : ARRAY [1..15] OF DUT_PositionState := [stDPXPosPark,stDPXPosCenter,stDPXPosKnife];
+        arrDPYStates : ARRAY [1..15] OF DUT_PositionState := [stDPYPosPark,stDPYPosCenter,stDPYPosPinhole,stDPYPosDiode,stDPYPosYag1,
+                                                              stDPYPosYag2,stDPYPosYag3,stDPYPosKnife];
+        arrDPZStates : ARRAY [1..15] OF DUT_PositionState := [stDPZPosPark,stDPZPosCenter];
+
+        // Setup PositionStateManagers and set variables for each axis
+        // X Axis
+        // When changed, sets the destination and starts a move
+        {attribute 'pytmc' := '
+            pv: SET
+            io: io
+        '}
+        enumDPXSet: ENUM_DPX; // NOTE: Please copy this pragma exactly on your enumSet
+        {attribute 'pytmc' := '
+            pv:
+               io: io
+        '}
+        fbXStateManager: FB_PositionStateManager;
+
+        // Y axis
+        // When changed, sets the destination and starts a move
+        {attribute 'pytmc' := '
+            pv: SET
+            io: io
+        '}
+        enumDPYSet: ENUM_DPY; // NOTE: Please copy this pragma exactly on your enumSet
+        {attribute 'pytmc' := '
+            pv:
+            io: io
+        '}
+        fbYStateManager: FB_PositionStateManager;
+
+        // Z axis
+        // When changed, sets the destination and starts a move
+        {attribute 'pytmc' := '
+            pv: SET
+            io: io
+        '}
+        enumDPZSet: ENUM_DPZ; // NOTE: Please copy this pragma exactly on your enumSet
+        {attribute 'pytmc' := '
+            pv:
+            io: io
+        '}
+        fbZStateManager: FB_PositionStateManager;
+
+        arrPosLocks : ARRAY [1..13] OF FB_PositionStateLock;
+
+    END_VAR
+    VAR_OUTPUT
+        // Setup PositionStateManager Outputs
+        // X Axis
+        // If TRUE, we are in an error state
+        bDPXError: BOOL; // NOTE: do not pragma these, already has pragma in manager
+        // Error code
+        nDPXErrorId: UDINT;
+        // Message associated with bError = TRUE
+        sDPXErrorMessage: STRING;
+        // If TRUE, we are currently moving between states
+        bDPXBusy: BOOL;
+        // If TRUE, we asked for a move between states, it completed successfully, and there is no ongoing move
+        bDPXDone: BOOL;
+        // The current state readback
+        {attribute 'pytmc' := '
+            pv: GET
+            io: i
+        '}
+        enumDPXGet: ENUM_DPX; // NOTE: Please copy this pragma exactly on your enumGet
+
+        // Y Axis
+        // If TRUE, we are in an error state
+        bDPYError: BOOL; // NOTE: do not pragma these, already has pragma in manager
+        // Error code
+        nDPYErrorId: UDINT;
+        // Message associated with bError = TRUE
+        sDPYErrorMessage: STRING;
+        // If TRUE, we are currently moving between states
+        bDPYBusy: BOOL;
+        // If TRUE, we asked for a move between states, it completed successfully, and there is no ongoing move
+        bDPYDone: BOOL;
+        // The current state readback
+        {attribute 'pytmc' := '
+            pv: GET
+            io: i
+        '}
+        enumDPYGet: ENUM_DPY; // NOTE: Please copy this pragma exactly on your enumGet
+
+        // Z Axis
+        // If TRUE, we are in an error state
+        bDPZError: BOOL; // NOTE: do not pragma these, already has pragma in manager
+        // Error code
+        nDPZErrorId: UDINT;
+        // Message associated with bError = TRUE
+        sDPZErrorMessage: STRING;
+        // If TRUE, we are currently moving between states
+        bDPZBusy: BOOL;
+        // If TRUE, we asked for a move between states, it completed successfully, and there is no ongoing move
+        bDPZDone: BOOL;
+        // The current state readback
+        {attribute 'pytmc' := '
+            pv: GET
+            io: i
+        '}
+        enumDPZGet: ENUM_DPZ; // NOTE: Please copy this pragma exactly on your enumGet
+    END_VAR
+    IF NOT bInit THEN
+        bInit := TRUE;
+    END_IF
+
+    // Manage the logic between the Diagnostic Paddle axes
+    fbDPAssemblyManager(arrOutputs:=arrDPOutputs,
+                        arrTransitions:=arrDPTransitions,
+                        arrAxes:=arrDPAxes,
+                        arrAssemblyStates:=arrDPStates);
+
+    // Update positions based on motion requests
+    fbXStateManager(
+        stMotionStage := stDPXMotor,
+        arrStates := arrDPXStates,
+        setState := enumDPXSet,
+        bEnable := xMoveOK,
+        bError => bDPXError,
+        nErrorId => nDPXErrorId,
+        sErrorMessage => sDPXErrorMessage,
+        bBusy => bDPXBusy,
+        bDone => bDPXDone,
+        getState => enumDPXGet);
+
+    fbYStateManager(
+        stMotionStage := stDPYMotor,
+        arrStates := arrDPYStates,
+        setState := enumDPYSet,
+        bEnable := xMoveOK,
+        bError => bDPYError,
+        nErrorId => nDPYErrorId,
+        sErrorMessage => sDPYErrorMessage,
+        bBusy => bDPYBusy,
+        bDone => bDPYDone,
+        getState => enumDPYGet);
+
+    fbZStateManager(
+        stMotionStage := stDPZMotor,
+        arrStates := arrDPZStates,
+        setState := enumDPZSet,
+        bEnable := xMoveOK,
+        bError => bDPZError,
+        nErrorId => nDPZErrorId,
+        sErrorMessage => sDPZErrorMessage,
+        bBusy => bDPZBusy,
+        bDone => bDPZDone,
+        getState => enumDPZGet);
+
+    END_PROGRAM
+
+
+Related:
+    * `ENUM_DPX`_
+    * `ENUM_DPY`_
+    * `ENUM_DPZ`_
+
+
+PRG_DiagnosticPaddleMotors
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DiagnosticPaddleMotors
+    VAR
+        fbDPX_Motor : FB_MotionStage;
+        fbDPY_Motor : FB_MotionStage;
+        fbDPZ_Motor : FB_MotionStage;
+    END_VAR
+    Main.M1.bHardwareEnable := TRUE;
+    fbDPX_Motor(stMotionStage:=Main.M1);
+
+    //// Deal with bad limit switch on Y stage
+    //Main.M2.bLimitBackwardEnable := TRUE;
+    //Main.M2.bLimitForwardEnable := TRUE;
+    Main.M2.bHardwareEnable := TRUE;
+    fbDPY_Motor(stMotionStage:=Main.M2);
+
+    Main.M3.bHardwareEnable := TRUE;
+    fbDPZ_Motor(stMotionStage:=Main.M3);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_DPL_X_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_X_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS'}
+        aDPL_X_EPS		: ARRAY [1 .. 3] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:X:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange 	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_X_EPS[1].fBwd_Limits := 10;
+        aDPL_X_EPS[1].fFwd_Limits := 80;
+
+        aDPL_X_EPS[2].fBwd_Limits := 10;
+        aDPL_X_EPS[2].fFwd_Limits := 30;
+
+        aDPL_X_EPS[3].fBwd_Limits := 60;
+        aDPL_X_EPS[3].fFwd_Limits := 80;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_X_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RX in [124, 215');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 124, 215));
+
+    fbEPS(eps:=aDPL_X_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10, 30]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+
+    bFullRange := (NOT aDPL_X_EPS[2].stEPS.bEPS_OK) AND (NOT aDPL_X_EPS[3].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aDPL_X_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:= M1, fPosition:=fDPL_X, aEPSLimits:= aDPL_X_EPS, stForwardMotorEPS:=M1.stEPSForwardEnable, stBackwardMotorEPS:= M1.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_DPL_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS'}
+        aDPL_Y_EPS		: ARRAY [1 .. 2] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+           fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_Y_EPS[1].fBwd_Limits := -1;
+        aDPL_Y_EPS[1].fFwd_Limits := 80;
+
+        aDPL_Y_EPS[2].fBwd_Limits := 40;
+        aDPL_Y_EPS[2].fFwd_Limits := 80;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_Y_EPS[2].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];RCC in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    bFullRange := NOT aDPL_Y_EPS[2].stEPS.bEPS_OK;
+
+    fbEPS(eps:=aDPL_Y_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M2, fPosition:=M2.stAxisStatus.fActPosition, aEPSLimits:=aDPL_Y_EPS, stForwardMotorEPS:=M2.stEPSForwardEnable, stBackwardMotorEPS:= M2.stEPSBackwardEnable, bEPS_Override:= bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_DPL_Z_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_DPL_Z_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS'}
+        aDPL_Z_EPS 	    : ARRAY [1 .. 4] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS:OVRD_MODE'}
+        bEPS_Override: BOOL := FALSE;
+        {attribute 'pytmc' := 'pv: CRIX:DPL:MMS:Z:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange 	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aDPL_Z_EPS[1].fBwd_Limits := -10;
+        aDPL_Z_EPS[1].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[2].fBwd_Limits := 30;
+        aDPL_Z_EPS[2].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[3].fBwd_Limits := 30;
+        aDPL_Z_EPS[3].fFwd_Limits := 100;
+
+        aDPL_Z_EPS[4].fBwd_Limits := 30;
+        aDPL_Z_EPS[4].fFwd_Limits := 100;
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aDPL_Z_EPS[2].stEPS);
+    fbEPS.setMessage('DPL X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fDPL_X, 10, 60));
+
+    fbEPS(eps:=aDPL_Z_EPS[3].stEPS);
+    fbEPS.setMessage('RCC Y in [-34,10];RCC_Z in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fRCC_Y, -34, 10));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    fbEPS(eps:=aDPL_Z_EPS[4].stEPS);
+    fbEPS.setMessage('RCC_Y in [-38,-34];RCC_Z in [-15,11];DPL_Y in [-1,40]');
+    fbEPS.setBit(0, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+    fbEPS.setBit(2, F_InRange(fDPL_Y, -1, 40));
+
+    bFullRange := (NOT aDPL_Z_EPS[2].stEPS.bEPS_OK) AND (NOT aDPL_Z_EPS[3].stEPS.bEPS_OK) AND (NOT aDPL_Z_EPS[4].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aDPL_Z_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M3, fPosition:=fDPL_Z, aEPSLimits:= aDPL_Z_EPS, stForwardMotorEPS:=M3.stEPSForwardEnable, stBackwardMotorEPS:= M3.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_EPS
+^^^^^^^
+
+::
+
+    PROGRAM PRG_EPS
+    VAR
+    END_VAR
+    // Update Motor Positions before Using them in EPS Checks
+    fDPL_X  := M1.stAxisStatus.fActPosition;
+
+    fSDS_RX 	:= M19.stAxisStatus.fActPosition;
+    fSDS_Y      := M17.stAxisStatus.fActPosition;
+    fSDS_Z_ENC  := M36.stAxisStatus.fActPosition;
+
+    fDPL_Z 		:= M3.stAxisStatus.fActPosition;
+    fDPL_Y 		:= M2.stAxisStatus.fActPosition;
+
+    fRCC_Z 		:= M39.stAxisStatus.fActPosition;
+    fRCC_Y 		:= M38.stAxisStatus.fActPosition;
+
+    PRG_SDS_Y_EPS();
+    PRG_SDS_RX_EPS();
+    PRG_SDS_ZENCODER_EPS();
+
+    PRG_DPL_X_EPS();
+    PRG_DPL_Y_EPS();
+    PRG_DPL_Z_EPS();
+
+    PRG_RCC_Y_EPS();
+    PRG_RCC_Z_EPS();
+
+    END_PROGRAM
+
+
+Related:
+    * `PRG_DPL_X_EPS`_
+    * `PRG_DPL_Y_EPS`_
+    * `PRG_DPL_Z_EPS`_
+    * `PRG_RCC_Y_EPS`_
+    * `PRG_RCC_Z_EPS`_
+    * `PRG_SDS_RX_EPS`_
+    * `PRG_SDS_Y_EPS`_
+    * `PRG_SDS_ZENCODER_EPS`_
+
+
+PRG_FiberLite
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_FiberLite
+    VAR
+
+    END_VAR
+    // Set LED output scaling (Fiber-Lite)
+    bLedOutput1.iTermBits := 14;
+    bLedOutput1(fbSetIllPercent=>);
+
+    bLedOutput2.iTermBits := 14;
+    bLedOutput2();
+
+    END_PROGRAM
+
+
+
+
+PRG_Illumination
+^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_Illumination
+    (*	Program for the ChemRIXS illumination system. *)
+    VAR_INPUT
+        xMoveOK : BOOL := FALSE; // External interlock. Applied to bEnable of all PositionStateManagers.
+    END_VAR
+    VAR
+        bInit : BOOL := TRUE; // Initialization variable
+    END_VAR
+    IF ( bInit) THEN
+        bInit := FALSE;
+
+        Main.M9.bHardwareEnable := TRUE;
+        Main.M10.bHardwareEnable := TRUE;
+        Main.M11.bHardwareEnable := TRUE;
+
+    END_IF
+
+    fbILMXStage(stMotionStage := Main.M9);
+    fbILMYStage(stMotionStage := Main.M10);
+    fbILMZStage(stMotionStage := Main.M11);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_InjectorMotors
+^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_InjectorMotors
+    VAR
+        fbSDSX_Motor : FB_MotionStage;
+        fbSDSY_Motor : FB_MotionStage;
+        fbSDSZ_Motor : FB_MotionStage;
+        fbSDSRY_Motor : FB_MotionStage;
+        fbSDSShroud_Motor : FB_MotionStage;
+        fbSDSZEncoder: FB_MotionStage;
+
+        bEPS_OK_SDSZ_18: BOOL; //Valve is in the Open State And communication ok
+
+        bInit : BOOL := TRUE;
+
+        //Limit Switch
+        {attribute 'TcLinkTo' := 'TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E27 (EL7031)^STM Status^Status^Digital input 2'}
+        bLimitBackwardEnable_SDSZ_18 AT %I* : BOOL;
+
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bSDS_VGC_01_CLS'}
+        bSDS_VGC_01_CLS AT %I* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Inputs^bSDS_VGC_01_OPN'}
+        bSDS_VGC_01_OPN AT %I* : BOOL;
+
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTSDSZ18_IN'}
+        bMOTSDSZ18_IN AT %Q* : BOOL;
+        {attribute 'TcLinkTo' := 'TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTSDSZ18_OUT'}
+        bMOTSDSZ18_OUT AT %Q* : BOOL;
+
+        // Hall Effect Limits for SDS X Stage
+        {attribute 'TcLinkTo' := 'TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 173 (EL1124)^Channel 3^Input'}
+        bHall_Forward AT %I* : BOOL;
+        nHall_Forward_Cycles: UINT;
+        {attribute 'TcLinkTo' := 'TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 173 (EL1124)^Channel 4^Input'}
+        bHall_Backward AT %I*: BOOL;
+        nHall_Backward_Cycles: UINT;
+
+        nNumCyclesNeeded: UINT := 10;
+
+    END_VAR
+    if (bInit) THEN
+        // X Motor
+        Main.M16.bHardwareEnable := TRUE;
+        Main.M16.nHomingMode := ENUM_EpicsHomeCmd.ABSOLUTE_SET;
+        // Y motor
+        Main.M17.bHardwareEnable := TRUE;
+        // Z Motor
+        Main.M18.bHardwareEnable := TRUE;
+        // Y Rotation Motor
+        Main.M19.bHardwareEnable := TRUE;
+        Main.M19.bLimitForwardEnable := TRUE;
+        Main.M19.bLimitBackwardEnable := TRUE;
+        // Shroud Motor
+        Main.M20.bHardwareEnable := TRUE;
+        Main.M20.bLimitForwardEnable := TRUE;
+        Main.M20.bLimitBackwardEnable := TRUE;
+    END_IF
+
+    fbSDSX_Motor(stMotionStage:=Main.M16);
+    fbSDSY_Motor(stMotionStage:=Main.M17);
+    fbSDSZ_Motor(stMotionStage:=Main.M18);
+    fbSDSRY_Motor(stMotionStage:=Main.M19);
+    fbSDSShroud_Motor(stMotionStage:=Main.M20);
+    fbSDSZEncoder(stMotionStage:=Main.M36);
+
+
+    bMOTSDSZ18_OUT := NOT Main.M18.bLimitForwardEnable;
+    bMOTSDSZ18_IN := NOT bLimitBackwardEnable_SDSZ_18;
+    bEPS_OK_SDSZ_18 := (NOT bSDS_VGC_01_CLS) AND bSDS_VGC_01_OPN AND NOT (PRG_CryoPump.xEcatBridge_External_device_not_connected) AND NOT (PRG_CryoPump.xEcatBridge_WcState) AND NOT (PRG_CryoPump.xEcatBridge_TxPDO_state);
+
+
+    Main.M18.bLimitBackwardEnable := bEPS_OK_SDSZ_18 AND bLimitBackwardEnable_SDSZ_18;
+
+    // X Stage Groundswitching Limits Logic
+
+    //Cycle counting code for dealing with interference
+    IF bHall_Forward THEN
+        nHall_Forward_Cycles := MIN(nHall_Forward_Cycles + 1, nNumCyclesNeeded);
+    ELSE
+        nHall_Forward_Cycles := 0;
+    END_IF
+    IF bHall_Backward THEN
+        nHall_Backward_Cycles := MIN(nHall_Backward_Cycles + 1, nNumCyclesNeeded);
+    ELSE
+        nHall_Backward_Cycles := 0;
+    END_IF
+
+    Main.M16.bLimitForwardEnable := nHall_Forward_Cycles < nNumCyclesNeeded;
+    Main.M16.bLimitBackwardEnable := nHall_Backward_Cycles < nNumCyclesNeeded;
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+    * `PRG_CryoPump`_
+
+
+PRG_Main
+^^^^^^^^
+
+::
+
+    PROGRAM PRG_Main
+    VAR
+        //stTestMotor1	:	DUT_SimMotor;
+        //fbTestMotor		:	FB_SIM_MOTOR;
+        bInit			:	BOOL := FALSE;
+        DPState : INT;
+        arrStates : ARRAY [1..9] OF ENUM_DiagPaddle;
+        bDPaddleOK : BOOL;
+
+    END_VAR
+    IF NOT bInit THEN
+        bInit := TRUE;
+    END_IF
+
+    // Add interlock logic to this later
+    bDPaddleOK := TRUE;
+    //PRG_DiagnosticPaddle(xMoveOK:=bDPaddleOK);
+
+    //PRG_QueueTest();
+
+    //PRG_Test_AdjacentStates();
+
+    //PRG_BFS();
+
+    PRG_EPS();
+    PRG_DiagnosticPaddleMotors();
+
+    PRG_QuestarMotors();
+
+    PRG_PointDetectorMotors();
+
+    PRG_CryoStat();
+    PRG_RCI();
+    PRG_Camera();
+    PRG_Beamblock();
+    PRG_ObjectivesMotors();
+    PRG_RCC();
+    PRG_VLS();
+    PRG_InjectorMotors();
+    PRG_Illumination();
+    PRG_CryoPump();
+    PRG_FiberLite();
+
+    PRG_PMPS();
+
+    END_PROGRAM
+
+
+Related:
+    * `ENUM_DiagPaddle`_
+    * `PRG_BFS`_
+    * `PRG_Beamblock`_
+    * `PRG_Camera`_
+    * `PRG_CryoPump`_
+    * `PRG_CryoStat`_
+    * `PRG_DiagnosticPaddle`_
+    * `PRG_DiagnosticPaddleMotors`_
+    * `PRG_EPS`_
+    * `PRG_FiberLite`_
+    * `PRG_Illumination`_
+    * `PRG_InjectorMotors`_
+    * `PRG_ObjectivesMotors`_
+    * `PRG_PMPS`_
+    * `PRG_PointDetectorMotors`_
+    * `PRG_QuestarMotors`_
+    * `PRG_QueueTest`_
+    * `PRG_RCC`_
+    * `PRG_RCI`_
+    * `PRG_Test_AdjacentStates`_
+    * `PRG_VLS`_
+
+
+PRG_ObjectivesMotors
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_ObjectivesMotors
+    VAR
+        fbOBJX_Motor : FB_MotionStage;
+        fbOBJY_Motor : FB_MotionStage;
+        fbOBJZ_Motor : FB_MotionStage;
+    END_VAR
+    Main.M4.bHardwareEnable := TRUE;
+    fbOBJX_Motor(stMotionStage:=Main.M4);
+
+    Main.M5.bHardwareEnable := TRUE;
+    fbOBJY_Motor(stMotionStage:=Main.M5);
+
+    Main.M6.bHardwareEnable := TRUE;
+    fbOBJZ_Motor(stMotionStage:=Main.M6);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_PMPS
+^^^^^^^^
+
+::
+
+    PROGRAM PRG_PMPS
+    VAR
+         fbArbiterIO : FB_SubSysToArbiter_IO;
+
+        ff2_ff1_link: FB_FastFault := (i_xAutoReset := TRUE, i_DevName := 'FF2 to FF1 Link', i_Desc := 'This is virtual FF2 fault, Please check the faulting device below', i_TypeCode := 16#9999);
+
+    END_VAR
+    (*Fast Fault instantiation*)
+    GVL_PMPS.g_FastFaultOutput1.bAutoReset :=TRUE;
+    GVL_PMPS.g_FastFaultOutput2.bAutoReset :=TRUE;
+    GVL_PMPS.g_FastFaultOutput1.Execute(i_xVeto := (PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_OUT]
+                                          AND NOT PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_IN])
+                                           OR PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.ST1K2]);
+    GVL_PMPS.g_FastFaultOutput2.Execute(i_xVeto := (PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_OUT]
+                                          AND NOT PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_IN])
+                                           OR PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.ST1K2]);
+    (* Arbiter Instantiation*)
+    fbArbiterIO(Arbiter := GVL_PMPS.fbArbiter1, fbFFHWO := GVL_PMPS.g_FastFaultOutput1, i_bVeto := (PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_OUT]
+                                          AND NOT PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.MR1K1_IN])
+                                           OR PMPS_GVL.stCurrentBeamParameters.aVetoDevices[PMPS.K_Stopper.ST1K2]);
+    //routed to the arbiter
+    ff2_ff1_link(
+        io_fbFFHWO := GVL_PMPS.g_FastFaultOutput2,
+        i_xOK := GVL_PMPS.g_FastFaultOutput1.q_xFastFaultOut);
+
+    GVL_PMPS.fbArbiter1.AddRequest(nReqID := 16#FAFA, stReqBp := PMPS_GVL.cstFullBeam, sDevName :='plc-crix-mot');
+
+    END_PROGRAM
+
+
+Related:
+    * `GVL_PMPS`_
+
+
+PRG_PointDetectorMotors
+^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_PointDetectorMotors
+    VAR
+        fbPDETY_Motor : FB_MotionStage;
+        fbPDETTheta_Motor : FB_MotionStage;
+    END_VAR
+    Main.M7.bHardwareEnable := TRUE;
+    fbPDETY_Motor(stMotionStage:=Main.M7);
+
+    Main.M8.bHardwareEnable := TRUE;
+    fbPDETTheta_Motor(stMotionStage:=Main.M8);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_QuestarMotors
+^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_QuestarMotors
+    VAR
+        fbQSTX_Motor : FB_MotionStage;
+        fbQSTY_Motor : FB_MotionStage;
+    END_VAR
+    Main.M12.bHardwareEnable := TRUE;
+    fbQSTX_Motor(stMotionStage:=Main.M12);
+
+    Main.M13.bHardwareEnable := TRUE;
+    fbQSTY_Motor(stMotionStage:=Main.M13);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_QueueTest
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_QueueTest
+    VAR
+        stQueue : ST_Queue;
+        fbQueue : FB_Queue;
+
+        bInit : BOOL := FALSE;
+        iResult : DINT;
+        bResult : BOOL;
+
+    END_VAR
+    fbQueue.Enqueue(1);
+        fbQueue.Enqueue(2);
+        fbQueue.Enqueue(3);
+        fbQueue.Enqueue(4);
+        fbQueue.Enqueue(5);
+        fbQueue.Enqueue(6);
+        fbQueue.Enqueue(7);
+        fbQueue.Enqueue(8);
+        fbQueue.Enqueue(9);
+        fbQueue.Enqueue(10);
+        fbQueue.Enqueue(11);
+        iResult := fbQueue.Dequeue(); // 1
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue(); // 5
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue();
+        iResult := fbQueue.Dequeue(); // 10
+        iResult := fbQueue.Dequeue(); // element 11; should fail
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_Queue`_
+    * `ST_Queue`_
+
+
+PRG_RCC
+^^^^^^^
+
+::
+
+    PROGRAM PRG_RCC
+    VAR
+        fbRCC_Motor_X : FB_MotionStage;
+        fbRCC_Motor_Y : FB_MotionStage;
+        fbRCC_Motor_Z : FB_MotionStage;
+
+        bInit : BOOl := TRUE;
+    END_VAR
+    IF ( bInit) THEN
+        bInit := FALSE;
+        Main.M37.bHardwareEnable := TRUE;
+        Main.M37.bPowerSelf := TRUE;
+        Main.M37.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M37.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M38.bHardwareEnable := TRUE;
+        Main.M38.bPowerSelf := TRUE;
+        Main.M38.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M38.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M39.bHardwareEnable := TRUE;
+        Main.M39.bPowerSelf := TRUE;
+        Main.M39.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M39.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+    END_IF
+
+    fbRCC_Motor_X(stMotionStage:=Main.M37);
+    fbRCC_Motor_Y(stMotionStage:=Main.M38);
+    fbRCC_Motor_Z(stMotionStage:=Main.M39);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
+
+PRG_RCC_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_RCC_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS'}
+        aRCC_Y_EPS 	    : ARRAY [1 .. 4] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL :=  FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aRCC_Y_EPS[1].fBwd_Limits := -38;
+        aRCC_Y_EPS[1].fFwd_Limits := 10;
+
+        aRCC_Y_EPS[2].fBwd_Limits := -38;
+        aRCC_Y_EPS[2].fFwd_Limits := -34;
+
+        aRCC_Y_EPS[3].fBwd_Limits := -38;
+        aRCC_Y_EPS[3].fFwd_Limits := -34;
+
+        aRCC_Y_EPS[4].fBwd_Limits := -38;
+        aRCC_Y_EPS[4].fFwd_Limits := 0; // VARIBLE
+
+        bInit := FALSE;
+    END_IF
+
+    fbEPS(eps:=aRCC_Y_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RX in [124, 215];SDS_Z_ENC in [3.05, 3.8]');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 124, 215));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.05, 3.8));
+
+    fbEPS(eps:=aRCC_Y_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];RCC_Z in [-15,11]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Z, -15, 11));
+
+    fbEPS(eps:=aRCC_Y_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.8, 4];SDS_Y - RCC_Y <= nozzle_catcher_offset');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.8, 4));
+    fbEPS.setBit(1, (fSDS_Y - fRCC_Y) <= fNozzleCatcherOffset);
+
+    aRCC_Y_EPS[4].fFwd_Limits := fSDS_Y - fNozzleCatcherOffset; // Variable Limits
+
+
+    bFullRange := (NOT aRCC_Y_EPS[2].stEPS.bEPS_OK) AND (NOT aRCC_Y_EPS[3].stEPS.bEPS_OK) AND (NOT aRCC_Y_EPS[4].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aRCC_Y_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M38, fPosition:=fRCC_Y, aEPSLimits:=aRCC_Y_EPS, stForwardMotorEPS:=M38.stEPSForwardEnable, stBackwardMotorEPS:= M38.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_RCC_Z_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_RCC_Z_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS'}
+        aRCC_Z_EPS	    : ARRAY [1 .. 3] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS:OVRD_MODE'}
+        bEPS_Override: BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:RCC:MMS:Z:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aRCC_Z_EPS[1].fBwd_Limits := -18;
+        aRCC_Z_EPS[1].fFwd_Limits := 11;
+
+        aRCC_Z_EPS[2].fBwd_Limits := -18;
+        aRCC_Z_EPS[2].fFwd_Limits := -15;
+
+        aRCC_Z_EPS[3].fBwd_Limits := -18;
+        aRCC_Z_EPS[3].fFwd_Limits := -15;
+
+        bInit := FALSE;
+    END_IF
+
+
+    fbEPS(eps:=aRCC_Z_EPS[2].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10,30];DPL_Y in [-1,40]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fDPL_Y, -1, 40));
+
+    fbEPS(eps:=aRCC_Z_EPS[3].stEPS);
+    fbEPS.setMessage('DPL_Z in [-10, 30];RCC_Y in [-34,10]');
+    fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
+    fbEPS.setBit(1, F_InRange(fRCC_Y, -34, 10));
+
+    bFullRange := (NOT aRCC_Z_EPS[2].stEPS.bEPS_OK) AND (NOT aRCC_Z_EPS[3].stEPS.bEPS_OK);
+
+    fbEPS(eps:=aRCC_Z_EPS[1].stEPS);
+    fbEPS.setMessage('Full Range');
+    fbEPS.setBit(0, bFullRange);
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:= tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:= M39, fPosition:=fRCC_Z, aEPSLimits:=aRCC_Z_EPS, stForwardMotorEPS:=M39.stEPSForwardEnable, stBackwardMotorEPS:= M39.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_RCI
+^^^^^^^
+
+::
+
+    PROGRAM PRG_RCI
+    VAR
+        fbRCI_Motor_X : FB_MotionStage;
+        fbRCI_Motor_Y : FB_MotionStage;
+        fbRCI_Motor_Z : FB_MotionStage;
+        fbRCI_Motor_rX : FB_MotionStage;
+
+        iMagnetOutINT AT %Q*: INT;
+        iMagnetInINT AT %I*: INT;
+
+        {attribute 'pytmc' := '
+            pv: CRIX:RCI:MAG_SET
+            EGU: V
+        '}
+        fMagnetSet: LREAL;
+
+        {attribute 'pytmc' := '
+            pv: CRIX:RCI:MAG_GET
+            EGU: V
+        '}
+        fMagnetGet: LREAL;
+
+        fbGetMagnetVoltage: FB_RCI_Analog_Input; // FB_AnalogInput;
+        fbSetMagnetVoltage: FB_RCI_Analog_Output; // FB_AnalogOutput;
+    END_VAR
+    Main.M26.bHardwareEnable := TRUE;
+    fbRCI_Motor_X(stMotionStage:=Main.M26);
+
+    Main.M27.bHardwareEnable := TRUE;
+    fbRCI_Motor_Y(stMotionStage:=Main.M27);
+
+    Main.M28.bHardwareEnable := TRUE;
+    fbRCI_Motor_Z(stMotionStage:=Main.M28);
+
+    Main.M29.bHardwareEnable := TRUE;
+    fbRCI_Motor_rX(stMotionStage:=Main.M29);
+    Main.M29.bLimitBackwardEnable:=TRUE;
+    Main.M29.bLimitForwardEnable:=TRUE;
+
+    fbSetMagnetVoltage(
+        fReal:=fMagnetSet,
+        fSafeMax:=9.999,
+        fSafeMin:=-10,
+        iTermBits:=16,
+        fTermMax:=10,
+        fTermMin:=-10,
+        iRaw=>iMagnetOutINT);
+    fbGetMagnetVoltage(
+        iRaw:=iMagnetInINT,
+        iTermBits:=16,
+        fTermMax:=10,
+        fTermMin:=0,
+        fReal=>fMagnetGet);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_RCI_Analog_Input`_
+    * `FB_RCI_Analog_Output`_
+    * `Main`_
+
+
+PRG_SDS_RX_EPS
+^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_RX_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RX:EPS'}
+        aSDS_RX_EPS 	: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RX:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:RX:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+
+        bSDS_RX_FullRange : BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+
+    END_VAR
+    IF bInit THEN
+        // Set Inital Values
+        aSDS_RX_EPS[1].fBwd_Limits := 124;
+        aSDS_RX_EPS[1].fFwd_Limits := 218;
+
+        aSDS_RX_EPS[2].fBwd_Limits := 215;
+        aSDS_RX_EPS[2].fFwd_Limits := 218;
+
+        aSDS_RX_EPS[3].fBwd_Limits := 215;
+        aSDS_RX_EPS[3].fFwd_Limits := 218;
+
+        aSDS_RX_EPS[4].fBwd_Limits := 124;
+        aSDS_RX_EPS[4].fFwd_Limits := 134;
+
+        aSDS_RX_EPS[5].fBwd_Limits := 124;
+        aSDS_RX_EPS[5].fFwd_Limits := 134;
+
+        bInit := FALSE;
+    END_IF
+
+    // Set EPS conditions
+    fbEPS(eps:=aSDS_RX_EPS[1].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05,3.4];SDS_Y in [30,38.5];RCC_Y in [-38,-34];DPL_X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1 , 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 38.5));
+    fbEPS.setBit(2, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(3, F_InRange(fDPL_X, 10, 30));
+
+    bSDS_RX_FullRange := aSDS_RX_EPS[1].stEPS.bEPS_OK; // FULL RANGE CONDITION
+
+    fbEPS(eps:=aSDS_RX_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [-1, 3.05]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1.0, 3.05));
+    fbEPS.setBit(1, NOT bSDS_RX_FullRange); // NOT FULL RANGE COND.
+
+    fbEPS(eps:=aSDS_RX_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.4];SDS_RX in [215, 220];Not Full Range');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RX, 215, 220));
+    fbEPS.setBit(2, NOT bSDS_RX_FullRange); // NOT FULL RANGE COND.
+
+    fbEPS(eps:=aSDS_RX_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.4, 4]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.4, 4));
+
+    fbEPS(eps:=aSDS_RX_EPS[5].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05,3.4];SDS_RX in [124, 134];Not Full Range');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RX, 124, 134));
+    fbEPS.setBit(2, NOT bSDS_RX_FullRange); // NOT FULL RANGE COND.
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M19, fPosition:= fSDS_RX, aEPSLimits:= aSDS_RX_EPS, stForwardMotorEPS:=M19.stEPSForwardEnable, stBackwardMotorEPS:= M19.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_SDS_Y_EPS
+^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_Y_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS'}
+        aSDS_Y_EPS 		: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:Y:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit 		: BOOL := TRUE;
+        bFullRange	: BOOL;
+        nIndex 		: uint;
+        nEPSIndex 	: uint;
+
+        fbEPS		: FB_EPS;;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    // SDS Y EPS
+    IF bInit THEN
+        // Set Inital Values
+        aSDS_Y_EPS[1].fBwd_Limits := 20;
+        aSDS_Y_EPS[1].fFwd_Limits := 45;
+
+        aSDS_Y_EPS[2].fBwd_Limits := 37.5;
+        aSDS_Y_EPS[2].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[3].fBwd_Limits := 30;
+        aSDS_Y_EPS[3].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[4].fBwd_Limits := 30;
+        aSDS_Y_EPS[4].fFwd_Limits := 38.5;
+
+        aSDS_Y_EPS[5].fBwd_Limits := 30;
+        aSDS_Y_EPS[5].fFwd_Limits := 45;
+
+
+        bInit := FALSE;
+    END_IF
+
+    // Set EPS conditions
+    fbEPS(eps:= aSDS_Y_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [-1,3.05]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, -1, 3.05));
+
+    fbEPS(eps:= aSDS_Y_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.4];SDS_RX in [215, 220]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.4));
+    fbEPS.setBit(1, F_InRange(fSDS_RX, 215, 220));
+
+    fbEPS(eps:= aSDS_Y_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_Z_ENC in [3.05, 3.8];SDS_RX in [124, 215]');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.05, 3.8));
+    fbEPS.setBit(1, F_InRange(fSDS_RX, 124, 215));
+
+    fbEPS(eps:= aSDS_Y_EPS[5].stEPS);
+    fbEPS.setDescription('SDS_Z_ENC in [3.8, 4];(SDS_Y - RCC) <= nozzle_catcher_offset');
+    fbEPS.setBit(0, F_InRange(fSDS_Z_ENC, 3.8, 4));
+    fbEPS.setBit(1, (fSDS_Y - fRCC_Y) <= fNozzleCatcherOffset);
+
+    aSDS_Y_EPS[5].fBwd_Limits := fNozzleCatcherOffset + fRCC_Y;
+
+
+    bFullRange := (NOT aSDS_Y_EPS[2].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[3].stEPS.bEPS_OK) AND(NOT aSDS_Y_EPS[4].stEPS.bEPS_OK) AND (NOT aSDS_Y_EPS[5].stEPS.bEPS_OK);
+    fbEPS(eps:= aSDS_Y_EPS[1].stEPS);
+    fbEPS.setDescription('Full Range');
+    fbEPS.setBit(0, bFullRange); // FULL RANGE
+
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M17, fPosition:=fSDS_Y, aEPSLimits:=aSDS_Y_EPS, stForwardMotorEPS:=M17.stEPSForwardEnable, stBackwardMotorEPS:= M17.stEPSBackwardEnable, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_SDS_ZENCODER_EPS
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SDS_ZENCODER_EPS
+    VAR
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS'}
+        aSDS_Z_ENC_EPS	: ARRAY [1 .. 5] OF ST_EPSLimits;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS:OVRD_MODE'}
+        bEPS_Override : BOOL := FALSE;
+
+        {attribute 'pytmc' := 'pv: CRIX:SDS:MMS:ZENC:EPS:OVRD_COUNTDOWN'}
+        tEPS_TimerCountDown : STRING := TIME_TO_STRING(T#0s);
+        fbResetTimer : FB_RestTimer;
+
+        bInit       : BOOL := TRUE;
+        bSDS_vert_transport_state : BOOL;
+        bFullRange	: BOOL;
+        bUnknownState	: BOOL;
+
+        fbEPS		: FB_EPS;
+        fbCheckEPS 	: FB_CheckEPS;
+    END_VAR
+    IF bInit THEN
+
+        aSDS_Z_ENC_EPS[1].fBwd_Limits := -1;
+        aSDS_Z_ENC_EPS[1].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[2].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[2].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[3].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[3].fFwd_Limits := 3.4;
+
+        aSDS_Z_ENC_EPS[4].fBwd_Limits := 3.05;
+        aSDS_Z_ENC_EPS[4].fFwd_Limits := 4;
+
+        aSDS_Z_ENC_EPS[5].fBwd_Limits := 3.8;
+        aSDS_Z_ENC_EPS[5].fFwd_Limits := 4;
+
+        bInit := FALSE;
+    END_IF
+
+
+    bSDS_vert_transport_state := F_InRange(fSDS_Y, 30, 38.5) AND F_InRange(fSDS_RX, 124, 134) AND (fDPL_X < 30) AND (fRCC_Y < -34);
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[1].stEPS);
+    fbEPS.setMessage('SDS_RX in [215, 220];SDS_Y in [37.5, 38.5]');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 215, 220));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 37.5, 38.5));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[2].stEPS);
+    fbEPS.setMessage('SDS_RX in [134, 220];SDS_Y in [30, 38.5]');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 134, 220));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 37.5));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[3].stEPS);
+    fbEPS.setMessage('SDS_RX in [124, 134];SDS_Z_ENC in [3.05, 3.45];NOT SDS VERT. TRANSPORT STATE');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.05, 3.45));
+    fbEPS.setBit(2, NOT bSDS_vert_transport_state); // NOT INJECTOR Vertical Tansport Condition
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[4].stEPS);
+    fbEPS.setMessage('SDS_RX in [124, 134];SDS_Y in [30, 38.5];RCC_Y in [-38,-34];DPL_X in [10,30]');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Y, 30, 38.5));
+    fbEPS.setBit(2, F_InRange(fRCC_Y, -38, -34));
+    fbEPS.setBit(3, F_InRange(fDPL_X, 10, 30));
+
+    fbEPS(eps:=aSDS_Z_ENC_EPS[5].stEPS);
+    fbEPS.setMessage('SDS_RX in [124, 134];SDS_Z_ENC in [3.75, 4]; NOT SDS VERT. TRANSPORT State');
+    fbEPS.setBit(0, F_InRange(fSDS_RX, 124, 134));
+    fbEPS.setBit(1, F_InRange(fSDS_Z_ENC, 3.75, 4));
+    fbEPS.setBit(2, NOT bSDS_vert_transport_state); // NOT INJECTOR Vertical Transport Condition
+
+
+    fbResetTimer(bInput:=bEPS_Override, tElapseTime:=tEPS_OVRD_RESET_TIME, tCountDown:=tEPS_TimerCountDown);
+    fbCheckEPS(stMotor:=M18, fPosition:=fSDS_Z_ENC, stForwardMotorEPS:= M18.stEPSBackwardEnable, stBackwardMotorEPS:=M18.stEPSForwardEnable, aEPSLimits:=aSDS_Z_ENC_EPS, bEPS_Override:=bEPS_Override);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_CheckEPS`_
+    * `FB_RestTimer`_
+    * `F_InRange`_
+    * `ST_EPSLimits`_
+
+
+PRG_SL2K2_SCATTER
+^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_SL2K2_SCATTER
+    VAR
+        {attribute 'pytmc' := '
+            pv: SL2K2:SCATTER
+            io: io
+        '}
+        fbSL2K2: FB_SLITS;
+        //GET PMPS Move Ok bit
+        // Default True until it is properly linked to PMPS bit
+        bMoveOk:BOOL :=TRUE;
+        {attribute 'pytmc' := '
+        pv: SL2K2:SCATTER:GO;
+        io: io;
+        field: ZNAM False;
+        field: ONAM True;
+        '}
+        bExecuteMotion :BOOL :=FALSE;
+        bTest:BOOL:=FALSE;
+        //for testing purposes only. comment-out/delete once done.
+        mcPower : ARRAY [1..4] OF MC_POWER;
+
+
+        (*Offsets*)
+        (* Absolute encoder value at the HLS + Absolure eoncoder value at the centered beam *)
+        rEncoderOffsetTop: REAL := -15; (* 0+(-15)*)
+        rEncoderOffsetBottom: REAL := -15; (* 0+(-15)*)
+        rEncoderOffsetNorth: REAL := -15;(* 0+(-15)*)
+        rEncoderOffsetSouth: REAL := -15;(* 0+(-15)*)
+
+    END_VAR
+    fbSL2K2.bMoveOk := bMoveOk;
+
+    //for testing purposes only. comment-out/delete once done.
+    If (bTest) THEN
+    mcPower[1](axis:=Main.M50.Axis, Enable:=bTest, enable_positive:=Main.M50.bLimitForwardEnable, enable_negative:=Main.M50.bLimitBackwardEnable);
+    mcPower[2](axis:=Main.M51.Axis, Enable:=bTest, enable_positive:=Main.M51.bLimitForwardEnable, enable_negative:=Main.M51.bLimitBackwardEnable);
+    mcPower[3](axis:=Main.M52.Axis, Enable:=bTest, enable_positive:=Main.M52.bLimitForwardEnable, enable_negative:=Main.M52.bLimitBackwardEnable);
+    mcPower[4](axis:=Main.M53.Axis, Enable:=bTest, enable_positive:=Main.M53.bLimitForwardEnable, enable_negative:=Main.M53.bLimitBackwardEnable);
+    ELSE
+
+    //Homing routine parameters
+    Main.M51.fHomePosition:= 0;
+    Main.M50.fHomePosition:= -30.6;
+    Main.M52.fHomePosition:= 0;
+    Main.M53.fHomePosition:= -30.51;
+
+    Main.M51.nHomingMode := ENUM_EpicsHomeCmd.HIGH_LIMIT;
+    Main.M50.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+    Main.M52.nHomingMode := ENUM_EpicsHomeCmd.HIGH_LIMIT;
+    Main.M53.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+
+
+    fbSL2K2.rEncoderOffsetTop := rEncoderOffsetTop;
+    fbSL2K2.rEncoderOffsetBottom := rEncoderOffsetBottom;
+    fbSL2K2.rEncoderOffsetNorth := rEncoderOffsetNorth;
+    fbSL2K2.rEncoderOffsetSouth := rEncoderOffsetSouth;
+
+    fbSL2K2(stTopBlade:=  Main.M51,
+            stBottomBlade:= Main.M50,
+            stNorthBlade:=  Main.M52,
+            stSouthBlade:=  Main.M53,
+            bExecuteMotion:=bExecuteMotion,
+            io_fbFFHWO := GVL_PMPS.g_FastFaultOutput2,
+            fbArbiter := GVL_PMPS.fbArbiter1);
+
+    //fbSL2K2.M_CheckPMPS(2);
+
+
+
+    END_IF
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_SLITS`_
+    * `GVL_PMPS`_
+    * `Main`_
+
+
+PRG_Test_AdjacentStates
+^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    PROGRAM PRG_Test_AdjacentStates
+    VAR
+        arrDPTransitions : ARRAY [0..9, 1..9] OF BOOL :=
+        //Park  Up     Center Pinh.  Diode  Yag1   Yag2   Yag3   Knife
+        [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Unknown (This should always be included)
+         TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Park
+         TRUE,  TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, // Up
+         TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Center
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Pinhole
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Diode
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag1
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag2
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  // Yag3
+         FALSE, FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE]; // Knife
+
+         arrAdjStates : ARRAY [1..9] OF ST_BFSAssemblyState;
+
+         nStates : DINT := 9;
+         iRootState : DINT := 8;
+
+         fbAdjacent : FB_AdjacentStates;
+
+         nAdjacentStates : DINT;
+    END_VAR
+    fbAdjacent(arrTransitionMatrix:=arrDPTransitions,
+               arrAdjacentStates:=arrAdjStates,
+               arrStates:=arrDPStates,
+               iRootState:=iRootState,
+               nAdjacentStates=>nAdjacentStates);
+
+    END_PROGRAM
+
+
+Related:
+    * `FB_AdjacentStates`_
+    * `ST_BFSAssemblyState`_
+
+
+PRG_VLS
+^^^^^^^
+
+::
+
+    PROGRAM PRG_VLS
+    VAR
+        fbVLS_SLITS_TOP : FB_MotionStage;
+        fbVLS_SLITS_BOTTOM : FB_MotionStage;
+        fbVLS_SLITS_RIGHT : FB_MotionStage;
+        fbVLS_SLITS_LEFT: FB_MotionStage;
+        fbVLS_Mirror_P : FB_MotionStage;
+        fbVLS_Grating_P : FB_MotionStage;
+        fbVLS_CAM_P : FB_MotionStage;
+        fbVLS_CAM_D : FB_MotionStage;
+
+        bInit :BOOL:=TRUE;
+
+
+        rGrating_Pitch :LREAL;
+        rMirror_Pitch :LREAL;
+
+    END_VAR
+    IF ( bInit) THEN
+        bInit := FALSE;
+        //SLITS
+        Main.M40.bHardwareEnable := TRUE;
+        Main.M40.bPowerSelf :=TRUE;
+        Main.M40.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M40.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M41.bHardwareEnable := TRUE;
+        Main.M41.bPowerSelf :=TRUE;
+        Main.M41.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M41.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M42.bHardwareEnable := TRUE;
+        Main.M42.bPowerSelf :=TRUE;
+        Main.M42.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M42.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M43.bHardwareEnable := TRUE;
+        Main.M43.bPowerSelf :=TRUE;
+        Main.M43.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M43.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+
+        //Homing routine parameters
+        Main.M40.fHomePosition:= 0;
+        Main.M40.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+        Main.M41.fHomePosition:= 0;
+        Main.M41.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+        Main.M42.fHomePosition:= 0;
+        Main.M42.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+        Main.M43.fHomePosition:= 0;
+        Main.M43.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+
+        //Focusing Mirror Pitch
+        Main.M44.bHardwareEnable := TRUE;
+        Main.M44.bPowerSelf :=TRUE;
+        Main.M44.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M44.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        //Homing routine parameters
+        Main.M44.fHomePosition:= -0.2288; // old homing position: -3.473;
+        Main.M44.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+
+        //Grating Pitch
+        Main.M45.bHardwareEnable := TRUE;
+        Main.M45.bPowerSelf :=TRUE;
+        Main.M45.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M45.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        //Homing routine parameters
+        Main.M45.fHomePosition:= -1.74;
+        Main.M45.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+
+        //Cam
+        Main.M46.bHardwareEnable := TRUE;
+        Main.M46.bPowerSelf :=TRUE;
+        Main.M46.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M46.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        Main.M47.bHardwareEnable := TRUE;
+        Main.M47.bPowerSelf :=TRUE;
+        Main.M47.nBrakeMode := ENUM_StageBrakeMode.NO_BRAKE;
+        Main.M47.nEnableMode := ENUM_StageEnableMode.DURING_MOTION;
+        //Homing routine parameters
+        Main.M46.fHomePosition:= 0.8923;
+        Main.M46.nHomingMode := ENUM_EpicsHomeCmd.HIGH_LIMIT;//0 where it is horizontal
+        Main.M47.fHomePosition:= -15.5;
+        Main.M47.nHomingMode := ENUM_EpicsHomeCmd.LOW_LIMIT;
+    END_IF
+
+
+    //Calculate the mirror and grating pitch values
+    //OLD EQUATION:
+    //Mirror Pitch (x)  =   33.85 + 18.09x  - 0.2479x2
+    //rMirror_Pitch :=33.85 + (18.09*Main.M44.stAxisStatus.fActPosition(*mm*)  )- (0.2479 * EXPT(Main.M44.stAxisStatus.fActPosition,2));
+
+    //NEW EQUATION:
+    rMirror_Pitch :=27.667 + (18.1*Main.M44.stAxisStatus.fActPosition(*mm*)  )+ (-0.7569 * EXPT(Main.M44.stAxisStatus.fActPosition,2));
+
+    //Grating Pitch (x) =  22.56 - 16.25x + 0.334x2
+    rGrating_Pitch := 22.56 - (16.25*Main.M45.stAxisStatus.fActPosition(*mm*)  )+ (0.334 * EXPT(Main.M45.stAxisStatus.fActPosition,2));
+
+
+
+
+    fbVLS_SLITS_TOP(stMotionStage:=Main.M40);
+    fbVLS_SLITS_BOTTOM(stMotionStage:=Main.M41);
+    fbVLS_SLITS_RIGHT(stMotionStage:=Main.M42);
+    fbVLS_SLITS_LEFT(stMotionStage:=Main.M43);
+    fbVLS_Mirror_P(stMotionStage:=Main.M44);
+    fbVLS_Grating_P(stMotionStage:=Main.M45);
+    fbVLS_CAM_P(stMotionStage:=Main.M46);
+    fbVLS_CAM_D(stMotionStage:=Main.M47);
+
+    END_PROGRAM
+
+
+Related:
+    * `Main`_
+
