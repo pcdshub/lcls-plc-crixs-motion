@@ -42165,6 +42165,42 @@ Database Records
         | io: input
 
 
+    * - CRIX:MOT2VAC:ECATBRG:External_device_not_connected_RBV
+      - bi
+      - PRG_CryoPump.xEcatBridge_External_device_not_connected
+      - | io: output
+
+
+    * - CRIX:MOT2VAC:ECATBRG:External_device_not_connected
+      - bo
+      - PRG_CryoPump.xEcatBridge_External_device_not_connected
+      - | io: output
+
+
+    * - CRIX:MOT2VAC:ECATBRG:TxPDO_state_RBV
+      - bi
+      - PRG_CryoPump.xEcatBridge_TxPDO_state
+      - | io: output
+
+
+    * - CRIX:MOT2VAC:ECATBRG:TxPDO_state
+      - bo
+      - PRG_CryoPump.xEcatBridge_TxPDO_state
+      - | io: output
+
+
+    * - CRIX:MOT2VAC:ECATBRG:WcState_RBV
+      - bi
+      - PRG_CryoPump.xEcatBridge_WcState
+      - | io: output
+
+
+    * - CRIX:MOT2VAC:ECATBRG:WcState
+      - bo
+      - PRG_CryoPump.xEcatBridge_WcState
+      - | io: output
+
+
     * - CRIX:DPL:MMS:X:EPS:01:BwdLimit_RBV
       - ai
       - PRG_DPL_X_EPS.aDPL_X_EPS[1].fBwd_Limits

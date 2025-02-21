@@ -1515,6 +1515,7 @@ Links
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.bCRYO_VGC_02_OPN, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 167 (EK1122)^CRIX_VAC_INTF (EL6695-0002), IO Inputs^bCRYO_VGC_02_OPN
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.bLimitBackwardEnable_Y_10, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E23 (EL7041), STM Status^Status^Digital input 1
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.bLimitBackwardEnable_Y_11, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-E21 (EL7041), STM Status^Status^Digital input 1
+        PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.xEcatBridge_External_device_not_connected, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 167 (EK1122)^CRIX_VAC_INTF (EL6695-0002), SYNC Inputs^External device not connected
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.xEcatBridge_TxPDO_state, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 167 (EK1122)^CRIX_VAC_INTF (EL6695-0002), SYNC Inputs^TxPDO state
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_CryoPump.xEcatBridge_WcState, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 167 (EK1122)^CRIX_VAC_INTF (EL6695-0002), WcState^WcState
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_InjectorMotors.bHall_Backward, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^Term 173 (EL1124), Channel 4^Input

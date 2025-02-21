@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
@@ -5,22 +7,18 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DUTs &mdash; pcdshub/lcls-plc-crixs-motion  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/tree.css?v=837a00b9" />
       <link rel="stylesheet" type="text/css" href="_static/width.css?v=ab210c7a" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="_static/docs-versions-menu.js?v=3d6a1aea"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/docs-versions-menu.js?v=3d6a1aea"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -1131,7 +1129,7 @@
 <span class="n">nStates</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrStates</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 <span class="n">FOR</span> <span class="n">iTransition</span> <span class="o">:=</span> <span class="mi">1</span> <span class="n">TO</span> <span class="n">nStates</span> <span class="n">DO</span>
     <span class="n">iState</span> <span class="o">:=</span> <span class="n">arrStates</span><span class="p">[</span><span class="n">iTransition</span><span class="p">]</span><span class="o">.</span><span class="n">iState</span><span class="p">;</span> <span class="o">//</span> <span class="n">pick</span> <span class="n">out</span> <span class="n">the</span> <span class="n">state</span> <span class="n">index</span> <span class="n">of</span> <span class="n">the</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">question</span>
-    <span class="n">IF</span> <span class="n">iState</span> <span class="o">&lt;&gt;</span> <span class="n">iRootState</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">only</span> <span class="n">look</span> <span class="n">at</span> <span class="n">transitions</span> <span class="n">away</span> <span class="kn">from</span> <span class="nn">root</span> <span class="n">state</span>
+    <span class="n">IF</span> <span class="n">iState</span> <span class="o">&lt;&gt;</span> <span class="n">iRootState</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">only</span> <span class="n">look</span> <span class="n">at</span> <span class="n">transitions</span> <span class="n">away</span> <span class="kn">from</span><span class="w"> </span><span class="nn">root</span> <span class="n">state</span>
         <span class="n">IF</span> <span class="n">arrTransitionMatrix</span><span class="p">[</span><span class="n">iRootState</span><span class="p">,</span> <span class="n">iTransition</span><span class="p">]</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">the</span> <span class="n">transition</span> <span class="ow">is</span> <span class="n">allowed</span>
             <span class="n">iCounter</span> <span class="o">:=</span> <span class="n">iCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
             <span class="n">arrAdjacentStates</span><span class="p">[</span><span class="n">iCounter</span><span class="p">]</span> <span class="o">:=</span> <span class="n">arrStates</span><span class="p">[</span><span class="n">iTransition</span><span class="p">];</span> <span class="o">//</span> <span class="n">save</span> <span class="n">this</span> <span class="n">adjacent</span> <span class="n">state</span>
@@ -1184,7 +1182,7 @@
 <span class="n">IF</span> <span class="n">NOT</span> <span class="n">bInit</span> <span class="n">THEN</span>
     <span class="n">bInit</span> <span class="o">:=</span> <span class="n">TRUE</span><span class="p">;</span>
     <span class="o">//</span><span class="n">nAssemblyStates</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrAssemblyStates</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="n">nAssemblyStates</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrTransitions</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="o">//</span> <span class="n">take</span> <span class="kn">from</span> <span class="c1"># of columns in transition matrix</span>
+    <span class="n">nAssemblyStates</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrTransitions</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="o">//</span> <span class="n">take</span> <span class="kn">from</span><span class="w"> </span><span class="c1"># of columns in transition matrix</span>
     <span class="n">nAxes</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrAxes</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
     <span class="n">nOutputs</span> <span class="o">:=</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrOutputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 <span class="n">END_IF</span>
@@ -1332,7 +1330,7 @@
 <span class="o">//</span> <span class="n">Loop</span> <span class="n">over</span> <span class="nb">all</span> <span class="n">states</span> <span class="n">to</span> <span class="n">find</span> <span class="n">states</span> <span class="n">adjacent</span> <span class="n">to</span> <span class="n">the</span> <span class="n">current</span> <span class="n">state</span>
 <span class="n">FOR</span> <span class="n">stateCounter</span> <span class="o">:=</span> <span class="n">LOWER_BOUND</span><span class="p">(</span><span class="n">arrStates</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">TO</span> <span class="n">UPPER_BOUND</span><span class="p">(</span><span class="n">arrStates</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="n">DO</span> <span class="o">//</span> <span class="n">start</span> <span class="n">at</span> <span class="n">zero</span> <span class="n">due</span> <span class="n">to</span> <span class="n">arrStates</span> <span class="n">index</span>
     <span class="n">iState</span> <span class="o">:=</span> <span class="n">arrStates</span><span class="p">[</span><span class="n">stateCounter</span><span class="p">]</span><span class="o">.</span><span class="n">iState</span><span class="p">;</span> <span class="o">//</span> <span class="n">pick</span> <span class="n">out</span> <span class="n">the</span> <span class="n">state</span> <span class="n">index</span> <span class="n">of</span> <span class="n">the</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">question</span>
-    <span class="n">IF</span> <span class="n">iState</span> <span class="o">&lt;&gt;</span> <span class="n">iStartState</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">only</span> <span class="n">look</span> <span class="n">at</span> <span class="n">transitions</span> <span class="n">away</span> <span class="kn">from</span> <span class="nn">root</span> <span class="n">state</span>
+    <span class="n">IF</span> <span class="n">iState</span> <span class="o">&lt;&gt;</span> <span class="n">iStartState</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">only</span> <span class="n">look</span> <span class="n">at</span> <span class="n">transitions</span> <span class="n">away</span> <span class="kn">from</span><span class="w"> </span><span class="nn">root</span> <span class="n">state</span>
         <span class="n">IF</span> <span class="n">arrTransitions</span><span class="p">[</span><span class="n">iStartState</span><span class="p">,</span> <span class="n">stateCounter</span><span class="p">]</span> <span class="n">THEN</span> <span class="o">//</span> <span class="n">the</span> <span class="n">transition</span> <span class="ow">is</span> <span class="n">allowed</span>
             <span class="n">transitionCounter</span> <span class="o">:=</span> <span class="n">transitionCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
             <span class="n">arrAdjStates</span><span class="p">[</span><span class="n">transitionCounter</span><span class="p">]</span> <span class="o">:=</span> <span class="n">arrStates</span><span class="p">[</span><span class="n">stateCounter</span><span class="p">];</span> <span class="o">//</span> <span class="n">save</span> <span class="n">this</span> <span class="n">adjacent</span> <span class="n">state</span>
@@ -1427,7 +1425,7 @@
 <span class="n">END_FOR</span>
 
 <span class="n">IF</span> <span class="p">(</span><span class="n">nPreviousState</span> <span class="o">&lt;&gt;</span> <span class="n">nEPSIndex</span><span class="p">)</span> <span class="n">THEN</span>
-    <span class="o">//</span> <span class="n">only</span> <span class="n">clear</span> <span class="n">stMotor</span> <span class="n">eps</span> <span class="kn">from</span> <span class="nn">previous</span> <span class="n">state</span><span class="o">.</span>
+    <span class="o">//</span> <span class="n">only</span> <span class="n">clear</span> <span class="n">stMotor</span> <span class="n">eps</span> <span class="kn">from</span><span class="w"> </span><span class="nn">previous</span> <span class="n">state</span><span class="o">.</span>
     <span class="n">fbBwdEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="n">DINT_TO_BYTE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
     <span class="n">fbFwdEPS</span><span class="o">.</span><span class="n">setBit</span><span class="p">(</span><span class="n">DINT_TO_BYTE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
 <span class="n">END_IF</span>
@@ -1666,7 +1664,7 @@
     <span class="n">fTermMin</span><span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 <span class="n">END_VAR</span>
 <span class="n">VAR_OUTPUT</span>
-    <span class="o">//</span> <span class="n">The</span> <span class="n">real</span> <span class="n">value</span> <span class="n">read</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">output</span>
+    <span class="o">//</span> <span class="n">The</span> <span class="n">real</span> <span class="n">value</span> <span class="n">read</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">output</span>
     <span class="n">fReal</span><span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 <span class="n">END_VAR</span>
 <span class="n">VAR</span>
@@ -1707,7 +1705,7 @@
 <span class="n">VAR</span>
     <span class="n">fScale</span><span class="p">:</span> <span class="n">LREAL</span><span class="p">;</span>
 <span class="n">END_VAR</span>
-<span class="o">//</span> <span class="n">Set</span> <span class="n">the</span> <span class="n">scaling</span> <span class="kn">from</span> <span class="nn">real</span> <span class="n">to</span> <span class="n">raw</span>
+<span class="o">//</span> <span class="n">Set</span> <span class="n">the</span> <span class="n">scaling</span> <span class="kn">from</span><span class="w"> </span><span class="nn">real</span> <span class="n">to</span> <span class="n">raw</span>
 <span class="n">IF</span> <span class="n">fScale</span> <span class="o">=</span> <span class="mi">0</span> <span class="n">AND</span> <span class="n">fTermMax</span> <span class="o">&gt;</span> <span class="n">fTermMin</span> <span class="n">THEN</span>
     <span class="n">fScale</span> <span class="o">:=</span> <span class="p">(</span><span class="n">EXPT</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">iTermBits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">fTermMax</span> <span class="o">-</span> <span class="n">fTermMin</span><span class="p">);</span>
 <span class="n">END_IF</span>
@@ -2042,7 +2040,7 @@
 <span class="n">END_IF</span>
 
 
-<span class="o">//</span><span class="n">Calculate</span> <span class="n">requested</span> <span class="n">target</span> <span class="n">positions</span> <span class="kn">from</span> <span class="nn">requested</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span>
+<span class="o">//</span><span class="n">Calculate</span> <span class="n">requested</span> <span class="n">target</span> <span class="n">positions</span> <span class="kn">from</span><span class="w"> </span><span class="nn">requested</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span>
 <span class="n">fPosTopBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="n">rReqApertureSizeY</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterY</span> <span class="o">+</span> <span class="n">rEncoderOffsetTop</span><span class="p">)</span> <span class="p">;</span>
 <span class="n">fPosBottomBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">rReqApertureSizeY</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterY</span><span class="o">+</span><span class="n">rEncoderOffsetBottom</span><span class="p">);</span>
 
@@ -2050,7 +2048,7 @@
 <span class="n">fPosSouthBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">rReqApertureSizeX</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterX</span> <span class="o">+</span> <span class="n">rEncoderOffsetSouth</span><span class="p">);</span>
 
 
-<span class="o">//</span><span class="n">Calculate</span> <span class="n">actual</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span> <span class="kn">from</span> <span class="nn">actual</span> <span class="n">stages</span> <span class="n">positions</span>
+<span class="o">//</span><span class="n">Calculate</span> <span class="n">actual</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span> <span class="kn">from</span><span class="w"> </span><span class="nn">actual</span> <span class="n">stages</span> <span class="n">positions</span>
 <span class="n">rActApertureSizeX</span> <span class="o">:=</span> <span class="n">LREAL_TO_REAL</span><span class="p">((</span><span class="n">stNorthBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetNorth</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">stSouthBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="o">-</span> <span class="n">rEncoderOffsetSouth</span><span class="p">));</span>
 
 <span class="n">rActApertureSizeY</span> <span class="o">:=</span> <span class="n">LREAL_TO_REAL</span><span class="p">((</span><span class="n">stTopBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetTop</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">stBottomBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetBottom</span><span class="p">));</span>
@@ -2399,7 +2397,7 @@
 <span class="n">END_IF</span>
 
 
-<span class="o">//</span><span class="n">Calculate</span> <span class="n">requested</span> <span class="n">target</span> <span class="n">positions</span> <span class="kn">from</span> <span class="nn">requested</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span>
+<span class="o">//</span><span class="n">Calculate</span> <span class="n">requested</span> <span class="n">target</span> <span class="n">positions</span> <span class="kn">from</span><span class="w"> </span><span class="nn">requested</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span>
 <span class="n">fPosTopBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="n">rReqApertureSizeY</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterY</span> <span class="o">+</span> <span class="n">rEncoderOffsetTop</span><span class="p">)</span> <span class="p">;</span>
 <span class="n">fPosBottomBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">rReqApertureSizeY</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterY</span><span class="o">+</span><span class="n">rEncoderOffsetBottom</span><span class="p">);</span>
 
@@ -2407,7 +2405,7 @@
 <span class="n">fPosSouthBlade</span> <span class="o">:=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">rReqApertureSizeX</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rReqCenterX</span> <span class="o">+</span> <span class="n">rEncoderOffsetSouth</span><span class="p">);</span>
 
 
-<span class="o">//</span><span class="n">Calculate</span> <span class="n">actual</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span> <span class="kn">from</span> <span class="nn">actual</span> <span class="n">stages</span> <span class="n">positions</span>
+<span class="o">//</span><span class="n">Calculate</span> <span class="n">actual</span> <span class="n">gap</span> <span class="ow">and</span> <span class="n">center</span> <span class="kn">from</span><span class="w"> </span><span class="nn">actual</span> <span class="n">stages</span> <span class="n">positions</span>
 <span class="n">rActApertureSizeX</span> <span class="o">:=</span> <span class="n">LREAL_TO_REAL</span><span class="p">((</span><span class="n">stNorthBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetNorth</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">stSouthBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span><span class="o">-</span> <span class="n">rEncoderOffsetSouth</span><span class="p">));</span>
 
 <span class="n">rActApertureSizeY</span> <span class="o">:=</span> <span class="n">LREAL_TO_REAL</span><span class="p">((</span><span class="n">stTopBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetTop</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">stBottomBlade</span><span class="o">.</span><span class="n">stAxisStatus</span><span class="o">.</span><span class="n">fActPosition</span> <span class="o">-</span> <span class="n">rEncoderOffsetBottom</span><span class="p">));</span>
@@ -2626,18 +2624,18 @@
 
     <span class="p">(</span><span class="o">*</span><span class="n">ETHERCAT</span> <span class="n">BRRIDGE</span> <span class="n">COM</span> <span class="n">STATUS</span><span class="o">*</span><span class="p">)</span>
     <span class="o">//</span><span class="mi">0</span><span class="p">:</span> <span class="n">Other</span> <span class="n">side</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">OP</span> <span class="n">state</span><span class="p">,</span> <span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="n">Error</span>
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^TxPDO state</span>
-    <span class="s1">&#39;}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv:  CRIX:MOT2VAC:ECATBRG:TxPDO_state&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^TxPDO state&#39;</span><span class="p">}</span>
     <span class="n">xEcatBridge_TxPDO_state</span> <span class="n">AT</span> <span class="o">%</span><span class="n">I</span><span class="o">*</span> <span class="p">:</span><span class="n">BOOL</span><span class="p">;</span>
 
     <span class="o">//</span><span class="mi">0</span><span class="p">:</span> <span class="n">External</span> <span class="n">device</span> <span class="n">connectd</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">External</span> <span class="n">device</span> <span class="ow">not</span> <span class="n">connected</span>
-    <span class="p">{</span><span class="n">attribute</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^External device not connected</span>
-    <span class="s1">&#39;}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv:  CRIX:MOT2VAC:ECATBRG:External_device_not_connected&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span><span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^SYNC Inputs^External device not connected&#39;</span><span class="p">}</span>
     <span class="n">xEcatBridge_External_device_not_connected</span> <span class="n">AT</span> <span class="o">%</span><span class="n">I</span><span class="o">*</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
 
     <span class="o">//</span><span class="mi">0</span> <span class="o">=</span> <span class="n">Data</span> <span class="n">valid</span><span class="p">,</span> <span class="mi">1</span> <span class="o">=</span> <span class="n">Data</span> <span class="n">invalid</span>
-    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^WcState^WcState</span>
-    <span class="s1">&#39;}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;pv:  CRIX:MOT2VAC:ECATBRG:WcState&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^WcState^WcState&#39;</span><span class="p">}</span>
     <span class="n">xEcatBridge_WcState</span> <span class="n">AT</span> <span class="o">%</span><span class="n">I</span><span class="o">*</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
 
     <span class="o">//</span><span class="n">Inputs</span>
@@ -2659,6 +2657,7 @@
     <span class="n">bMOTY11_IN</span> <span class="n">AT</span> <span class="o">%</span><span class="n">Q</span><span class="o">*</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
     <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;TIIB[CRIX_VAC_INTF (EL6695-0002)]^IO Outputs^bMOTY11_OUT&#39;</span><span class="p">}</span>
     <span class="n">bMOTY11_OUT</span> <span class="n">AT</span> <span class="o">%</span><span class="n">Q</span><span class="o">*</span> <span class="p">:</span> <span class="n">BOOL</span><span class="p">;</span>
+
 <span class="n">END_VAR</span>
 <span class="n">IF</span> <span class="p">(</span> <span class="n">bInit</span><span class="p">)</span> <span class="n">THEN</span>
     <span class="n">bInit</span> <span class="o">:=</span> <span class="n">FALSE</span><span class="p">;</span>
@@ -2688,6 +2687,7 @@
 <span class="n">bMOTY11_OUT</span> <span class="o">:=</span> <span class="n">NOT</span> <span class="n">Main</span><span class="o">.</span><span class="n">M49</span><span class="o">.</span><span class="n">bLimitForwardEnable</span><span class="p">;</span>
 <span class="n">bEPS_OK_Y_10</span> <span class="o">:=</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">bCRYO_VGC_01_CLS</span><span class="p">)</span> <span class="n">AND</span> <span class="n">bCRYO_VGC_01_OPN</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_External_device_not_connected</span><span class="p">)</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_WcState</span><span class="p">)</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_TxPDO_state</span><span class="p">);</span>
 <span class="n">bEPS_OK_Y_11</span> <span class="o">:=</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">bCRYO_VGC_02_CLS</span><span class="p">)</span> <span class="n">AND</span> <span class="n">bCRYO_VGC_02_OPN</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_External_device_not_connected</span><span class="p">)</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_WcState</span><span class="p">)</span> <span class="n">AND</span> <span class="n">NOT</span> <span class="p">(</span><span class="n">xEcatBridge_TxPDO_state</span><span class="p">);</span>
+
 
 
 <span class="o">//</span><span class="n">Handle</span> <span class="n">EPS</span>
@@ -4424,7 +4424,7 @@ END_PROGRAM
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, SLAC National Accelerator Laboratory.</p>
+    <p>&#169; Copyright 2025, SLAC National Accelerator Laboratory.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
