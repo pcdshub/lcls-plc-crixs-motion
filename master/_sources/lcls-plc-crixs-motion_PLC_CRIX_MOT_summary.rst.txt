@@ -1851,7 +1851,7 @@ TC_EVENTS
     :header: Symbol, Type, Offset/Size
     :align: center
 
-        TC_EVENTS.LCLSGeneralEventClass, LCLSGeneralEventClass, 652465440 (960)
+        TC_EVENTS.LCLSGeneralEventClass, LCLSGeneralEventClass, 652481056 (960)
 
 
 TwinCAT_SystemInfoVarList

@@ -47995,229 +47995,6 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bError_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>TRUE if we are in an error state</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM TRUE</div>
-<div class="line">field: ZNAM FALSE</div>
-<div class="line">io: input</div>
-<div class="line">update: 100hz notify</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bHardwareEnable_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>TRUE if STO not hit</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM TRUE</div>
-<div class="line">field: ZNAM FALSE</div>
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bHomeCmd_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>Start the homing routine</p></td>
-<td><div class="line-block">
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bHomeCmd</p></td>
-<td><p>bo</p></td>
-<td><p>Start the homing routine</p></td>
-<td><div class="line-block">
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bReset_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>Used internally to reset errors</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM TRUE</div>
-<div class="line">field: ZNAM FALSE</div>
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bReset</p></td>
-<td><p>bo</p></td>
-<td><p>Used internally to reset errors</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM TRUE</div>
-<div class="line">field: ZNAM FALSE</div>
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bUserEnable_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>Used to disable power entirely for an axis</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM ENABLE</div>
-<div class="line">field: ZNAM DISABLE</div>
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bUserEnable</p></td>
-<td><p>bo</p></td>
-<td><p>Used to disable power entirely for an axis</p></td>
-<td><div class="line-block">
-<div class="line">field: ONAM ENABLE</div>
-<div class="line">field: ZNAM DISABLE</div>
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:fHomePosition_RBV</p></td>
-<td><p>ai</p></td>
-<td><p>Used internally and by the IOC to pick home position</p></td>
-<td><div class="line-block">
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:fHomePosition</p></td>
-<td><p>ao</p></td>
-<td><p>Used internally and by the IOC to pick home position</p></td>
-<td><div class="line-block">
-<div class="line">io: output</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:fPosDiff_RBV</p></td>
-<td><p>ai</p></td>
-<td><p>Position lag difference</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:nEncoderCount_RBV</p></td>
-<td><p>longin</p></td>
-<td><p>Count from encoder hardware</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:nErrorId_RBV</p></td>
-<td><p>longin</p></td>
-<td><p>Error code if nonzero</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-<div class="line">update: 100hz notify</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:sErrorMessage_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>Message to identify the error state</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-<div class="line">update: 100hz notify</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:bEPS_OK_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>check if nFlags are all true</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:nFlags_RBV</p></td>
-<td><p>longin</p></td>
-<td><p>Contains EPS flags</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:sFlagDesc_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>semicolon-delimited nFlag variable</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:sMessage_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>Message from EPS to usr</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:bEPS_OK_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>check if nFlags are all true</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:nFlags_RBV</p></td>
-<td><p>longin</p></td>
-<td><p>Contains EPS flags</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:sFlagDesc_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>semicolon-delimited nFlag variable</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:sMessage_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>Message from EPS to usr</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:bEPS_OK_RBV</p></td>
-<td><p>bi</p></td>
-<td><p>check if nFlags are all true</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:nFlags_RBV</p></td>
-<td><p>longin</p></td>
-<td><p>Contains EPS flags</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:sFlagDesc_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>semicolon-delimited nFlag variable</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:sMessage_RBV</p></td>
-<td><p>waveform</p></td>
-<td><p>Message from EPS to usr</p></td>
-<td><div class="line-block">
-<div class="line">io: input</div>
-</div>
-</td>
-</tr>
 <tr class="row-odd"><td><p>CRIX:BEAM:MMS:Y:PLC:bError_RBV</p></td>
 <td><p>bi</p></td>
 <td><p>TRUE if we are in an error state</p></td>
@@ -48434,6 +48211,229 @@
 </td>
 </tr>
 <tr class="row-even"><td><p>CRIX:BEAM:MMS:Y:PLC:stEPSP:sMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message from EPS to usr</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bError_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>TRUE if we are in an error state</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM TRUE</div>
+<div class="line">field: ZNAM FALSE</div>
+<div class="line">io: input</div>
+<div class="line">update: 100hz notify</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bHardwareEnable_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>TRUE if STO not hit</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM TRUE</div>
+<div class="line">field: ZNAM FALSE</div>
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bHomeCmd_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>Start the homing routine</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bHomeCmd</p></td>
+<td><p>bo</p></td>
+<td><p>Start the homing routine</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bReset_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>Used internally to reset errors</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM TRUE</div>
+<div class="line">field: ZNAM FALSE</div>
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bReset</p></td>
+<td><p>bo</p></td>
+<td><p>Used internally to reset errors</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM TRUE</div>
+<div class="line">field: ZNAM FALSE</div>
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:bUserEnable_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>Used to disable power entirely for an axis</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM ENABLE</div>
+<div class="line">field: ZNAM DISABLE</div>
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:bUserEnable</p></td>
+<td><p>bo</p></td>
+<td><p>Used to disable power entirely for an axis</p></td>
+<td><div class="line-block">
+<div class="line">field: ONAM ENABLE</div>
+<div class="line">field: ZNAM DISABLE</div>
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:fHomePosition_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>Used internally and by the IOC to pick home position</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:fHomePosition</p></td>
+<td><p>ao</p></td>
+<td><p>Used internally and by the IOC to pick home position</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:fPosDiff_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>Position lag difference</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:nEncoderCount_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Count from encoder hardware</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:nErrorId_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Error code if nonzero</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+<div class="line">update: 100hz notify</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:sErrorMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message to identify the error state</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+<div class="line">update: 100hz notify</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:bEPS_OK_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>check if nFlags are all true</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:nFlags_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Contains EPS flags</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:sFlagDesc_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>semicolon-delimited nFlag variable</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSB:sMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message from EPS to usr</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:bEPS_OK_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>check if nFlags are all true</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:nFlags_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Contains EPS flags</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:sFlagDesc_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>semicolon-delimited nFlag variable</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSF:sMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message from EPS to usr</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:bEPS_OK_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>check if nFlags are all true</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:nFlags_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Contains EPS flags</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:sFlagDesc_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>semicolon-delimited nFlag variable</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:BEAM:MMS:X:PLC:stEPSP:sMessage_RBV</p></td>
 <td><p>waveform</p></td>
 <td><p>Message from EPS to usr</p></td>
 <td><div class="line-block">

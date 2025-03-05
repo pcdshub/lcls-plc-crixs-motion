@@ -35,8 +35,8 @@ NC Settings
         27, RCI Y
         28, RCI Z
         29, RCI RX
-        30, Beam X
-        31, Beam Y
+        30, Beam Y
+        31, Beam X
         32, Beam Z
         33, Camera X
         34, Camera Y
@@ -864,7 +864,7 @@ Axis 29: RCI RX
 
 
 
-Axis 30: Beam X
+Axis 30: Beam Y
 ^^^^^^^^^^^^^^^
 
 .. csv-table::
@@ -872,7 +872,7 @@ Axis 30: Beam X
     :align: center
 
     Axis ID, 30
-    Name, Beam X
+    Name, Beam Y
     AxisFolder, Beamblock
     AxisType, 1
     CreateSymbols, true
@@ -891,7 +891,7 @@ Axis 30: Beam X
 
 
 
-Axis 31: Beam Y
+Axis 31: Beam X
 ^^^^^^^^^^^^^^^
 
 .. csv-table::
@@ -899,7 +899,7 @@ Axis 31: Beam Y
     :align: center
 
     Axis ID, 31
-    Name, Beam Y
+    Name, Beam X
     AxisFolder, Beamblock
     AxisType, 1
     CreateSymbols, true

@@ -36267,177 +36267,6 @@ Database Records
       - | io: input
 
 
-    * - CRIX:BEAM:MMS:X:PLC:bError_RBV
-      - bi
-      - TRUE if we are in an error state
-      - | field: ONAM TRUE
-        | field: ZNAM FALSE
-        | io: input
-        | update: 100hz notify
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bHardwareEnable_RBV
-      - bi
-      - TRUE if STO not hit
-      - | field: ONAM TRUE
-        | field: ZNAM FALSE
-        | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bHomeCmd_RBV
-      - bi
-      - Start the homing routine
-      - | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bHomeCmd
-      - bo
-      - Start the homing routine
-      - | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bReset_RBV
-      - bi
-      - Used internally to reset errors
-      - | field: ONAM TRUE
-        | field: ZNAM FALSE
-        | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bReset
-      - bo
-      - Used internally to reset errors
-      - | field: ONAM TRUE
-        | field: ZNAM FALSE
-        | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bUserEnable_RBV
-      - bi
-      - Used to disable power entirely for an axis
-      - | field: ONAM ENABLE
-        | field: ZNAM DISABLE
-        | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:bUserEnable
-      - bo
-      - Used to disable power entirely for an axis
-      - | field: ONAM ENABLE
-        | field: ZNAM DISABLE
-        | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:fHomePosition_RBV
-      - ai
-      - Used internally and by the IOC to pick home position
-      - | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:fHomePosition
-      - ao
-      - Used internally and by the IOC to pick home position
-      - | io: output
-
-
-    * - CRIX:BEAM:MMS:X:PLC:fPosDiff_RBV
-      - ai
-      - Position lag difference
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:nEncoderCount_RBV
-      - longin
-      - Count from encoder hardware
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:nErrorId_RBV
-      - longin
-      - Error code if nonzero
-      - | io: input
-        | update: 100hz notify
-
-
-    * - CRIX:BEAM:MMS:X:PLC:sErrorMessage_RBV
-      - waveform
-      - Message to identify the error state
-      - | io: input
-        | update: 100hz notify
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSB:bEPS_OK_RBV
-      - bi
-      - check if nFlags are all true
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSB:nFlags_RBV
-      - longin
-      - Contains EPS flags
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSB:sFlagDesc_RBV
-      - waveform
-      - semicolon-delimited nFlag variable
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSB:sMessage_RBV
-      - waveform
-      - Message from EPS to usr
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSF:bEPS_OK_RBV
-      - bi
-      - check if nFlags are all true
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSF:nFlags_RBV
-      - longin
-      - Contains EPS flags
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSF:sFlagDesc_RBV
-      - waveform
-      - semicolon-delimited nFlag variable
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSF:sMessage_RBV
-      - waveform
-      - Message from EPS to usr
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSP:bEPS_OK_RBV
-      - bi
-      - check if nFlags are all true
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSP:nFlags_RBV
-      - longin
-      - Contains EPS flags
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSP:sFlagDesc_RBV
-      - waveform
-      - semicolon-delimited nFlag variable
-      - | io: input
-
-
-    * - CRIX:BEAM:MMS:X:PLC:stEPSP:sMessage_RBV
-      - waveform
-      - Message from EPS to usr
-      - | io: input
-
-
     * - CRIX:BEAM:MMS:Y:PLC:bError_RBV
       - bi
       - TRUE if we are in an error state
@@ -36604,6 +36433,177 @@ Database Records
 
 
     * - CRIX:BEAM:MMS:Y:PLC:stEPSP:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bError_RBV
+      - bi
+      - TRUE if we are in an error state
+      - | field: ONAM TRUE
+        | field: ZNAM FALSE
+        | io: input
+        | update: 100hz notify
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bHardwareEnable_RBV
+      - bi
+      - TRUE if STO not hit
+      - | field: ONAM TRUE
+        | field: ZNAM FALSE
+        | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bHomeCmd_RBV
+      - bi
+      - Start the homing routine
+      - | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bHomeCmd
+      - bo
+      - Start the homing routine
+      - | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bReset_RBV
+      - bi
+      - Used internally to reset errors
+      - | field: ONAM TRUE
+        | field: ZNAM FALSE
+        | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bReset
+      - bo
+      - Used internally to reset errors
+      - | field: ONAM TRUE
+        | field: ZNAM FALSE
+        | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bUserEnable_RBV
+      - bi
+      - Used to disable power entirely for an axis
+      - | field: ONAM ENABLE
+        | field: ZNAM DISABLE
+        | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:bUserEnable
+      - bo
+      - Used to disable power entirely for an axis
+      - | field: ONAM ENABLE
+        | field: ZNAM DISABLE
+        | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:fHomePosition_RBV
+      - ai
+      - Used internally and by the IOC to pick home position
+      - | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:fHomePosition
+      - ao
+      - Used internally and by the IOC to pick home position
+      - | io: output
+
+
+    * - CRIX:BEAM:MMS:X:PLC:fPosDiff_RBV
+      - ai
+      - Position lag difference
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:nEncoderCount_RBV
+      - longin
+      - Count from encoder hardware
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:nErrorId_RBV
+      - longin
+      - Error code if nonzero
+      - | io: input
+        | update: 100hz notify
+
+
+    * - CRIX:BEAM:MMS:X:PLC:sErrorMessage_RBV
+      - waveform
+      - Message to identify the error state
+      - | io: input
+        | update: 100hz notify
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSB:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSB:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSB:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSB:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSF:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSF:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSF:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSF:sMessage_RBV
+      - waveform
+      - Message from EPS to usr
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSP:bEPS_OK_RBV
+      - bi
+      - check if nFlags are all true
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSP:nFlags_RBV
+      - longin
+      - Contains EPS flags
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSP:sFlagDesc_RBV
+      - waveform
+      - semicolon-delimited nFlag variable
+      - | io: input
+
+
+    * - CRIX:BEAM:MMS:X:PLC:stEPSP:sMessage_RBV
       - waveform
       - Message from EPS to usr
       - | io: input

@@ -14873,7 +14873,7 @@ PDO ID (Index #x1a00, Flags #x0010, SyncMan 0)
    </details>
 
 
-Beamblock X (EL7041)
+Beamblock Y (EL7041)
 ^^^^^^^^^^^^^^^^^^^^
 
 
@@ -14886,7 +14886,7 @@ Beamblock X (EL7041)
     :header: Name, Data
     :align: center
 
-    Name, Beamblock X (EL7041)
+    Name, Beamblock Y (EL7041)
     ID, 114
         BootStrapData, 0010f400f410f400
         SyncMan, 001080002600010001000000400080008000001026010000
@@ -15279,7 +15279,7 @@ PDO FB Inputs Channel 2 compact (Index #x1a03, Flags #x0010, SyncMan )
    </details>
 
 
-Beamblock Y (EL7041)
+Beamblock X (EL7041)
 ^^^^^^^^^^^^^^^^^^^^
 
 
@@ -15292,7 +15292,7 @@ Beamblock Y (EL7041)
     :header: Name, Data
     :align: center
 
-    Name, Beamblock Y (EL7041)
+    Name, Beamblock X (EL7041)
     ID, 116
         BootStrapData, 0010f400f410f400
         SyncMan, 001080002600010001000000400080008000001026010000
