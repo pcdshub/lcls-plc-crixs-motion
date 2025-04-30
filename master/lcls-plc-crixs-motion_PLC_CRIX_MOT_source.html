@@ -532,6 +532,22 @@
 
     <span class="n">bLedOutput2</span> <span class="p">:</span> <span class="n">FB_LED</span><span class="p">;</span>
 
+       <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004)^AO Outputs Channel 3^Analog output&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;</span>
+        <span class="n">pv</span><span class="p">:</span> <span class="n">RIX</span><span class="p">:</span><span class="n">CRIX</span><span class="p">:</span><span class="n">LED</span><span class="p">:</span><span class="mi">03</span>
+        <span class="n">io</span><span class="p">:</span> <span class="n">io</span>
+    <span class="s1">&#39;}</span>
+
+    <span class="n">bLedOutput3</span> <span class="p">:</span> <span class="n">FB_LED</span><span class="p">;</span>
+
+       <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;TcLinkTo&#39;</span> <span class="o">:=</span> <span class="s1">&#39;.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004)^AO Outputs Channel 4^Analog output&#39;</span><span class="p">}</span>
+    <span class="p">{</span><span class="n">attribute</span> <span class="s1">&#39;pytmc&#39;</span> <span class="o">:=</span> <span class="s1">&#39;</span>
+        <span class="n">pv</span><span class="p">:</span> <span class="n">RIX</span><span class="p">:</span><span class="n">CRIX</span><span class="p">:</span><span class="n">LED</span><span class="p">:</span><span class="mi">04</span>
+        <span class="n">io</span><span class="p">:</span> <span class="n">io</span>
+    <span class="s1">&#39;}</span>
+
+    <span class="n">bLedOutput4</span> <span class="p">:</span> <span class="n">FB_LED</span><span class="p">;</span>
+
 <span class="n">END_VAR</span>
 </pre></div>
 </div>
@@ -3265,6 +3281,7 @@ END_PROGRAM
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROGRAM</span> <span class="n">PRG_FiberLite</span>
 <span class="n">VAR</span>
 
+
 <span class="n">END_VAR</span>
 <span class="o">//</span> <span class="n">Set</span> <span class="n">LED</span> <span class="n">output</span> <span class="n">scaling</span> <span class="p">(</span><span class="n">Fiber</span><span class="o">-</span><span class="n">Lite</span><span class="p">)</span>
 <span class="n">bLedOutput1</span><span class="o">.</span><span class="n">iTermBits</span> <span class="o">:=</span> <span class="mi">14</span><span class="p">;</span>
@@ -3272,6 +3289,12 @@ END_PROGRAM
 
 <span class="n">bLedOutput2</span><span class="o">.</span><span class="n">iTermBits</span> <span class="o">:=</span> <span class="mi">14</span><span class="p">;</span>
 <span class="n">bLedOutput2</span><span class="p">();</span>
+
+<span class="n">bLedOutput3</span><span class="o">.</span><span class="n">iTermBits</span> <span class="o">:=</span> <span class="mi">14</span><span class="p">;</span>
+<span class="n">bLedOutput3</span><span class="p">();</span>
+
+<span class="n">bLedOutput4</span><span class="o">.</span><span class="n">iTermBits</span> <span class="o">:=</span> <span class="mi">14</span><span class="p">;</span>
+<span class="n">bLedOutput4</span><span class="p">();</span>
 
 <span class="n">END_PROGRAM</span>
 </pre></div>

@@ -24,7 +24,7 @@ Settings
 Pragmas
 -------
 
-Total pragmas found: 222
+Total pragmas found: 226
 Total linter errors: 0
 
 
@@ -446,6 +446,11 @@ GVL_DiagnosticPaddle
 GVL_FiberLite
 ^^^^^^^^^^^^^
 
+.. raw:: html
+
+   <details>
+       <summary>16 Symbols</summary>
+
 .. csv-table::
     :header: Symbol, Type, Offset/Size
     :align: center
@@ -458,6 +463,19 @@ GVL_FiberLite
         GVL_FiberLite.bLedOutput2.bLedPower, BOOL, 648713984 (8)
         GVL_FiberLite.bLedOutput2.fbSetIllPercent.iRaw, INT, 648714496 (16)
         GVL_FiberLite.bLedOutput2.iIlluminatorINT, INT, 648714000 (16)
+        GVL_FiberLite.bLedOutput3, FB_LED, 656467264 (1408)
+        GVL_FiberLite.bLedOutput3.bLedPower, BOOL, 656468032 (8)
+        GVL_FiberLite.bLedOutput3.fbSetIllPercent.iRaw, INT, 656468544 (16)
+        GVL_FiberLite.bLedOutput3.iIlluminatorINT, INT, 656468048 (16)
+        GVL_FiberLite.bLedOutput4, FB_LED, 656468672 (1408)
+        GVL_FiberLite.bLedOutput4.bLedPower, BOOL, 656469440 (8)
+        GVL_FiberLite.bLedOutput4.fbSetIllPercent.iRaw, INT, 656469952 (16)
+        GVL_FiberLite.bLedOutput4.iIlluminatorINT, INT, 656469456 (16)
+
+.. raw:: html
+
+   </details>
+   <br />
 
 
 GVL_Illumination
@@ -1851,7 +1869,7 @@ TC_EVENTS
     :header: Symbol, Type, Offset/Size
     :align: center
 
-        TC_EVENTS.LCLSGeneralEventClass, LCLSGeneralEventClass, 652481056 (960)
+        TC_EVENTS.LCLSGeneralEventClass, LCLSGeneralEventClass, 652465440 (960)
 
 
 TwinCAT_SystemInfoVarList

@@ -404,6 +404,22 @@ GVL_FiberLite
 
         bLedOutput2 : FB_LED;
 
+           {attribute 'TcLinkTo' := '.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004)^AO Outputs Channel 3^Analog output'}
+        {attribute 'pytmc' := '
+            pv: RIX:CRIX:LED:03
+            io: io
+        '}
+
+        bLedOutput3 : FB_LED;
+
+           {attribute 'TcLinkTo' := '.iIlluminatorINT := TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004)^AO Outputs Channel 4^Analog output'}
+        {attribute 'pytmc' := '
+            pv: RIX:CRIX:LED:04
+            io: io
+        '}
+
+        bLedOutput4 : FB_LED;
+
     END_VAR
 
 
@@ -3198,6 +3214,7 @@ PRG_FiberLite
     PROGRAM PRG_FiberLite
     VAR
 
+
     END_VAR
     // Set LED output scaling (Fiber-Lite)
     bLedOutput1.iTermBits := 14;
@@ -3205,6 +3222,12 @@ PRG_FiberLite
 
     bLedOutput2.iTermBits := 14;
     bLedOutput2();
+
+    bLedOutput3.iTermBits := 14;
+    bLedOutput3();
+
+    bLedOutput4.iTermBits := 14;
+    bLedOutput4();
 
     END_PROGRAM
 

@@ -15447,6 +15447,94 @@ Database Records
         | io: output
 
 
+    * - RIX:CRIX:LED:03:PWR_RBV
+      - bi
+      - GVL_FiberLite.bLedOutput3.bLedPower
+      - | field: ONAM ON
+        | field: ZNAM OFF
+        | io: output
+
+
+    * - RIX:CRIX:LED:03:PWR
+      - bo
+      - GVL_FiberLite.bLedOutput3.bLedPower
+      - | field: ONAM ON
+        | field: ZNAM OFF
+        | io: output
+
+
+    * - RIX:CRIX:LED:03:ILL:PCT_RBV
+      - ai
+      - GVL_FiberLite.bLedOutput3.fIlluminatorPercent
+      - | field: EGU %
+        | io: output
+
+
+    * - RIX:CRIX:LED:03:ILL:PCT
+      - ao
+      - GVL_FiberLite.bLedOutput3.fIlluminatorPercent
+      - | field: EGU %
+        | io: output
+
+
+    * - RIX:CRIX:LED:03:NAME_RBV
+      - waveform
+      - Descriptive name for the LED
+      - | autosave_pass0: VAL DESC
+        | io: output
+
+
+    * - RIX:CRIX:LED:03:NAME
+      - waveform
+      - Descriptive name for the LED
+      - | autosave_pass0: VAL DESC
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:PWR_RBV
+      - bi
+      - GVL_FiberLite.bLedOutput4.bLedPower
+      - | field: ONAM ON
+        | field: ZNAM OFF
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:PWR
+      - bo
+      - GVL_FiberLite.bLedOutput4.bLedPower
+      - | field: ONAM ON
+        | field: ZNAM OFF
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:ILL:PCT_RBV
+      - ai
+      - GVL_FiberLite.bLedOutput4.fIlluminatorPercent
+      - | field: EGU %
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:ILL:PCT
+      - ao
+      - GVL_FiberLite.bLedOutput4.fIlluminatorPercent
+      - | field: EGU %
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:NAME_RBV
+      - waveform
+      - Descriptive name for the LED
+      - | autosave_pass0: VAL DESC
+        | io: output
+
+
+    * - RIX:CRIX:LED:04:NAME
+      - waveform
+      - Descriptive name for the LED
+      - | autosave_pass0: VAL DESC
+        | io: output
+
+
     * - $(PREFIX)LCLSGeneral:GlobalLogTrickleTrip_RBV
       - bi
       - Tripped by overall log count

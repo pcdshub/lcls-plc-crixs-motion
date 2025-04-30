@@ -1527,6 +1527,8 @@ Links
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_PMPS.fbArbiterIO.xTxPDO_state, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 83 (EK1521-0010)^Term 166 (EK1501-0010)^PMPS_PRE, SYNC Inputs^TxPDO state
         PLC_CRIX_MOT Instance, PlcTask Inputs^PRG_PMPS.fbArbiterIO.xTxPDO_toggle, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 83 (EK1521-0010)^Term 166 (EK1501-0010)^PMPS_PRE, SYNC Inputs^TxPDO toggle
         PLC_CRIX_MOT Instance, PlcTask Outputs^GVL_FiberLite.bLedOutput2.iIlluminatorINT, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004), AO Outputs Channel 2^Analog output
+        PLC_CRIX_MOT Instance, PlcTask Outputs^GVL_FiberLite.bLedOutput3.iIlluminatorINT, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004), AO Outputs Channel 3^Analog output
+        PLC_CRIX_MOT Instance, PlcTask Outputs^GVL_FiberLite.bLedOutput4.iIlluminatorINT, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 6 (EK1122-0080)^DRL02-EK0 (EK1101-0080)^DRL02-ECJ1 (EK1122)^CryoStat (EK1101)^FiberLite (EL4004), AO Outputs Channel 4^Analog output
         PLC_CRIX_MOT Instance, PlcTask Outputs^GVL_PMPS.g_FastFaultOutput1.q_xFastFaultOut, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 83 (EK1521-0010)^Term 166 (EK1501-0010)^PMPS_FFO, Channel 1^Output
         PLC_CRIX_MOT Instance, PlcTask Outputs^GVL_PMPS.g_FastFaultOutput2.q_xFastFaultOut, TIID^Device 1 (EtherCAT)^Term 5 (EK1200)^Term 83 (EK1521-0010)^Term 166 (EK1501-0010)^PMPS_FFO, Channel 2^Output
         PLC_CRIX_MOT Instance, PlcTask Outputs^Main.M1.Axis.PlcToNc, TINC^NC-Task 1 SAF^Axes^Axis 1 - Diagnostic Paddle X, Inputs^FromPlc
