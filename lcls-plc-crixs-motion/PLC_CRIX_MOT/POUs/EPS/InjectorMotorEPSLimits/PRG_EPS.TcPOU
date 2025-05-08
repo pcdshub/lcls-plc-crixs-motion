@@ -19,6 +19,8 @@ fDPL_Y 		:= M2.stAxisStatus.fActPosition;
 fRCC_Z 		:= M39.stAxisStatus.fActPosition;
 fRCC_Y 		:= M38.stAxisStatus.fActPosition;
 
+fOBJ_X		:= M4.stAxisStatus.fActPosition;
+
 PRG_SDS_Y_EPS();
 PRG_SDS_RX_EPS();
 PRG_SDS_ZENCODER_EPS();
