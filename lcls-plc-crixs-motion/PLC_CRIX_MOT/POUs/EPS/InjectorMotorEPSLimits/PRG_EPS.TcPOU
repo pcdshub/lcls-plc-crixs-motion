@@ -30,7 +30,9 @@ PRG_DPL_Y_EPS();
 PRG_DPL_Z_EPS();
 
 PRG_RCC_Y_EPS();
-PRG_RCC_Z_EPS();]]></ST>
+PRG_RCC_Z_EPS();
+
+PRG_OBJ_X();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
