@@ -3,9 +3,9 @@
 #
 #         Project: lcls-plc-crixs-motion.tsproj
 #        PLC name: PLC_CRIX_MOT (PLC_CRIX_MOT Instance)
-# Generated using: pytmc 2.16.0
-# Project version: 8c97cb9
-#    Project hash: 8c97cb9e364b3280d3dabb75afb63bd618fc72e6
+# Generated using: pytmc 2.17.0
+# Project version: 4326317
+#    Project hash: 4326317374d9c6a77525f398ee46a6218a3e8329
 #     PLC IP/host: 172.21.140.200
 #      PLC Net ID: 172.21.140.200.1.1
 #  ** Production mode IOC **
@@ -27,7 +27,7 @@
 
 epicsEnvSet("ADS_IOC_TOP", "$(TOP)" )
 
-epicsEnvSet("ENGINEER", "jozamudi" )
+epicsEnvSet("ENGINEER", "rnazir" )
 epicsEnvSet("LOCATION", "PLC:CRIX:MOT" )
 epicsEnvSet("IOCSH_PS1", "$(IOC)> " )
 epicsEnvSet("ACF_FILE", "$(ADS_IOC_TOP)/iocBoot/templates/unrestricted.acf")
@@ -43,7 +43,7 @@ epicsEnvSet("ASYN_PORT",        "ASYN_PLC")
 epicsEnvSet("IPADDR",           "172.21.140.200")
 epicsEnvSet("AMSID",            "172.21.140.200.1.1")
 epicsEnvSet("AMS_PORT",         "851")
-epicsEnvSet("ADS_MAX_PARAMS",   "5541")
+epicsEnvSet("ADS_MAX_PARAMS",   "5559")
 epicsEnvSet("ADS_SAMPLE_MS",    "50")
 epicsEnvSet("ADS_MAX_DELAY_MS", "100")
 epicsEnvSet("ADS_TIMEOUT_MS",   "1000")
@@ -505,8 +505,8 @@ dbLoadRecords("EthercatMCdebug.template", "PREFIX=$(MOTOR_PREFIX), MOTOR_NAME=$(
 
 epicsEnvSet("AXIS_NO",         "30")
 epicsEnvSet("MOTOR_PREFIX",    "CRIX:BEAM:MMS:")
-epicsEnvSet("MOTOR_NAME",      "X")
-epicsEnvSet("DESC",            "Main.M30 / Beam X")
+epicsEnvSet("MOTOR_NAME",      "Y")
+epicsEnvSet("DESC",            "Main.M30 / Beam Y")
 epicsEnvSet("EGU",             "mm")
 epicsEnvSet("PREC",            "3")
 epicsEnvSet("AXISCONFIG",      "")
@@ -520,8 +520,8 @@ dbLoadRecords("EthercatMCdebug.template", "PREFIX=$(MOTOR_PREFIX), MOTOR_NAME=$(
 
 epicsEnvSet("AXIS_NO",         "31")
 epicsEnvSet("MOTOR_PREFIX",    "CRIX:BEAM:MMS:")
-epicsEnvSet("MOTOR_NAME",      "Y")
-epicsEnvSet("DESC",            "Main.M31 / Beam Y")
+epicsEnvSet("MOTOR_NAME",      "X")
+epicsEnvSet("DESC",            "Main.M31 / Beam X")
 epicsEnvSet("EGU",             "mm")
 epicsEnvSet("PREC",            "3")
 epicsEnvSet("AXISCONFIG",      "")
@@ -872,7 +872,7 @@ dbLoadRecords("caPutLog.db", "IOC=$(IOC)")
 dbLoadRecords("TwinCAT_TaskInfo.db", "PORT=$(ASYN_PORT),PREFIX=PLC:CRIX:MOT,IDX=1")
 dbLoadRecords("TwinCAT_AppInfo.db", "PORT=$(ASYN_PORT), PREFIX=PLC:CRIX:MOT")
 
-dbLoadRecords("TwinCAT_Project.db", "PREFIX=PLC:CRIX:MOT,PROJECT=lcls-plc-crixs-motion.tsproj,HASH=8c97cb9,VERSION=8c97cb9,PYTMC=2.16.0,PLC_HOST=172.21.140.200")
+dbLoadRecords("TwinCAT_Project.db", "PREFIX=PLC:CRIX:MOT,PROJECT=lcls-plc-crixs-motion.tsproj,HASH=4326317,VERSION=4326317,PYTMC=2.17.0,PLC_HOST=172.21.140.200")
 
 #   LCLS General: * -> 2.9.1 (SLAC)
 dbLoadRecords("TwinCAT_Dependency.db", "PREFIX=PLC:CRIX:MOT,DEPENDENCY=LCLS_General,VERSION=2.9.1,VENDOR=SLAC")
@@ -896,8 +896,8 @@ cd "$(IOC_TOP)"
 ## PLC Project Database files ##
 dbLoadRecords("PLC_CRIX_MOT.db", "PORT=$(ASYN_PORT),PREFIX=PLC:CRIX:MOT:,IOCNAME=$(IOC),IOC=$(IOC)")
 
-# Total records: 4541
-callbackSetQueueSize(11082)
+# Total records: 4559
+callbackSetQueueSize(11118)
 
 # Autosave and archive settings:
 save_restoreSet_status_prefix("PLC:CRIX:MOT:")
