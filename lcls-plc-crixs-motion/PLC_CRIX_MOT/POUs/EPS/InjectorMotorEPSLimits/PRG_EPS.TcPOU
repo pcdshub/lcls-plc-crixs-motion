@@ -7,7 +7,7 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Update Motor Positions before Using them in EPS Checks
-fDPL_X  := M1.stAxisStatus.fActPosition;
+fDPL_X  	:= M1.stAxisStatus.fActPosition;
 
 fSDS_RX 	:= M19.stAxisStatus.fActPosition;
 fSDS_Y      := M17.stAxisStatus.fActPosition;

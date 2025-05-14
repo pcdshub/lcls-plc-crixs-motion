@@ -34,7 +34,7 @@ aOBJ_X_EPS[2].fFwd_Limits := MIN(fDPL_X - 30, 32);
 
 fbEPS(eps:=aOBJ_X_EPS[2].stEPS);
 fbEPS.setMessage('DPL Z in [10, 30]');
-fbEPS.setBit(0, F_InRange(fDPL_Z, 10, 30));
+fbEPS.setBit(0, F_InRange(fDPL_Z, -10, 30));
 
 bFullRange := (NOT aOBJ_X_EPS[2].stEPS.bEPS_OK);
 
