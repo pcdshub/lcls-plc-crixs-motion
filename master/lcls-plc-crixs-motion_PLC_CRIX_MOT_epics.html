@@ -16,7 +16,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/docs-versions-menu.js?v=3d6a1aea"></script>
     <script src="_static/js/theme.js"></script>
@@ -56468,6 +56468,166 @@
 <tr class="row-even"><td><p>CRIX:DPL:MMS:Z:EPS:OVRD_COUNTDOWN</p></td>
 <td><p>waveform</p></td>
 <td><p>PRG_DPL_Z_EPS.tEPS_TimerCountDown</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:01:BwdLimit_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[1].fBwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:01:BwdLimit</p></td>
+<td><p>ao</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[1].fBwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:01:FwdLimit_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[1].fFwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:01:FwdLimit</p></td>
+<td><p>ao</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[1].fFwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:01:ST:bEPS_OK_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>check if nFlags are all true</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:01:ST:nFlags_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Contains EPS flags</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:01:ST:sFlagDesc_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>semicolon-delimited nFlag variable</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:01:ST:sMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message from EPS to usr</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:02:BwdLimit_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[2].fBwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:02:BwdLimit</p></td>
+<td><p>ao</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[2].fBwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:02:FwdLimit_RBV</p></td>
+<td><p>ai</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[2].fFwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:02:FwdLimit</p></td>
+<td><p>ao</p></td>
+<td><p>PRG_OBJ_X_EPS.aOBJ_X_EPS[2].fFwd_Limits</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:02:ST:bEPS_OK_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>check if nFlags are all true</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:02:ST:nFlags_RBV</p></td>
+<td><p>longin</p></td>
+<td><p>Contains EPS flags</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:02:ST:sFlagDesc_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>semicolon-delimited nFlag variable</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:02:ST:sMessage_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>Message from EPS to usr</p></td>
+<td><div class="line-block">
+<div class="line">io: input</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:OVRD_MODE_RBV</p></td>
+<td><p>bi</p></td>
+<td><p>PRG_OBJ_X_EPS.bEPS_Override</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:OVRD_MODE</p></td>
+<td><p>bo</p></td>
+<td><p>PRG_OBJ_X_EPS.bEPS_Override</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRIX:OBJ:MMS:X:EPS:OVRD_COUNTDOWN_RBV</p></td>
+<td><p>waveform</p></td>
+<td><p>PRG_OBJ_X_EPS.tEPS_TimerCountDown</p></td>
+<td><div class="line-block">
+<div class="line">io: output</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CRIX:OBJ:MMS:X:EPS:OVRD_COUNTDOWN</p></td>
+<td><p>waveform</p></td>
+<td><p>PRG_OBJ_X_EPS.tEPS_TimerCountDown</p></td>
 <td><div class="line-block">
 <div class="line">io: output</div>
 </div>
